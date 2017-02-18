@@ -1,0 +1,75 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Profile</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="logout()">
+        <ion-icon name="log-out"></ion-icon>
+      </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content class="profile">
+    <ion-list>
+        <ion-list-header>
+            Personal Information
+        </ion-list-header>
+
+        <ion-item (click)="updateName()">
+            <ion-grid>
+                <ion-row>
+                    <ion-col width-50>
+                        Name
+                    </ion-col>
+                    <ion-col *ngIf="userProfile?.firstName || userProfile?.lastName">
+                        {{userProfile?.firstName}} {{userProfile?.lastName}}
+                    </ion-col>
+                    <ion-col class="placeholder-profile" *ngIf="!userProfile?.firstName">
+                        <span>Tap here to edit.</span>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-item>
+    </ion-list>
+    <ion-list-header text-right>
+        Properties
+    </ion-list-header>
+    <ion-item (click)="showProperties()">
+        <ion-icon name="home" color="primary" item-left></ion-icon>
+        See all Properties
+        <ion-badge color="secondary" item-right>{{properties?.length}}</ion-badge>
+    </ion-item>
+    <ion-list-header text-right>
+        Leaseholds
+    </ion-list-header>
+    <ion-item (click)="showAllLeaseholds()">
+        <ion-icon name="logo-buffer" color="primary" item-left></ion-icon>
+        See all Leaseholds
+        <ion-badge color="secondary" item-right>{{leaseholds?.length}}</ion-badge>
+    </ion-item>
+    <ion-list-header text-right>
+        Contracts
+    </ion-list-header>
+    <ion-item (click)="showAllContracts()">
+        <ion-icon name="albums" color="primary" item-left></ion-icon>
+        See all Contracts
+        <ion-badge color="secondary" item-right>{{contracts?.length}}</ion-badge>
+    </ion-item>
+    <ion-list-header text-right>
+        Renters
+    </ion-list-header>
+    <ion-item (click)="showAllRenters()">
+        <ion-icon name="people" color="primary" item-left></ion-icon>
+        See all Renters
+        <ion-badge color="secondary" item-right>{{renters?.length}}</ion-badge>
+    </ion-item>
+     <ion-list-header text-right>
+        Owners
+    </ion-list-header>
+    <ion-item (click)="showAllOwners()">
+        <ion-icon name="contacts" color="primary" item-left></ion-icon>
+        See all Owners
+        <ion-badge color="secondary" item-right>{{owners?.length}}</ion-badge>
+    </ion-item>
+</ion-content>

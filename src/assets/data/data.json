@@ -1,0 +1,25 @@
+{
+    "title": "Citroen",
+    "payments": [
+        {
+            "type": "rent",
+            "month": "Jan",
+            "year": "2017",
+            "amount": "2200",
+            "paid": false,
+            "dueDate": null,
+            "paidDate": null,
+            "totalAmount": "8800"
+        },
+        {
+            "type": "rent",
+            "month": "Feb",
+            "year": "2017",
+            "amount": "2200",
+            "paid": false,
+            "dueDate": null,
+            "paidDate": null,
+            "totalAmount": "11000"
+        }
+    ]
+}

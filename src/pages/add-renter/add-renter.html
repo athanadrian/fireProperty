@@ -1,0 +1,58 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Rent it to...</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <form [formGroup]="newRenterForm" (ngSubmit)="addRenterToLeasehold(newRenterForm)" novalidate>
+        <ion-item>
+            <ion-label stacked>Renter Title</ion-label>
+            <ion-input #title formControlName="title" type="text" (change)="elementChanged(title)" placeholder="What is the title?" [class.invalid]="!newRenterForm.controls.title.valid && (titleChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newRenterForm.controls.title.valid && (titleChanged||submitAttempt)">
+            <p>You need to enter a title for the renter.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Renter type</ion-label>
+            <ion-input #type formControlName="type" type="text" (change)="elementChanged(type)" placeholder="What type of leasehold?" [class.invalid]="!newRenterForm.controls.type.valid && (typeChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newRenterForm.controls.type.valid && (typeChanged||submitAttempt)">
+            <p>You need to enter a type for the renter.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Renter's website</ion-label>
+            <ion-input #website formControlName="website" type="text" (change)="elementChanged(website)" placeholder="Does renter have any website?" [class.invalid]="!newRenterForm.controls.website.valid && (websiteChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newRenterForm.controls.website.valid && (websiteChanged||submitAttempt)">
+            <p>You need to enter the website for the renter.</p>
+        </ion-item>
+        <ion-card>
+            <ion-card-header>
+                Point Of Contact
+            </ion-card-header>
+            <ion-item>
+                <ion-icon name="person" item-left color="primary"></ion-icon>
+                <ion-input #name formControlName="name" type="text" (change)="elementChanged(name)" placeholder="Does poc has a name?" [class.invalid]="!newRenterForm.controls.name.valid && (nameChanged||submitAttempt)"></ion-input>
+                <ion-item class="error-message" *ngIf="!newRenterForm.controls.name.valid && (nameChanged||submitAttempt)">
+                    <p>You need to enter a name for the poc.</p>
+                </ion-item>
+            </ion-item>
+            <ion-item>
+                <ion-icon name="call" item-left color="primary"></ion-icon>
+                <ion-input #phone formControlName="phone" type="text" (change)="elementChanged(phone)" placeholder="Does poc has a phone?" [class.invalid]="!newRenterForm.controls.phone.valid && (phoneChanged||submitAttempt)"></ion-input>
+                <ion-item class="error-message" *ngIf="!newRenterForm.controls.phone.valid && (phoneChanged||submitAttempt)">
+                    <p>You need to enter a phone for the poc.</p>
+                </ion-item>
+            </ion-item>
+            <ion-item>
+                <ion-icon name="mail" item-left color="primary"></ion-icon>
+                <ion-input #email formControlName="email" type="text" (change)="elementChanged(email)" placeholder="Does poc has an email?" [class.invalid]="!newRenterForm.controls.email.valid && (emailChanged||submitAttempt)"></ion-input>
+                <ion-item class="error-message" *ngIf="!newRenterForm.controls.email.valid && (emailChanged||submitAttempt)">
+                    <p>You need to enter an email for the poc.</p>
+                </ion-item>
+            </ion-item>
+        </ion-card>
+        <button ion-button block type="submit">Save Renter!</button>
+    </form>
+</ion-content>

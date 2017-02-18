@@ -1,0 +1,46 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Add a leasehold</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <form [formGroup]="newLeaseholdForm" (ngSubmit)="addLeasehold(newLeaseholdForm)" novalidate>
+        <ion-item>
+            <ion-label stacked>Leasehold Title</ion-label>
+            <ion-input #title formControlName="title" type="text" (change)="elementChanged(title)" placeholder="Which Leasehold?" [class.invalid]="!newLeaseholdForm.controls.title.valid && (titleChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newLeaseholdForm.controls.title.valid && (nameChanged||submitAttempt)">
+            <p>You need to enter a title for the company.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Leasehold type</ion-label>
+            <ion-input #type formControlName="type" type="text" (change)="elementChanged(type)" placeholder="What type of leasehold?" [class.invalid]="!newLeaseholdForm.controls.type.valid && (typeChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newLeaseholdForm.controls.type.valid && (typeChanged||submitAttempt)">
+            <p>You need to enter a code name for the leasehold.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Leasehold code</ion-label>
+            <ion-input #code formControlName="code" type="text" (change)="elementChanged(code)" placeholder="Code name for leasehold to identify it?" [class.invalid]="!newLeaseholdForm.controls.code.valid && (codeChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newLeaseholdForm.controls.code.valid && (codeChanged||submitAttempt)">
+            <p>You need to enter the size of the leasehold.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Leasehold size</ion-label>
+            <ion-input #size formControlName="size" type="number" (change)="elementChanged(size)" placeholder="Where is this property?" [class.invalid]="!newLeaseholdForm.controls.size.valid && (sizeChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newLeaseholdForm.controls.size.valid && (sizeChanged||submitAttempt)">
+            <p>You need to enter the rent for this leasehold.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Leasehold rent</ion-label>
+            <ion-input #rentAmount formControlName="rentAmount" type="number" (change)="elementChanged(rentAmount)" placeholder="Where is this rent?" [class.invalid]="!newLeaseholdForm.controls.rentAmount.valid && (rentAmountChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newLeaseholdForm.controls.rentAmount.valid && (rentAmountChanged||submitAttempt)">
+            <p>You need to enter the size of the leasehold.</p>
+        </ion-item>
+        <button ion-button block type="submit">Save leasehold</button>
+    </form>
+</ion-content>

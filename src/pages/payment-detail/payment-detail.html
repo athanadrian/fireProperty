@@ -1,0 +1,52 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>{{payment?.title}} - {{payment?.type}}</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="showOptions(payment?.$key)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <ion-card>
+        <ion-card-header>
+            <ion-item>
+                Debt Information
+                <ion-badge item-right>{{payment?.totalAmount}}</ion-badge>
+            </ion-item>
+        </ion-card-header>
+        <ion-list>
+            <ion-item>
+                <ion-icon color="primary" name="information-circle" item-left></ion-icon>
+                {{payment?.title}}
+            </ion-item>
+            <ion-item>
+                <ion-icon color="secondary" name="home" item-left></ion-icon>
+                {{payment?.type}}
+            </ion-item>
+            <ion-item>
+                <ion-icon color="danger" name="cash" item-left></ion-icon>
+                {{payment?.amount}}
+            </ion-item>
+            <ion-item>
+                <ion-icon color="secondary" name="calendar" item-left></ion-icon>
+                {{payment?.dueDate}}
+            </ion-item>
+            <ion-item>
+                <ion-icon color="secondary" name="calendar" item-left></ion-icon>
+                {{payment?.paidDate}}
+            </ion-item>
+            <ion-item *ngIf="payment?.paid==true">
+                <ion-icon color="secondary" name="checkmark" item-left></ion-icon>
+                This payment is done!
+            </ion-item>
+            <ion-item *ngIf="payment?.paid==false">
+                <ion-icon color="danger" name="timer" item-left></ion-icon>
+                This payment hasn't paid yet!
+            </ion-item>
+        </ion-list>
+    </ion-card>
+</ion-content>

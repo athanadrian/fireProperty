@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>
+            My Properties
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="createProperty()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list>
+        <ion-list-header>
+            Properties
+            <ion-icon name="home" color="primary" item-left></ion-icon>
+            <ion-badge color="secondary" item-right>{{numberOfProperties}}</ion-badge>
+        </ion-list-header>
+        <ion-item *ngFor="let property of (propertiesVM | async)" (click)="morePropertyOptions(property.$key)">
+            <ion-icon name="home" color="primary" item-left></ion-icon>
+            <h2>Title: {{property?.title}}</h2>
+            <h3>Type: <strong> {{property?.type}}</strong></h3>
+            <ion-badge item-right >Total: {{property?.totalLeaseholds}}</ion-badge>
+            <ion-badge *ngFor="let leasehold of property.leaseholds | async" item-right [style.background-color]="!leasehold.isRented ? 'green' : 'red'">{{leasehold.rentAmount}}</ion-badge>
+        </ion-item>
+    </ion-list>
+</ion-content>

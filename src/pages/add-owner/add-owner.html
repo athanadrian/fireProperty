@@ -1,0 +1,39 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Add the owner</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <form [formGroup]="newOwnerForm" (ngSubmit)="addOwner(newOwnerForm)" novalidate>
+        <ion-item>
+            <ion-label stacked>Owner Title</ion-label>
+            <ion-input #title formControlName="title" type="text" (change)="elementChanged(title)" placeholder="Which Property?" [class.invalid]="!newOwnerForm.controls.title.valid && (titleChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newOwnerForm.controls.title.valid && (titleChanged||submitAttempt)">
+            <p>You need to enter a title for the owner.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Owner afm</ion-label>
+            <ion-input #afm formControlName="afm" type="text" (change)="elementChanged(afm)" placeholder="What's the owner's afm?" [class.invalid]="!newOwnerForm.controls.afm.valid && (afmChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newOwnerForm.controls.afm.valid && (afmChanged||submitAttempt)">
+            <p>You need to enter an afm for the owner.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Owner phone</ion-label>
+            <ion-input #phone formControlName="phone" type="text" (change)="elementChanged(phone)" placeholder="phone name for leasehold to identify it?" [class.invalid]="!newOwnerForm.controls.phone.valid && (phoneChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newOwnerForm.controls.phone.valid && (phoneChanged||submitAttempt)">
+            <p>You need to enter a phone for the owner.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Ownership quota</ion-label>
+            <ion-input #quota formControlName="quota" type="number" (change)="elementChanged(quota)" placeholder="Where is this property?" [class.invalid]="!newOwnerForm.controls.quota.valid && (quotaChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newOwnerForm.controls.quota.valid && (quotaChanged||submitAttempt)">
+            <p>You need to enter the ownership quota.</p>
+        </ion-item>
+        <button ion-button block type="submit">Add Onwer</button>
+    </form>
+</ion-content>

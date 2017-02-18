@@ -1,0 +1,32 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Add the contract</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <form [formGroup]="newContractForm" (ngSubmit)="addContract(newContractForm)" novalidate>
+        <ion-item>
+            <ion-label stacked>Contract Duration</ion-label>
+            <ion-input #initialDuration formControlName="initialDuration" type="number" (change)="elementChanged(initialDuration)" placeholder="What's the contract duration in months?" [class.invalid]="!newContractForm.controls.initialDuration.valid && (initialDurationChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newContractForm.controls.initialDuration.valid && (initialDurationChanged||submitAttempt)">
+            <p>You need to enter the initial agreed duration.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Contract Amount</ion-label>
+            <ion-input #contractAmount formControlName="contractAmount" type="text" (change)="elementChanged(contractAmount)" placeholder="What's the contract agreed amount?" [class.invalid]="!newContractForm.controls.contractAmount.valid && (contractAmountChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newContractForm.controls.contractAmount.valid && (contractAmountChanged||submitAttempt)">
+            <p>You need to enter the contract amount for the owner.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Start Date</ion-label>
+            <ion-datetime displayFormat="D MMM, YY" pickerFormat="DD MMM YYYY" max="2020-10-31" formControlName="startDate" [class.invalid]="!newContractForm.controls.startDate.valid && (startDateChanged||submitAttempt)"></ion-datetime>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newContractForm.controls.startDate.valid && (startDateChanged||submitAttempt)">
+            <p>When this contract starts?</p>
+        </ion-item>
+        <button ion-button block type="submit">Add Onwer</button>
+    </form>
+</ion-content>

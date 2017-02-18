@@ -1,0 +1,39 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Add a property</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="showOptions(property?.$key)">
+        <ion-icon name="settings"></ion-icon>
+      </button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+    <form [formGroup]="newPropertyForm" (ngSubmit)="createProperty(newPropertyForm)" novalidate>
+        <ion-item>
+            <ion-label stacked>Property Title</ion-label>
+            <ion-input #title formControlName="title" type="text" (change)="elementChanged(title)" placeholder="Which Property?" [class.invalid]="!newPropertyForm.controls.title.valid && (titleChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newPropertyForm.controls.title.valid && (nameChanged||submitAttempt)">
+            <p>You need to enter a title for the company.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Company type</ion-label>
+            <ion-input #type formControlName="type" type="text" (change)="elementChanged(type)" placeholder="What kind of property?" [class.invalid]="!newPropertyForm.controls.type.valid && (typeChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newPropertyForm.controls.type.valid && (nameChanged||submitAttempt)">
+            <p>You need to enter a type for the property.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Address</ion-label>
+            <ion-input #address formControlName="address" type="text" (change)="elementChanged(address)" placeholder="Where is this property?" [class.invalid]="!newPropertyForm.controls.address.valid && (addressChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newPropertyForm.controls.address.valid && (addressChanged||submitAttempt)">
+            <p>You need to enter an address for the Property.</p>
+        </ion-item>
+
+        <button ion-button block type="submit">Save your Property</button>
+    </form>
+</ion-content>

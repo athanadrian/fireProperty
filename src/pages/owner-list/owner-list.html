@@ -1,0 +1,27 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>
+            Owners
+        </ion-title>
+        <!--<ion-buttons end>
+            <button ion-button icon-only (click)="createProperty()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+        </ion-buttons>-->
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list>
+        <ion-list-header>
+            Owners
+            <ion-icon name="contacts" color="primary" item-left></ion-icon>
+            <ion-badge color="secondary" item-right>{{owners$?.length}}</ion-badge>
+        </ion-list-header>
+        <ion-item *ngFor="let owner of owners$" (click)="moreOwnerOptions(owner.$key)">
+            <ion-icon name="person" [style.color]="owner.isActive ? 'green' : 'red'" item-left></ion-icon>
+            <h2>Title: {{owner?.title}}</h2>
+            <h3>AFM: <strong> {{owner?.afm}}</strong></h3>
+        </ion-item>
+    </ion-list>
+</ion-content>

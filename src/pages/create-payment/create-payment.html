@@ -1,0 +1,64 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>New Payment</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <form [formGroup]="newPaymentForm" (ngSubmit)="createPayment(newPaymentForm)" novalidate>
+        <ion-item>
+            <ion-icon name="home" item-left color="primary"></ion-icon>
+            <ion-label>Property</ion-label>
+            <ion-select formControlName="propertyOption" (ionChange)="onPropertySelect(newPaymentForm.value.propertyOption)" [class.invalid]="!newPaymentForm.controls.propertyOption.valid && (newPaymentForm.controls.propertyOption.dirty || submitAttempt)">
+                <option [value]="0">--Select Property--</option>
+                <ion-option *ngFor="let property of properties$" [value]="property.$key">{{property?.title}}</ion-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="logo-buffer" item-left color="primary"></ion-icon>
+            <ion-label>Leasehold</ion-label>
+            <ion-select formControlName="leaseholdOption" (ionChange)="onLeaseholdSelect(newPaymentForm.value.leaseholdOption)" [class.invalid]="!newPaymentForm.controls.leaseholdOption.valid && (newPaymentForm.controls.leaseholdOption.dirty || submitAttempt)">
+                <option *ngIf='newPaymentForm.value.propertyOption == 0' [value]="0">--Select Leasehold--</option> 
+                <ion-option *ngFor="let leasehold of leaseholds$" [value]="leasehold.$key">{{leasehold?.title}}</ion-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Company Name - {{(renter$ | async)?.title}}</ion-label>
+            <ion-input #title formControlName="title" type="text" (change)="elementChanged(title)" placeholder="Which Company?" [class.invalid]="!newPaymentForm.controls.title.valid && (titleChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newPaymentForm.controls.title.valid && (nameChanged||submitAttempt)">
+            <p>You need to enter a name for the company.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Payment type</ion-label>
+            <ion-input #type formControlName="type" type="text" (change)="elementChanged(type)" placeholder="What kind of payment?" [class.invalid]="!newPaymentForm.controls.type.valid && (typeChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newPaymentForm.controls.type.valid && (nameChanged||submitAttempt)">
+            <p>You need to enter a type for the Payment.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Amount</ion-label>
+            <ion-input #paidAmount formControlName="paidAmount" type="text" (change)="elementChanged(paidAmount)" placeholder="How much is the payment?"
+                [class.invalid]="!newPaymentForm.controls.paidAmount.valid && (paidAmountChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newPaymentForm.controls.paidAmount.valid && (paidAmountChanged||submitAttempt)">
+            <p>You need to enter a type for the Payment.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Dept Date</ion-label>
+            <ion-datetime displayFormat="MM/YYYY" pickerFormat="MMMM YYYY" formControlName="deptDate" [class.invalid]="!newPaymentForm.controls.deptDate.valid && (deptDateChanged||submitAttempt)"></ion-datetime>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newPaymentForm.controls.deptDate.valid && (deptDateChanged||submitAttempt)">
+            <p>Which date is this dept for?</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Due Date</ion-label>
+            <ion-datetime displayFormat="D MMM, YY" pickerFormat="DD MMM YYYY" max="2020-10-31" formControlName="dueDate" [class.invalid]="!newPaymentForm.controls.dueDate.valid && (dueDateChanged||submitAttempt)"></ion-datetime>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newPaymentForm.controls.dueDate.valid && (dueDateChanged||submitAttempt)">
+            <p>When this has to be paid?</p>
+        </ion-item>
+        <button ion-button block type="submit">Create the payment</button>
+    </form>
+</ion-content>
