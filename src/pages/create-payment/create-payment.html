@@ -20,12 +20,12 @@
             <ion-label>Leasehold</ion-label>
             <ion-select formControlName="leaseholdOption" (ionChange)="onLeaseholdSelect(newPaymentForm.value.leaseholdOption)" [class.invalid]="!newPaymentForm.controls.leaseholdOption.valid && (newPaymentForm.controls.leaseholdOption.dirty || submitAttempt)">
                 <option *ngIf='newPaymentForm.value.propertyOption == 0' [value]="0">--Select Leasehold--</option> 
-                <ion-option *ngFor="let leasehold of leaseholds$" [value]="leasehold.$key">{{leasehold?.title}}</ion-option>
+                <ion-option *ngFor="let leasehold of leaseholds$" [value]="leasehold.$key"><span [style.color]="leasehold.isRented ? 'green' : 'red'">{{leasehold?.title}}</span></ion-option>
             </ion-select>
         </ion-item>
         <ion-item>
-            <ion-label stacked>Company Name - {{(renter$ | async)?.title}}</ion-label>
-            <ion-input #title formControlName="title" type="text" (change)="elementChanged(title)" placeholder="Which Company?" [class.invalid]="!newPaymentForm.controls.title.valid && (titleChanged||submitAttempt)"></ion-input>
+            <ion-label stacked>Company Name</ion-label>
+            <ion-input #title formControlName="title" type="text" (change)="elementChanged(title)" placeholder="{{(renter$ | async)?.title}}" [disabled]="true" [class.invalid]="!newPaymentForm.controls.title.valid && (titleChanged||submitAttempt)">{{(renter$ | async)?.title}}</ion-input>
         </ion-item>
         <ion-item class="error-message" *ngIf="!newPaymentForm.controls.title.valid && (nameChanged||submitAttempt)">
             <p>You need to enter a name for the company.</p>

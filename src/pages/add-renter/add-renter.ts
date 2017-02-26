@@ -15,7 +15,7 @@ export class AddRenterPage {
 
   //property = new Property;
   leasehold: Leasehold;
-  contract: any;
+  public contract$: any;
   newRenterForm: any;
   titleChanged: boolean = false;
   typeChanged: boolean = false;
@@ -33,11 +33,9 @@ export class AddRenterPage {
 
     this.leaseholdId = this.navParams.get('leaseholdId');
     console.log('lkey ', this.leaseholdId);
-    this.leaseholdService.getContract(this.leaseholdId)
-      .subscribe(contract => {
-        this.contract = contract;
-        console.log('contract ', this.contract);
-      });
+    this.leaseholdService.findContract(this.leaseholdId)
+      .subscribe(contract=>this.contract$=contract);
+    console.log('contract ', this.contract$);
 
     this.newRenterForm = formBuilder.group({
       title: ['', Validators.required],
@@ -66,7 +64,7 @@ export class AddRenterPage {
       value.name = this.newRenterForm.value.name;
       value.email = this.newRenterForm.value.email;
       value.isActive = true;
-      this.leaseholdService.addRenter(this.leaseholdId, this.contract.$key, value)
+      this.leaseholdService.addRenter(this.leaseholdId, this.contract$.$key, value)
         .subscribe(() => {
           alert('renter added !');
           this.navController.pop();

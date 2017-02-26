@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
-import { AngularFire, AngularFireDatabase, FirebaseRef, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFire, FirebaseRef, FirebaseListObservable } from 'angularfire2';
 
 import { Property, PropertyVM } from '../models/models';
 
@@ -50,11 +50,6 @@ export class PropertyService {
     })
       .map(results => results[0]);
   }
-
-  // addLeasehold(propertyId:string, leasehold: Leasehold) {
-  //   this.leaseholdList = this.af.database.list(`/userProfile/${this.userId}/propertyList/${propertyId}/leaseholdList`);
-  //   return this.leaseholdList.push( leasehold );
-  // }
 
   getLeaseholdsForProperty(propertyId: string) {
     const property$ = this.getProperty(propertyId);

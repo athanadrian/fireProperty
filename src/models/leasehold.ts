@@ -6,8 +6,8 @@ export class Leasehold {
         public type: string,
         public code: string,
         public size: number,
-        public rentAmount: number=0,
-        public isRented:boolean=false,
+        public rentAmount: number = 0,
+        public isRented: boolean = false,
         public propertyId: string,
         public ownerId: string) {
     }
@@ -16,7 +16,11 @@ export class Leasehold {
         return new Leasehold($key, title, type, code, size, rentAmount, isRented, propertyId, ownerId);
     }
 
-    static fromJsonArray(json:any[]):Leasehold[] {
+    static fromJsonArray(json: any[]): Leasehold[] {
         return json.map(Leasehold.fromJson);
+    }
+
+    get isOccupied() {
+        return this.isRented = true;
     }
 }

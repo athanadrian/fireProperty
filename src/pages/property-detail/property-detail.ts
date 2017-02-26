@@ -29,10 +29,10 @@ export class PropertyDetailPage {
 
   morePropertyOptions(propertyId) {
     let actionSheet = this.actionSheetController.create({
-      title: '',
+      title: 'Property Options',
       buttons: [
         {
-          text: 'Delete property',
+          text: 'Delete this property',
           role: 'destructive',
           icon: !this.platform.is('ios') ? 'trash' : null,
           handler: () => {
@@ -75,27 +75,16 @@ export class PropertyDetailPage {
     //let leasehold:Leasehold;
     //this.leasehold = this.dataService.getLeasehold(this.propertyId, leasehold.$key);
     let actionSheet = this.actionSheetController.create({
-      title: '',
+      title: 'Leasehold Options',
       buttons: [
         {
-          text: 'Rent it!',
+          text: 'Make a contract!',
           icon: !this.platform.is('ios') ? 'play' : null,
           handler: () => {
-            if (leasehold.isRented) {
-              let alert = this.alertController.create({
-                title: 'Warning!',
-                subTitle: 'This leasehold is already rented!',
-                buttons: ['OK']
-              });
-              alert.present();
-            } else {
-              this.navController.push(AddContractPage, {
-                leaseholdId: leasehold.$key,
-              });
-            }
+            this.contractAlert(leasehold);
           }
         },
-         {
+        {
           text: 'Who is the owner?',
           icon: !this.platform.is('ios') ? 'play' : null,
           handler: () => {
@@ -135,8 +124,27 @@ export class PropertyDetailPage {
     actionSheet.present();
   }
 
+  contractAlert(leasehold) {
+    if (leasehold.isRented) {
+      let alert = this.alertController.create({
+        title: 'Warning!',
+        subTitle: 'This leasehold has already a contract!',
+        buttons: [
+          {
+            text:''
+          }
+          
+        ]
+      });
+      alert.present();
+    } else {
+      this.navController.push(AddContractPage, {
+        leaseholdId: leasehold.$key,
+      });
+    }
+  }
+
   releaseLeasehold(leaseholdId: string) {
 
   }
-
 }

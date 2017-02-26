@@ -49,10 +49,10 @@ export class PropertyListPage {
 
   morePropertyOptions(propertyId) {
     let actionSheet = this.actionSheetController.create({
-      title: '',
+      title: 'Property Options',
       buttons: [
         {
-          text: 'Delete',
+          text: 'Delete property',
           role: 'destructive',
           icon: !this.platform.is('ios') ? 'trash' : null,
           handler: () => {
@@ -61,19 +61,19 @@ export class PropertyListPage {
           }
         },
         {
-          text: 'More details',
+          text: 'Edit this property',
           icon: !this.platform.is('ios') ? 'play' : null,
           handler: () => {
-            this.navController.push(PropertyDetailPage, {
+            this.navController.push(CreatePropertyPage, {
               propertyId: propertyId
             });
           }
         },
         {
-          text: 'Edit Property',
+          text: 'Show this property details',
           icon: !this.platform.is('ios') ? 'play' : null,
           handler: () => {
-            this.navController.push(CreatePropertyPage, {
+            this.navController.push(PropertyDetailPage, {
               propertyId: propertyId
             });
           }

@@ -55,7 +55,7 @@ export class CreatePaymentPage {
 
   onLeaseholdSelect(leaseholdId: string) {
     console.log('hi ', leaseholdId);
-    this.leaseholdService.getContract(leaseholdId)
+    this.leaseholdService.findContract(leaseholdId)
       .subscribe(contract => {
         this.contract$ = contract;
         this.renter$=this.leaseholdService.findRenter(this.contract$.renterId);

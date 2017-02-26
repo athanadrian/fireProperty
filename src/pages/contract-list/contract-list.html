@@ -18,9 +18,9 @@
             <ion-icon name="albums" color="primary" item-left></ion-icon>
             <ion-badge color="secondary" item-right>{{contracts$?.length}}</ion-badge>
         </ion-list-header>
-        <ion-item *ngFor="let contract of contracts$" (click)="moreContractOptions(leasehold.$key)">
+        <ion-item *ngFor="let contract of contracts$" (click)="moreContractOptions(contract.$key)">
             <ion-icon name="albums" [style.color]="contract.isActive ? 'green' : 'red'" item-left></ion-icon>
-            <h2>Duration: {{contract?.duration}}</h2>
+            <h2>Duration: {{contract?.initialDuration}}</h2>
             <h3>Active amount: <strong> {{contract?.contractAmount}}</strong> Start: <strong>{{contract?.startDate}}</strong></h3>
         </ion-item>
     </ion-list>

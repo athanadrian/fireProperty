@@ -74,9 +74,9 @@
     </ion-list-header>
     <ion-item *ngIf="!renters">
       Renter's info not yet inserted!
-      <button ion-button small (click)="insertRenter()">Insert Renter</button>
+      <button ion-button small *ngIf="contract$" (click)="insertRenter()">Insert Renter</button>
     </ion-item>
-    <ion-item *ngFor="let renter of renters" (click)="moreRenterOptions(renter?.$key)">
+    <ion-item *ngFor="let renter of renters" (click)="moreRenterOptions()">
       <ion-icon *ngIf="!renter.isActive" name="person" color="danger" item-left></ion-icon>
       <ion-icon *ngIf="renter.isActive" name="person" color="secondary" item-left></ion-icon>
       <ion-row>
@@ -112,12 +112,12 @@
           Title: <strong> {{owner?.title}} </strong>
         </ion-col>
         <ion-col>
-          AFM: <strong> {{renter?.type}}</strong>
+          AFM: <strong> {{owner?.afm}}</strong>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          Quota: <strong> {{renter?.quota}} %</strong>
+          Quota: <strong> {{owner?.quota}} %</strong>
         </ion-col>
       </ion-row>
     </ion-item>

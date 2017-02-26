@@ -62,6 +62,18 @@ export class LeaseholdService {
       .map(Renter.fromJson);
   }
 
+  findContract(leaseholdId: string): Observable<Contract> {
+    const contract = this.af.database.list(`/userProfile/${this.userId}/contracts/`, {
+      query: {
+        orderByChild: 'leaseholdId',
+        equalTo: leaseholdId
+      }
+    })
+      .map(results => results[0])
+      .do(console.log);
+    return contract;
+  }
+
   findRenter(renterId: string): Observable<Renter> {
     return this.af.database.list(`/userProfile/${this.userId}/renters/`, {
       query: {
@@ -136,6 +148,7 @@ export class LeaseholdService {
     let dataToSave = {};
     dataToSave["/userProfile/" + this.userId + "/owners/" + newOwnerKey] = ownerToSave;
     dataToSave[`/userProfile/${this.userId}/ownersPerLeasehold/${leaseholdId}/${newOwnerKey}`] = true;
+    dataToSave[`/userProfile/${this.userId}/leaseholdsPerOwner/${newOwnerKey}/${leaseholdId}`] = true;
 
     return this.firebaseUpdate(dataToSave);
   }
@@ -143,6 +156,8 @@ export class LeaseholdService {
   addContract(leaseholdId: string, contract: any) {
     const contractToSave = Object.assign({}, contract, { leaseholdId: leaseholdId });
     const newContractKey = this.sdkDb.child('contracts/').push().key;
+
+    this.rentLeasehold(leaseholdId);
 
     let dataToSave = {};
     dataToSave["/userProfile/" + this.userId + "/contracts/" + newContractKey] = contractToSave;
@@ -152,7 +167,7 @@ export class LeaseholdService {
   }
 
   addRenter(leaseholdId: string, contractId: string, renter: any) {
-    const renterToSave = Object.assign({}, renter, { leaseholdId: leaseholdId });
+    const renterToSave = Object.assign({}, renter);
     const newRenterKey = this.sdkDb.child('renters/').push().key;
 
     this.addRenterToContract(contractId, newRenterKey);
@@ -160,24 +175,13 @@ export class LeaseholdService {
     let dataToSave = {};
     dataToSave["/userProfile/" + this.userId + "/renters/" + newRenterKey] = renterToSave;
     dataToSave[`/userProfile/${this.userId}/rentersPerLeasehold/${leaseholdId}/${newRenterKey}`] = true;
+    dataToSave[`/userProfile/${this.userId}/leaseholdsPerRenter/${newRenterKey}/${leaseholdId}`] = true;
 
     return this.firebaseUpdate(dataToSave);
   }
 
-  getContract(leaseholdId: string): Observable<Contract> {
-    const contract = this.af.database.list(`/userProfile/${this.userId}/contracts/`, {
-      query: {
-        orderByChild: 'leaseholdId',
-        equalTo: leaseholdId
-      }
-    })
-      .map(results => results[0])
-      .do(console.log);
-    return contract;
-  }
-
   addContractToLeasehold(leaseholdId: string, contractId: string) {
-    return this.leaseholds.update(leaseholdId, { contractId: contractId });
+    return this.leaseholds.update(leaseholdId, { contractId: contractId, isRented: true });
   }
 
   addRenterToContract(contractId: string, renterId: string) {
@@ -189,11 +193,11 @@ export class LeaseholdService {
   }
 
   rentLeasehold(leaseholdId: string) {
-    return this.leaseholds.update(leaseholdId, { isRentered: true });
+    return this.leaseholds.update(leaseholdId, { isRented: true });
   }
 
   releaseLeasehold(leaseholdId: string) {
-    return this.leaseholds.update(leaseholdId, { isRentered: false });
+    return this.leaseholds.update(leaseholdId, { isRented: false });
   }
 
   endContract(contractId: string) {
