@@ -3,23 +3,21 @@ import { NavController, ActionSheetController, Platform } from 'ionic-angular';
 import { LeaseholdService } from '../../providers/services';
 import { Observable } from 'rxjs/Rx';
 
-import { AddContractPage, ContractDetailPage } from '../../pages/pages';
+import { AddContractPage } from '../../pages/pages';
 import { Contract } from '../../models/models';
 
+
 @Component({
-  selector: 'page-contract-list',
-  templateUrl: 'contract-list.html'
+  selector: 'page-contract-detail',
+  templateUrl: 'contract-detail.html'
 })
-export class ContractListPage {
+export class ContractDetailPage {
 
-  public contracts$: Contract[];
-
-  constructor(public navController: NavController, public platform:Platform, public leaseholdService: LeaseholdService,
+constructor(public navController: NavController, public platform:Platform, public leaseholdService: LeaseholdService,
               public actionSheetController:ActionSheetController) { }
 
   ionViewDidLoad() {
-    this.leaseholdService.getAllContracts()
-      .subscribe(contracts => this.contracts$ = contracts);
+    console.log('ionViewDidLoad ContractDetailPage');
   }
 
   moreContractOptions(contractId) {
@@ -27,7 +25,7 @@ export class ContractListPage {
       title: 'Contract Options',
       buttons: [
         {
-          text: 'Release Contract',
+          text: 'Delete Contract',
           role: 'destructive',
           icon: !this.platform.is('ios') ? 'trash' : null,
           handler: () => {
@@ -40,15 +38,6 @@ export class ContractListPage {
           icon: !this.platform.is('ios') ? 'play' : null,
           handler: () => {
             this.navController.push(AddContractPage, {
-              contractId: contractId
-            });
-          }
-        },
-        {
-          text: 'Show this contract details',
-          icon: !this.platform.is('ios') ? 'play' : null,
-          handler: () => {
-            this.navController.push(ContractDetailPage, {
               contractId: contractId
             });
           }

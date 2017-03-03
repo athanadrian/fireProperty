@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, LoadingController, AlertController } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../providers/services';
-import { ResetPasswordPage } from '../pages';
+import { ResetPasswordPage, ProfilePage } from '../pages';
 import { EmailValidator } from '../../shared/validators/email';
 
 
@@ -37,29 +37,30 @@ export class LoginPage {
   }
 
   loginUser() {
-    this.submitAttempt = true;
-    if (this.loginForm.valid) {
+    //this.submitAttempt = true;
+    if (!this.loginForm.valid) {
       console.log(this.loginForm.value);
     } else {
-      this.authService.loginUser(this.loginForm.value.email, this.loginForm.value.password).then(() => {
-        console.log('Login Successful');
-      }, (error) => {
-        this.loading.dismiss().then(() => {
-          let alert = this.alertController.create({
-            message: error,
-            buttons: [
-              {
-                text: 'OK',
-                role: 'cancel'
-              }
-            ]
+      this.authService.loginUser(this.loginForm.value.email,
+        this.loginForm.value.password).then(() => {
+          this.loading.dismiss().then(() => {
+            this.navController.setRoot(ProfilePage);
           });
-          alert.present();
+        }, (error) => {
+          this.loading.dismiss().then(() => {
+            let alert = this.alertController.create({
+              message: error,
+              buttons: [
+                {
+                  text: 'OK',
+                  role: 'cancel'
+                }
+              ]
+            });
+            alert.present();
+          });
         });
-      });
-      this.loading = this.loadingController.create({
-        dismissOnPageChange: true,
-      });
+      this.loading = this.loadingController.create();
       this.loading.present();
     }
   }

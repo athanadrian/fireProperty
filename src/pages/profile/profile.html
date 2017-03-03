@@ -16,17 +16,17 @@
             Personal Information
         </ion-list-header>
 
-        <ion-item (click)="updateName()">
+        <ion-item (click)="addPersonalInfo()">
             <ion-grid>
                 <ion-row>
                     <ion-col width-50>
-                        Name
+                        Add Personal Info
                     </ion-col>
                     <ion-col *ngIf="userProfile?.firstName || userProfile?.lastName">
                         {{userProfile?.firstName}} {{userProfile?.lastName}}
                     </ion-col>
                     <ion-col class="placeholder-profile" *ngIf="!userProfile?.firstName">
-                        <span>Tap here to edit.</span>
+                        <span>Tap here to add Info.</span>
                     </ion-col>
                 </ion-row>
             </ion-grid>

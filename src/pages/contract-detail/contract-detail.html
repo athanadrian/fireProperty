@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-navbar color="secondary">
+    <ion-title>contract-detail</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      <ion-item>
+        Leasehold Information
+        <!--<ion-icon name="navigate" color="primary" item-right></ion-icon>-->
+      </ion-item>
+    </ion-card-header>
+    <ion-list>
+      <ion-item text-wrap>
+        <ion-icon color="primary" name="home" item-left></ion-icon>
+        Tiltle: {{(leasehold$ | async)?.title}}
+      </ion-item>
+      <ion-item>
+        <ion-icon color="secondary" name="logo-buffer" item-left></ion-icon>
+        Type: {{(leasehold$ | async)?.type}}
+      </ion-item>
+      <ion-item>
+        <ion-icon color="dark" name="key" item-left></ion-icon>
+        Address: {{(leasehold$ | async)?.code}}
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  <ion-list>
+    <ion-list-header text-right>
+      Renter
+      <ion-icon color="secondary" name="person" item-right></ion-icon>
+    </ion-list-header>
+    <ion-item text-wrap>
+      <ion-icon color="primary" name="call" item-left></ion-icon>
+      Phone: {{(renter$ | async)?.phone}}
+    </ion-item>
+    <ion-item>
+      <ion-icon color="secondary" name="at" item-left></ion-icon>
+      Email: {{(renter$ | async)?.email}}
+    </ion-item>
+    <ion-item>
+      <ion-icon color="dark" name="globe" item-left></ion-icon>
+      Website: {{(renter$ | async)?.website}}
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header text-right>
+      Leasehold
+      <ion-icon color="secondary" name="logo-buffer" item-right></ion-icon>
+    </ion-list-header>
+    <ion-item text-wrap>
+      <ion-icon color="primary" name="home" item-left></ion-icon>
+      Tiltle: {{(leasehold$ | async)?.title}}
+    </ion-item>
+    <ion-item>
+      <ion-icon color="secondary" name="logo-buffer" item-left></ion-icon>
+      Type: {{(leasehold$ | async)?.type}}
+    </ion-item>
+    <ion-item>
+      <ion-icon color="dark" name="key" item-left></ion-icon>
+      Address: {{(leasehold$ | async)?.code}}
+    </ion-item>
+  </ion-list>
+</ion-content>

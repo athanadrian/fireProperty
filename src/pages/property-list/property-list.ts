@@ -47,19 +47,10 @@ export class PropertyListPage {
     this.navController.push(PropertyDetailPage, { propertyId: propertyId })
   }
 
-  morePropertyOptions(propertyId) {
+  morePropertyOptions(propertyId:string) {
     let actionSheet = this.actionSheetController.create({
       title: 'Property Options',
       buttons: [
-        {
-          text: 'Delete property',
-          role: 'destructive',
-          icon: !this.platform.is('ios') ? 'trash' : null,
-          handler: () => {
-            this.propertyService.removeProperty(propertyId);
-            this.navController.pop();
-          }
-        },
         {
           text: 'Edit this property',
           icon: !this.platform.is('ios') ? 'play' : null,

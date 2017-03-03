@@ -72,8 +72,6 @@ export class PropertyDetailPage {
   }
 
   moreLeaseholdOptions(leasehold) {
-    //let leasehold:Leasehold;
-    //this.leasehold = this.dataService.getLeasehold(this.propertyId, leasehold.$key);
     let actionSheet = this.actionSheetController.create({
       title: 'Leasehold Options',
       buttons: [
@@ -103,7 +101,7 @@ export class PropertyDetailPage {
           }
         },
         {
-          text: 'Delete this leasehold',
+          text: 'Remove this leasehold.',
           role: 'destructive',
           icon: !this.platform.is('ios') ? 'trash' : null,
           handler: () => {
@@ -124,14 +122,14 @@ export class PropertyDetailPage {
     actionSheet.present();
   }
 
-  contractAlert(leasehold) {
+  contractAlert(leasehold:Leasehold) {
     if (leasehold.isRented) {
       let alert = this.alertController.create({
         title: 'Warning!',
         subTitle: 'This leasehold has already a contract!',
         buttons: [
           {
-            text:''
+            text:'OK'
           }
           
         ]

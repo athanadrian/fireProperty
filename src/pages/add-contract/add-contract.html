@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar color="primary">
+    <ion-navbar color="favorite">
         <ion-title>Add the contract</ion-title>
     </ion-navbar>
 </ion-header>
@@ -27,6 +27,6 @@
         <ion-item class="error-message" *ngIf="!newContractForm.controls.startDate.valid && (startDateChanged||submitAttempt)">
             <p>When this contract starts?</p>
         </ion-item>
-        <button ion-button block type="submit">Save contract</button>
+        <button ion-button block type="submit" color="favorite">Save contract</button>
     </form>
 </ion-content>

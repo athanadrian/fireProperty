@@ -1,22 +1,65 @@
+import { NavController, LoadingController, AlertController } from 'ionic-angular';
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { FormBuilder, Validators } from '@angular/forms';
 
-/*
-  Generated class for the Signup page.
+import { AuthService } from '../../providers/services';
+import { EmailValidator } from '../../shared/validators/email';
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-signup',
   templateUrl: 'signup.html'
 })
 export class SignupPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  public signupForm;
+  emailChanged: boolean = false;
+  passwordChanged: boolean = false;
+  submitAttempt: boolean = false;
+  public loading;
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SignupPage');
+  constructor(public navCtrl: NavController, public authService: AuthService,
+    public formBuilder: FormBuilder, public loadingCtrl: LoadingController,
+    public alertCtrl: AlertController) {
+
+    this.signupForm = formBuilder.group({
+      email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
+      password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
+    });
   }
 
+  elementChanged(input) {
+    let field = input.inputControl.name;
+    this[field + "Changed"] = true;
+  }
+
+  signupUser() {
+    this.submitAttempt = true;
+    if (!this.signupForm.valid) {
+      console.log(this.signupForm.value);
+    } else {
+      this.authService.connectAccount(
+        this.signupForm.value.email,
+        this.signupForm.value.password)
+        .then(() => {
+          this.loading.dismiss().then(() => {
+            this.navCtrl.pop();
+          });
+        }, (error) => {
+          this.loading.dismiss().then(() => {
+            var errorMessage: string = error.message;
+            let alert = this.alertCtrl.create({
+              message: errorMessage,
+              buttons: [
+                {
+                  text: "Ok",
+                  role: 'cancel'
+                }]
+            });
+            alert.present();
+          });
+        });
+      this.loading = this.loadingCtrl.create();
+      this.loading.present();
+    }
+  }
 }

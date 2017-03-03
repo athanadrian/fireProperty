@@ -3,7 +3,10 @@ import { NavController, NavParams, ActionSheetController, Platform, AlertControl
 import { Observable } from 'rxjs/Rx';
 
 import { LeaseholdService } from '../../providers/services';
-import { AddLeaseholdPage, AddOwnerPage, RenterListPage, AddContractPage, AddRenterPage } from '../../pages/pages';
+import {
+  AddLeaseholdPage, AddOwnerPage, RenterListPage, OwnerDetailPage,
+  AddContractPage, RenterDetailPage, ContractDetailPage, AddRenterPage
+} from '../../pages/pages';
 import { Property, Leasehold, Contract, Owner, Renter } from '../../models/models';
 
 @Component({
@@ -22,7 +25,6 @@ export class LeaseholdDetailPage {
   constructor(public navController: NavController, public navParams: NavParams, public platform: Platform,
     public leaseholdService: LeaseholdService, public alertController: AlertController, public actionSheetController: ActionSheetController) {
     this.leaseholdId = this.navParams.get('leaseholdId');
-    console.log('c: ', this.contract$);
   }
 
   ionViewDidLoad() {
@@ -32,10 +34,82 @@ export class LeaseholdDetailPage {
     owners$.subscribe(owners => this.owners = owners);
     const contracts$ = this.leaseholdService.getContractsForLeasehold(this.leaseholdId)
     contracts$.subscribe(contracts => this.contracts = contracts);
-    this.leasehold$=this.leaseholdService.findLeasehold(this.leaseholdId);
-      //.subscribe(leasehold=>this.leasehold$=leasehold);
+    this.leasehold$ = this.leaseholdService.findLeasehold(this.leaseholdId);
+    //.subscribe(leasehold=>this.leasehold$=leasehold);
     this.leaseholdService.findContract(this.leaseholdId)
-      .subscribe(contract=>this.contract$=contract);
+      .subscribe(contract => this.contract$ = contract);
+  }
+
+  moreContractOptions(contractId) {
+    let actionSheet = this.actionSheetController.create({
+      title: 'Contract Options',
+      buttons: [
+        {
+          text: 'Release Contract',
+          role: 'destructive',
+          icon: !this.platform.is('ios') ? 'trash' : null,
+          handler: () => {
+            //this.leaseholdService.removeContract(contractId);
+            this.navController.pop();
+          }
+        },
+        {
+          text: 'Show this contract details',
+          icon: !this.platform.is('ios') ? 'play' : null,
+          handler: () => {
+            this.navController.push(ContractDetailPage, {
+              contractId: contractId
+            });
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          icon: !this.platform.is('ios') ? 'close' : null,
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+  moreLeaseholdOptions(leaseholdId: string) {
+    let actionSheet = this.actionSheetController.create({
+      title: 'Leasehold Options',
+      //cssClass: 'action-sheets-basic-page',
+      buttons: [
+        {
+          text: 'Delete Leasehold',
+          role: 'destructive',
+          icon: !this.platform.is('ios') ? 'trash' : null,
+          handler: () => {
+            //this.leaseholdService.removeContract(contractId);
+            this.navController.pop();
+          }
+        },
+        {
+          text: 'Edit this leasehold',
+          //cssClass:'red-color',
+          icon: !this.platform.is('ios') ? 'play' : null,
+          handler: () => {
+            this.navController.push(AddLeaseholdPage, {
+              leaseholdId: leaseholdId
+            });
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          icon: !this.platform.is('ios') ? 'close' : null,
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
   }
 
   moreRenterOptions() {
@@ -52,10 +126,10 @@ export class LeaseholdDetailPage {
           }
         },
         {
-          text: 'Edit this renter',
+          text: 'Show this renter details',
           icon: !this.platform.is('ios') ? 'play' : null,
           handler: () => {
-            this.navController.push(AddRenterPage, {
+            this.navController.push(RenterDetailPage, {
               renterId: this.contract$.renterId
             });
           }
@@ -65,6 +139,33 @@ export class LeaseholdDetailPage {
           icon: !this.platform.is('ios') ? 'play' : null,
           handler: () => {
             this.insertRenter();
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          icon: !this.platform.is('ios') ? 'close' : null,
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+  moreOwnerOptions(ownerId: string) {
+    let actionSheet = this.actionSheetController.create({
+      title: 'Owner Options',
+      //cssClass: 'action-sheets-basic-page',
+      buttons: [
+        {
+          text: 'Show this owner details',
+          icon: !this.platform.is('ios') ? 'play' : null,
+          handler: () => {
+            this.navController.push(OwnerDetailPage, {
+              ownerId: ownerId
+            });
           }
         },
         {
@@ -114,7 +215,7 @@ export class LeaseholdDetailPage {
             text: 'Add a new Renter?',
             handler: () => {
               this.navController.push(AddRenterPage,
-                { leaseholdId: this.leaseholdId })
+                { leaseholdId: this.leaseholdId });
             }
           }
         ]
@@ -122,4 +223,16 @@ export class LeaseholdDetailPage {
       confirm.present();
     }
   }
+  addContract() {
+    this.navController.push(AddContractPage, {
+      leaseholdId: this.leaseholdId
+    });
+  }
+
+  addOwner() {
+    this.navController.push(AddOwnerPage, {
+      leaseholdId: this.leaseholdId
+    });
+  }
+
 }

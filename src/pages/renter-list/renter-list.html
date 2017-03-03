@@ -12,7 +12,7 @@
         <ion-list-header>
             Renters
             <ion-icon name="people" color="primary" item-left></ion-icon>
-            <ion-badge color="secondary" item-right>{{leaseholds$?.length}}</ion-badge>
+            <ion-badge color="secondary" item-right>{{renters$?.length}}</ion-badge>
         </ion-list-header>
         <ion-item *ngFor="let renter of renters$" (click)="moreRenterOptions(renter.$key)">
             <ion-icon name="person" [style.color]="renter.isActive ? 'green' : 'red'" item-left></ion-icon>

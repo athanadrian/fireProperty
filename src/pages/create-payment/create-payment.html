@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar color="favorite">
         <ion-title>New Payment</ion-title>
     </ion-navbar>
 </ion-header>
@@ -59,6 +59,6 @@
         <ion-item class="error-message" *ngIf="!newPaymentForm.controls.dueDate.valid && (dueDateChanged||submitAttempt)">
             <p>When this has to be paid?</p>
         </ion-item>
-        <button ion-button block type="submit">Create the payment</button>
+        <button ion-button block type="submit" color="favorite">Create the payment</button>
     </form>
 </ion-content>

@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar color="primary">
+    <ion-navbar color="favorite">
         <ion-title>Add the owner</ion-title>
     </ion-navbar>
 </ion-header>
@@ -34,6 +34,6 @@
         <ion-item class="error-message" *ngIf="!newOwnerForm.controls.quota.valid && (quotaChanged||submitAttempt)">
             <p>You need to enter the ownership quota.</p>
         </ion-item>
-        <button ion-button block type="submit">Add Onwer</button>
+        <button ion-button block type="submit" color="favorite">Save Onwer</button>
     </form>
 </ion-content>

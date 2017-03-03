@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar color="secondary">
         <ion-title>{{(property$ | async)?.title}} - {{(property$ | async)?.type}}</ion-title>
         <ion-buttons end>
             <button ion-button icon-only (click)="morePropertyOptions('(property$.$key | async)'?.$key)">
@@ -61,7 +61,7 @@
                 </ion-row>
             </ion-item>
             <ion-item-options>
-                <button ion-button icon-only color="danger" (click)="releaseLeasehold(leasehold?.$key)" *ngIf="leasehold?.isRented">Αφαίρεση</button>
+                <button ion-button icon-only color="danger" (click)="releaseLeasehold(leasehold.$key)" *ngIf="leasehold?.isRented">Αφαίρεση</button>
             </ion-item-options>
         </ion-item-sliding>
     </ion-list>

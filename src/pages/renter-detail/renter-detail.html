@@ -1,18 +1,127 @@
-<!--
-  Generated template for the RenterDetail page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
-  <ion-navbar>
+  <ion-navbar color="secondary">
     <ion-title>renter-detail</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-card>
+    <ion-card-header>
+      <ion-item>
+        Renter Information
+        <!--<ion-icon name="navigate" color="primary" item-right></ion-icon>-->
+      </ion-item>
+    </ion-card-header>
+    <ion-list>
+      <ion-row>
+        <ion-col>
+          <ion-item text-wrap>
+            <ion-icon color="primary" name="home" item-left></ion-icon>
+            Tiltle: {{(renter$ | async)?.title}}
+          </ion-item>
+          <ion-item>
+            <ion-icon color="secondary" name="logo-buffer" item-left></ion-icon>
+            Type: {{(renter$ | async)?.type}}
+          </ion-item>
+          <ion-item>
+            <ion-icon color="dark" name="key" item-left></ion-icon>
+            Name: {{(renter$ | async)?.name}}
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item text-wrap>
+            <ion-icon color="primary" name="call" item-left></ion-icon>
+            Phone: {{(renter$ | async)?.phone}}
+          </ion-item>
+          <ion-item>
+            <ion-icon color="secondary" name="at" item-left></ion-icon>
+            Email: {{(renter$ | async)?.email}}
+          </ion-item>
+          <ion-item>
+            <ion-icon color="dark" name="globe" item-left></ion-icon>
+            Website: {{(renter$ | async)?.website}}
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-list>
+  </ion-card>
+  <!--<ion-list>
+    <ion-list-header>
+      Contracts
+      <ion-icon item-left name="albums" color="primary"></ion-icon>
+      <ion-badge item-right>{{contracts?.length}} </ion-badge>
+    </ion-list-header>
+    <ion-item *ngIf="!contracts">
+      Contract's info not yet inserted!
+      <button ion-button small>Insert Contract</button>
+    </ion-item>
+    <ion-item-sliding>
+      <ion-item *ngFor="let contract of contracts" (click)="moreContractOptions(contract?.$key)">
+        <ion-icon *ngIf="!contract.isActive" name="book" color="danger" item-left></ion-icon>
+        <ion-icon *ngIf="contract.isActive" name="book" color="secondary" item-left></ion-icon>
+        <ion-row>
+          <ion-col>
+            Duration: <strong> {{contract?.initialDuration}} </strong>
+          </ion-col>
+          <ion-col>
+            Rent: <strong> {{contract?.contractAmount}}</strong>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            Start: <strong> {{contract?.startDate}} m</strong>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-item-options>
+        <button ion-button icon-only color="danger" (click)="releaseContract(contract?.$key)" *ngIf="leasehold?.isRented">Αφαίρεση</button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-list>
+    <ion-list-header text-right>
+      Renter
+      <ion-icon color="secondary" name="person" item-right></ion-icon>
+    </ion-list-header>
+    <ion-item *ngIf="!renters">
+      Renter's info not yet inserted!
+      <button ion-button small *ngIf="contract$" (click)="insertRenter()">Insert Renter</button>
+    </ion-item>
+    <ion-item *ngFor="let renter of renters" (click)="moreRenterOptions()">
+      <ion-icon *ngIf="!renter.isActive" name="person" color="danger" item-left></ion-icon>
+      <ion-icon *ngIf="renter.isActive" name="person" color="secondary" item-left></ion-icon>
+      <ion-row>
+        <ion-col>
+          Title: <strong> {{renter?.title}} </strong>
+        </ion-col>
+        <ion-col>
+          Type: <strong> {{renter?.type}}</strong>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          Website: <strong> {{renter?.website}} m</strong>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header text-right>
+      Leasehold
+      <ion-icon color="secondary" name="logo-buffer" item-right></ion-icon>
+    </ion-list-header>
+    <ion-item text-wrap>
+      <ion-icon color="primary" name="home" item-left></ion-icon>
+      Tiltle: {{(leasehold$ | async)?.title}}
+    </ion-item>
+    <ion-item>
+      <ion-icon color="secondary" name="logo-buffer" item-left></ion-icon>
+      Type: {{(leasehold$ | async)?.type}}
+    </ion-item>
+    <ion-item>
+      <ion-icon color="dark" name="key" item-left></ion-icon>
+      Address: {{(leasehold$ | async)?.code}}
+    </ion-item>
+  </ion-list>-->
 </ion-content>

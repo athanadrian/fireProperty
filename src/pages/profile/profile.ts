@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
 
 import { AuthService, PropertyService, LeaseholdService } from '../../providers/services';
-import { PropertyListPage, LeaseholdListPage, OwnerListPage, ContractListPage, RenterListPage, LoginPage } from '../pages';
+import { PropertyListPage, LeaseholdListPage, SignupPage, OwnerListPage, ContractListPage, RenterListPage, LoginPage } from '../pages';
 import { Property, Leasehold, Owner, Contract, Renter } from '../../models/models';
 @Component({
   selector: 'page-profile',
@@ -15,10 +15,10 @@ export class ProfilePage {
   leaseholds: Leasehold[];
   contracts: Contract[];
   owners: Owner[];
-  renters:Renter[];
+  renters: Renter[];
 
   constructor(public navController: NavController,
-    public authService: AuthService,
+    public authService: AuthService, public alertController: AlertController,
     public propertyService: PropertyService,
     public leaseholdService: LeaseholdService) {
   }
@@ -42,8 +42,24 @@ export class ProfilePage {
     });
   }
 
-  updateName() {
-    console.log('Updating name....')
+  addPersonalInfo() {
+    if (this.authService.getUser().isAnonymous == true) {
+      const alert = this.alertController.create({
+        message: `If you want to continue you'll need to
+                  provide an email and create a password`,
+        buttons: [
+          { text: "Cancel" },
+          {
+            text: "OK",
+            handler: data => {
+              this.navController.push(SignupPage);
+            }
+          }]
+      });
+      alert.present();
+    } else {
+      // Take the picture
+    }
   }
 
   showProperties() {

@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar color="primary">
+    <ion-navbar color="favorite">
         <ion-title>Add a leasehold</ion-title>
     </ion-navbar>
 </ion-header>
@@ -41,6 +41,6 @@
         <ion-item class="error-message" *ngIf="!newLeaseholdForm.controls.rentAmount.valid && (rentAmountChanged||submitAttempt)">
             <p>You need to enter the size of the leasehold.</p>
         </ion-item>
-        <button ion-button block type="submit">Save leasehold</button>
+        <button ion-button block type="submit" color="favorite">Save leasehold</button>
     </form>
 </ion-content>

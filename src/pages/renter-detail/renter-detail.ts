@@ -1,22 +1,65 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ActionSheetController, Platform } from 'ionic-angular';
 
-/*
-  Generated class for the RenterDetail page.
+import { LeaseholdService } from '../../providers/services';
+import { AddRenterPage } from '../../pages/pages';
+import { Renter } from '../../models/models';
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+
 @Component({
   selector: 'page-renter-detail',
   templateUrl: 'renter-detail.html'
 })
 export class RenterDetailPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  public renter$: any;
+  public renterId: string;
+
+  constructor(public navController: NavController, public platform: Platform, public leaseholdService: LeaseholdService,
+    public actionSheetController: ActionSheetController, public navParams: NavParams) {
+    this.renterId = this.navParams.get('renterId');
+  }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RenterDetailPage');
+    this.renter$ = this.leaseholdService.findRenter(this.renterId);
+    //.subscribe(renter => this.renter$ = renter);
+  }
+
+  moreRenterOptions(renterId) {
+    let actionSheet = this.actionSheetController.create({
+      title: 'Renter Options',
+      //cssClass: 'action-sheets-basic-page',
+      buttons: [
+        {
+          text: 'Delete Renter',
+          role: 'destructive',
+          icon: !this.platform.is('ios') ? 'trash' : null,
+          handler: () => {
+            //this.leaseholdService.removeContract(contractId);
+            this.navController.pop();
+          }
+        },
+        {
+          text: 'Edit this renter',
+          //cssClass:'red-color',
+          icon: !this.platform.is('ios') ? 'play' : null,
+          handler: () => {
+            this.navController.push(AddRenterPage, {
+              renterId: renterId
+            });
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          icon: !this.platform.is('ios') ? 'close' : null,
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
   }
 
 }

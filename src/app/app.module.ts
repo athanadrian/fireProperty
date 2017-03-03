@@ -4,11 +4,11 @@ import { MyApp } from './app.component';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 
-import { StartPage, HomePage, LoginPage, ResetPasswordPage, ProfilePage, PaymentDetailPage,
-          CreatePaymentPage, PropertyListPage, PropertyDetailPage, CreatePropertyPage,
+import { StartPage, HomePage, LoginPage, SignupPage, ResetPasswordPage, ProfilePage, PaymentDetailPage,
+          CreatePaymentPage, PropertyListPage, PropertyDetailPage, CreatePropertyPage, ContractDetailPage,
           AddLeaseholdPage, AddOwnerPage,  LeaseholdDetailPage, LeaseholdListPage, ContractListPage,
-          OwnerListPage, AddRenterPage, RenterListPage, RenterDetailPage, AddContractPage } from '../pages/pages';
-import { AuthService, PropertyService, PaymentService, LeaseholdService } from '../providers/services';
+          OwnerListPage, AddRenterPage, RenterListPage, RenterDetailPage, AddContractPage, OwnerDetailPage } from '../pages/pages';
+import { AuthService, PropertyService, PaymentService, LeaseholdService} from '../providers/services';
 
 
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2'
@@ -32,6 +32,7 @@ const myFirebaseAuthConfig = {
     StartPage,
     HomePage,
     LoginPage,
+    SignupPage,
     ResetPasswordPage,
     ProfilePage,
     PaymentDetailPage,
@@ -44,11 +45,13 @@ const myFirebaseAuthConfig = {
     LeaseholdDetailPage,
     LeaseholdListPage,
     OwnerListPage,
+    OwnerDetailPage,
     AddRenterPage,
     RenterListPage,
     RenterDetailPage,
     AddContractPage,
-    ContractListPage
+    ContractListPage,
+    ContractDetailPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -60,6 +63,7 @@ const myFirebaseAuthConfig = {
     StartPage,
     HomePage,
     LoginPage,
+    SignupPage,
     ResetPasswordPage,
     ProfilePage,
     PaymentDetailPage,
@@ -72,10 +76,13 @@ const myFirebaseAuthConfig = {
     LeaseholdDetailPage,
     LeaseholdListPage,
     OwnerListPage,
+    OwnerDetailPage,
     AddRenterPage,
     RenterListPage,
+    RenterDetailPage,
     AddContractPage,
-    ContractListPage
+    ContractListPage,
+    ContractDetailPage
   ],
   providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, LeaseholdService, PaymentService, PropertyService, AuthService]
 })

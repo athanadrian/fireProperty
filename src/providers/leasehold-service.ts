@@ -62,6 +62,11 @@ export class LeaseholdService {
       .map(Renter.fromJson);
   }
 
+  getOwner(ownerId: string): Observable<Owner> {
+    return this.af.database.object(`/userProfile/${this.userId}/owners/${ownerId}`)
+      .map(Owner.fromJson);
+  }
+
   findContract(leaseholdId: string): Observable<Contract> {
     const contract = this.af.database.list(`/userProfile/${this.userId}/contracts/`, {
       query: {
@@ -89,6 +94,16 @@ export class LeaseholdService {
       query: {
         orderByKey: true,
         equalTo: leaseholdId
+      }
+    })
+      .map(results => results[0]);
+  }
+
+  findOwner(ownerId: string): Observable<Owner> {
+    return this.af.database.list(`/userProfile/${this.userId}/owners/`, {
+      query: {
+        orderByKey: true,
+        equalTo: ownerId
       }
     })
       .map(results => results[0]);
@@ -126,6 +141,18 @@ export class LeaseholdService {
 
     return ownersPerLeasehold$
       .map(ospl => ospl.map(opl => this.af.database.object(`/userProfile/${this.userId}/owners/` + opl.$key)))
+      .flatMap(fbojs => Observable.combineLatest(fbojs))
+      .do(console.log);
+  }
+
+  getLeaseholdsForOwner(ownerId:string){
+    const owner$ = this.getOwner(ownerId);
+
+    const leaseholdsPerOwner$ = owner$
+      .switchMap(owner => this.af.database.list(`/userProfile/${this.userId}/leaseholdsPerOwner/` + owner.$key))
+
+    return leaseholdsPerOwner$
+      .map(lspo => lspo.map(lpo => this.af.database.object(`/userProfile/${this.userId}/leaseholds/` + lpo.$key)))
       .flatMap(fbojs => Observable.combineLatest(fbojs))
       .do(console.log);
   }
