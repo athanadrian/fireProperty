@@ -4,13 +4,13 @@ import { MyApp } from './app.component';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 
-import { StartPage, HomePage, LoginPage, SignupPage, ResetPasswordPage, ProfilePage, PaymentDetailPage,
+import { StartPage, HomePage, LoginPage, SignupPage, ResetPasswordPage, ProfilePage, PaymentDetailPage, AboutPage,
           CreatePaymentPage, PropertyListPage, PropertyDetailPage, CreatePropertyPage, ContractDetailPage,
           AddLeaseholdPage, AddOwnerPage,  LeaseholdDetailPage, LeaseholdListPage, ContractListPage,
           OwnerListPage, AddRenterPage, RenterListPage, RenterDetailPage, AddContractPage, OwnerDetailPage } from '../pages/pages';
 import { AuthService, PropertyService, PaymentService, LeaseholdService} from '../providers/services';
 
-
+import { PropertyComponent, LeaseholdComponent } from '../shared/components/components';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2'
 
 export const firebaseConfig = {
@@ -34,6 +34,7 @@ const myFirebaseAuthConfig = {
     LoginPage,
     SignupPage,
     ResetPasswordPage,
+    AboutPage,
     ProfilePage,
     PaymentDetailPage,
     CreatePaymentPage,
@@ -51,7 +52,9 @@ const myFirebaseAuthConfig = {
     RenterDetailPage,
     AddContractPage,
     ContractListPage,
-    ContractDetailPage
+    ContractDetailPage,
+    PropertyComponent,
+    LeaseholdComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -65,6 +68,7 @@ const myFirebaseAuthConfig = {
     LoginPage,
     SignupPage,
     ResetPasswordPage,
+    AboutPage,
     ProfilePage,
     PaymentDetailPage,
     CreatePaymentPage,

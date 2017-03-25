@@ -1,1 +1,51 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-menu [content]="content">
+
+    <ion-content>
+
+        <img src="assets/images/dreamhouse-logo.svg" class="menu-logo" />
+
+        <ion-list class="menu">
+            <ion-list-header>
+                Application
+            </ion-list-header>
+            <button menuClose ion-item *ngFor="let p of appPages" (click)="openPage(p)">
+        <ion-icon color="menu" item-left [name]="p.icon"></ion-icon>
+        {{p.title}}
+      </button>
+        </ion-list>
+
+        <ion-list class="menu">
+            <ion-list-header>
+                Menu
+            </ion-list-header>
+            <button menuClose ion-item *ngFor="let p of menuPages" (click)="openPage(p)">
+        <ion-icon item-left [name]="p.icon"></ion-icon>
+        {{p.title}}
+      </button>
+        </ion-list>
+
+        <ion-list class="menu">
+            <ion-list-header>
+                Administration
+            </ion-list-header>
+            <button ion-item menuClose *ngFor="let p of adminPages" (click)="openPage(p)">
+        <ion-icon color="secondary" item-left [name]="p.icon"></ion-icon>
+        {{p.title}}
+      </button>
+        </ion-list>
+
+        <ion-list class="menu">
+            <ion-list-header>
+                Help
+            </ion-list-header>
+            <button ion-item menuClose *ngFor="let p of helpPages" (click)="openPage(p)">
+        <ion-icon color="secondary" item-left [name]="p.icon"></ion-icon>
+        {{p.title}}
+      </button>
+        </ion-list>
+
+    </ion-content>
+
+</ion-menu>
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

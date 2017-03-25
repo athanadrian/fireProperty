@@ -14,8 +14,10 @@ export class AddLeaseholdPage {
   property = Property;
   newLeaseholdForm: any;
   titleChanged: boolean = false;
+  extraSpace:boolean=false;
   codeChanged: boolean = false;
   sizeChanged: boolean = false;
+  extraSizeChanged:boolean=false;
   rentAmountChanged: boolean = false;
   submitAttempt: boolean = false;
   propertyId: string;
@@ -30,7 +32,9 @@ export class AddLeaseholdPage {
       type: ['', Validators.required],
       code: [''],
       size: ['', Validators.required],
-      rentAmount: ['', Validators.required]
+      rentAmount: ['', Validators.required],
+      extraSpace:[''],
+      extraSize:['']
     });
   }
 
@@ -48,6 +52,8 @@ export class AddLeaseholdPage {
       value.type = this.newLeaseholdForm.value.type;
       value.code = this.newLeaseholdForm.value.code;
       value.size = this.newLeaseholdForm.value.size;
+      value.extraSpace = this.newLeaseholdForm.value.extraSpace;
+      value.extraSize = this.newLeaseholdForm.value.extraSize;
       value.rentAmount = this.newLeaseholdForm.value.rentAmount;
       value.isRented = false;
       //value.propertyId = this.propertyId;

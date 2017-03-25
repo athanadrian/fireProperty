@@ -16,13 +16,12 @@ export class PropertyListPage {
   public leaseholds: Leasehold[];
   public numberOfProperties: number;
   public propertiesVM: any;
+  public viewMode: string = "list";
 
   constructor(public navController: NavController, public propertyService: PropertyService,
     public actionSheetController: ActionSheetController, public platform: Platform) {
-  }
 
-  ionViewDidLoad() {
-    this.properties$ = this.propertyService.getProperties();
+      this.properties$ = this.propertyService.getProperties();
     this.propertiesVM = this.propertyService.getPropertiesVM()
       .map((propertiesVM) => {
         return propertiesVM.map(property => {
@@ -30,13 +29,35 @@ export class PropertyListPage {
           let totalLeaseholds = this.propertyService.getAllLeaseholdsForProperty(property.$key);
           totalLeaseholds.map(total=>total.length)
           .subscribe((length)=>property.totalLeaseholds=length);
-          console.log('pp: ', property);
+          console.log('pp: ', property.leaseholds);
           return property;
         });
       });
     this.properties$
       .map(properties => properties.length)
       .subscribe((length) => this.numberOfProperties = length);
+}
+
+  // ionViewDidLoad() {
+  //   this.properties$ = this.propertyService.getProperties();
+  //   this.propertiesVM = this.propertyService.getPropertiesVM()
+  //     .map((propertiesVM) => {
+  //       return propertiesVM.map(property => {
+  //         property.leaseholds = this.propertyService.getLeaseholdsForProperty(property.$key);
+  //         let totalLeaseholds = this.propertyService.getAllLeaseholdsForProperty(property.$key);
+  //         totalLeaseholds.map(total=>total.length)
+  //         .subscribe((length)=>property.totalLeaseholds=length);
+  //         console.log('pp: ', property.leaseholds);
+  //         return property;
+  //       });
+  //     });
+  //   this.properties$
+  //     .map(properties => properties.length)
+  //     .subscribe((length) => this.numberOfProperties = length);
+  // }
+
+  showMap() {
+
   }
 
   createProperty(): void {
@@ -45,41 +66,6 @@ export class PropertyListPage {
 
   goToPaidPayment(propertyId: string): void {
     this.navController.push(PropertyDetailPage, { propertyId: propertyId })
-  }
-
-  morePropertyOptions(propertyId:string) {
-    let actionSheet = this.actionSheetController.create({
-      title: 'Property Options',
-      buttons: [
-        {
-          text: 'Edit this property',
-          icon: !this.platform.is('ios') ? 'play' : null,
-          handler: () => {
-            this.navController.push(CreatePropertyPage, {
-              propertyId: propertyId
-            });
-          }
-        },
-        {
-          text: 'Show this property details',
-          icon: !this.platform.is('ios') ? 'play' : null,
-          handler: () => {
-            this.navController.push(PropertyDetailPage, {
-              propertyId: propertyId
-            });
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          icon: !this.platform.is('ios') ? 'close' : null,
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-    });
-    actionSheet.present();
   }
 
 }

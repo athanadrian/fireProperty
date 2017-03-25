@@ -12,8 +12,29 @@ $font-path: "../assets/fonts";
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
 
+$white: #FFFFFF;
+$white-a: darken($white, 3%);
+$white-b: darken($white, 6%);
+$white-c: darken($white, 12%);
+$white-d: darken($white, 24%);
 
+$black: rgba(#000000, .8);
+$black-a: lighten($black, 10%);
+$black-b: lighten($black, 20%);
+$black-c: lighten($black, 40%);
+$black-d: lighten($black, 60%);
 
+$theme-color-1: #00e9d5;
+$theme-color-2: #ae75e7;
+$theme-color-3: #5e5874;
+$theme-color-4: #69BB7B;
+$detail:     #84BF41;
+$menu:       #00778E;
+$create:     #1D4F5E;
+$list:       #00A3DB;
+
+$background-color : #ebfafc;
+$headings-font-weight: 300;
 
 // Named Color Variables
 // --------------------------------------------------
@@ -24,12 +45,32 @@ $font-path: "../assets/fonts";
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #387ef5,
-  secondary:  #32db64,
+  primary:    #00778E,
+  secondary:  #84BF41,
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222,
-  favorite:   #de851f
+  favorite:   #69BB7B,
+  menu:(
+    base: $menu,
+    contrast: $black
+  ),
+  listings:(
+    base: $list,
+    contrast: $white
+  ),
+  header-add:(
+    base: $create,
+    contrast: $white
+  ),
+  header-detail:(
+    base: $detail,
+    contrast: $white
+  ),
+  background:(
+    base: $white-a,
+    contrast: $black-b
+  )
 );
 
 

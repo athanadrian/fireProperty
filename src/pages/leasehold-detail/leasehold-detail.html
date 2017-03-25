@@ -10,27 +10,14 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
   <ion-card>
     <ion-card-header>
-      <ion-item>
         Leasehold Information
-      </ion-item>
     </ion-card-header>
-    <ion-list>
-      <ion-item text-wrap>
-        <ion-icon color="primary" name="home" item-left></ion-icon>
-        Tiltle: {{(leasehold$ | async)?.title}}
-      </ion-item>
-      <ion-item>
-        <ion-icon color="secondary" name="logo-buffer" item-left></ion-icon>
-        Type: {{(leasehold$ | async)?.type}}
-      </ion-item>
-      <ion-item>
-        <ion-icon color="dark" name="key" item-left></ion-icon>
-        Address: {{(leasehold$ | async)?.code}}
-      </ion-item>
-    </ion-list>
+    <ion-card-content>
+        <leasehold-card [leasehold]="(leasehold$ | async)" ></leasehold-card>
+    </ion-card-content>
   </ion-card>
   <ion-list>
     <ion-list-header>
@@ -42,11 +29,11 @@
       Contract's info not yet inserted!
       <button ion-button item-right small (click)="addContract()">Add</button>
     </ion-item>
-      <ion-item *ngFor="let contract of contracts$" (click)="moreContractOptions(contract.$key)">
-            <ion-icon name="albums" [style.color]="contract.isActive ? 'green' : 'red'" item-left></ion-icon>
-            <h2>Duration: {{contract?.initialDuration}}</h2>
-            <h3>Active amount: <strong> {{contract?.contractAmount}}</strong> Start: <strong>{{contract?.startDate}}</strong></h3>
-        </ion-item>
+    <ion-item *ngFor="let contract of contracts" (click)="moreContractOptions(contract.$key)">
+      <ion-icon name="albums" [style.color]="contract.isActive ? 'green' : 'red'" item-left></ion-icon>
+      <h2>Duration: {{contract?.initialDuration}}</h2>
+      <h3>Active amount: <strong> {{contract?.contractAmount}}</strong> Start: <strong>{{contract?.startDate}}</strong></h3>
+    </ion-item>
   </ion-list>
   <ion-list>
     <ion-list-header>
@@ -58,7 +45,7 @@
       Renter's info not yet inserted!
       <button ion-button item-right small *ngIf="contract$" (click)="addRenter()">Add</button>
     </ion-item>
-    <ion-item *ngFor="let renter of renters" (click)="moreRenterOptions()">
+    <ion-item *ngFor="let renter of renters" (click)="moreRenterOptions(renter.$key)">
       <ion-icon *ngIf="!renter.isActive" name="person" color="danger" item-left></ion-icon>
       <ion-icon *ngIf="renter.isActive" name="person" color="secondary" item-left></ion-icon>
       <ion-row>

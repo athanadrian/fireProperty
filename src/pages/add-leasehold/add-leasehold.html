@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar color="favorite">
+    <ion-navbar color="header-add">
         <ion-title>Add a leasehold</ion-title>
     </ion-navbar>
 </ion-header>
@@ -25,14 +25,14 @@
             <ion-input #code formControlName="code" type="text" (change)="elementChanged(code)" placeholder="Code name for leasehold to identify it?" [class.invalid]="!newLeaseholdForm.controls.code.valid && (codeChanged||submitAttempt)"></ion-input>
         </ion-item>
         <ion-item class="error-message" *ngIf="!newLeaseholdForm.controls.code.valid && (codeChanged||submitAttempt)">
-            <p>You need to enter the size of the leasehold.</p>
+            <p>You need to enter a code name to identify this leasehold.</p>
         </ion-item>
         <ion-item>
             <ion-label stacked>Leasehold size</ion-label>
             <ion-input #size formControlName="size" type="number" (change)="elementChanged(size)" placeholder="Where is this property?" [class.invalid]="!newLeaseholdForm.controls.size.valid && (sizeChanged||submitAttempt)"></ion-input>
         </ion-item>
         <ion-item class="error-message" *ngIf="!newLeaseholdForm.controls.size.valid && (sizeChanged||submitAttempt)">
-            <p>You need to enter the rent for this leasehold.</p>
+            <p>You need to enter the size for this leasehold.</p>
         </ion-item>
         <ion-item>
             <ion-label stacked>Leasehold rent</ion-label>
@@ -41,6 +41,19 @@
         <ion-item class="error-message" *ngIf="!newLeaseholdForm.controls.rentAmount.valid && (rentAmountChanged||submitAttempt)">
             <p>You need to enter the size of the leasehold.</p>
         </ion-item>
-        <button ion-button block type="submit" color="favorite">Save leasehold</button>
+        <ion-card>
+            <ion-card-header>
+                Extra Space
+            </ion-card-header>
+            <ion-item>
+                <ion-icon name="person" item-left color="primary"></ion-icon>
+                <ion-input #extraSpace formControlName="extraSpace" type="text" (change)="elementChanged(extraSpace)" placeholder="Is there a extra spasce?" [class.invalid]="!newLeaseholdForm.controls.extraSpace.valid && (extraSpaceChanged||submitAttempt)"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-icon name="call" item-left color="primary"></ion-icon>
+                <ion-input #extraSize formControlName="extraSize" type="number" (change)="elementChanged(extraSize)" placeholder="What's the extra size?" [class.invalid]="!newLeaseholdForm.controls.extraSize.valid && (extraSizeChanged||submitAttempt)"></ion-input>
+            </ion-item>
+        </ion-card>
+        <button ion-button block type="submit" color="header-add">Save leasehold</button>
     </form>
 </ion-content>

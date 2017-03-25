@@ -1,8 +1,10 @@
 <ion-header>
-    <ion-navbar color="primary">
-        <ion-title>
-            My Contracts
-        </ion-title>
+    <ion-navbar color="listings">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-searchbar (ionInput)="onInput($event)"
+                       (ionCancel)="onCancel($event)"></ion-searchbar>
         <!--<ion-buttons end>
             <button ion-button icon-only (click)="createProperty()">
         <ion-icon name="add"></ion-icon>

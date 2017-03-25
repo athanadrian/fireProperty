@@ -2,7 +2,7 @@
     <ion-navbar color="secondary">
         <ion-title>{{(property$ | async)?.title}} - {{(property$ | async)?.type}}</ion-title>
         <ion-buttons end>
-            <button ion-button icon-only (click)="morePropertyOptions('(property$.$key | async)'?.$key)">
+            <button ion-button icon-only (click)="morePropertyOptions('(property$ | async)'?.$key)">
         <ion-icon name="settings"></ion-icon>
       </button>
         </ion-buttons>
@@ -10,38 +10,31 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
     <ion-card>
-        <ion-card-header>
-            <ion-item>
-                Property Information
-                <ion-icon name="navigate" color="primary" item-right></ion-icon>
-            </ion-item>
-        </ion-card-header>
+        <img [src]="(property$ | async)?.image"/>
+        <ion-card-content>
+            <h2 class="card-title">{{(property$ | async)?.title}}</h2>
+            <p>{{(property$ | async)?.type}}, {{(property$ | async)?.address}}</p>
+        </ion-card-content>
         <ion-list>
-            <ion-item text-wrap>
-                <ion-icon color="primary" name="home" item-left></ion-icon>
-                Tiltle: {{(property$ | async)?.title}}
-            </ion-item>
             <ion-item>
-                <ion-icon color="secondary" name="logo-buffer" item-left></ion-icon>
-                Type: {{(property$ | async)?.type}}
-            </ion-item>
-            <ion-item>
-                <ion-icon color="dark" name="key" item-left></ion-icon>
-                Address: {{(property$ | async)?.address}}
+                <ion-icon color="menu" item-left name="logo-buffer"></ion-icon>
+                <h3>Leaseholds</h3>
+                <ion-note item-right>{{leaseholds?.length}}</ion-note>
             </ion-item>
         </ion-list>
     </ion-card>
     <ion-list>
         <ion-list-header>
-            Leaseholds
-            <ion-badge item-right>{{leaseholds?.length}} </ion-badge>
+            Leasehold List
         </ion-list-header>
-        <ion-item-sliding>
-            <ion-item *ngFor="let leasehold of leaseholds" (click)="moreLeaseholdOptions(leasehold)">
-                <ion-icon *ngIf="leasehold.isRented" name="home" color="danger" item-left></ion-icon>
-                <ion-icon *ngIf="!leasehold.isRented" name="home" color="secondary" item-left></ion-icon>
+        <!--<ion-item-sliding>-->
+            <leasehold-card *ngFor="let leasehold of leaseholds" [leasehold]="leasehold" ></leasehold-card>
+            <!--<leasehold-card *ngFor="let leasehold of leaseholds" [leasehold]="leasehold" (click)="moreLeaseholdOptions(leasehold)"></leasehold-card>-->
+            <!--<ion-item *ngFor="let leasehold of leaseholds" (click)="moreLeaseholdOptions(leasehold)">
+                <ion-icon *ngIf="leasehold.isRented" name="logo-buffer" color="danger" item-left></ion-icon>
+                <ion-icon *ngIf="!leasehold.isRented" name="logo-buffer" color="secondary" item-left></ion-icon>
                 <ion-row>
                     <ion-col>
                         Type: <strong> {{leasehold?.type}}</strong>
@@ -63,6 +56,6 @@
             <ion-item-options>
                 <button ion-button icon-only color="danger" (click)="releaseLeasehold(leasehold.$key)" *ngIf="leasehold?.isRented">Αφαίρεση</button>
             </ion-item-options>
-        </ion-item-sliding>
+        </ion-item-sliding>-->
     </ion-list>
 </ion-content>

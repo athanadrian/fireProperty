@@ -1,0 +1,15 @@
+<ion-item no-lines (click)="morePropertyOptions(property.$key)">
+    <button ion-item no-lines>
+            <ion-thumbnail item-left>
+                <img [src]="property.image"/>
+            </ion-thumbnail>
+            <h2 class="card-title">{{property.title}}</h2>
+            <p>{{property.type}}, {{property.address}}</p>
+    <h3><ion-icon color="menu" item-left name="logo-buffer"></ion-icon>
+        Leaseholds <ion-note item-right>{{property.totalLeaseholds}}</ion-note></h3>
+    </button>
+</ion-item>
+<ion-item no-lines class="lsRow">
+    <ion-row wrap><button small class="lsButton" *ngFor="let leasehold of property.leaseholds | async" (click)="viewLeasehold(leasehold.$key)"
+            [style.background-color]="!leasehold.isRented ? 'green' : 'red'">{{leasehold.rentAmount}}</button></ion-row>
+</ion-item>

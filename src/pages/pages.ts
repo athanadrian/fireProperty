@@ -3,6 +3,7 @@ export * from './home/home';
 export * from './login/login';
 export * from './signup/signup';
 export * from './reset-password/reset-password';
+export * from './about/about';
 export * from './profile/profile';
 export * from './property-list/property-list';
 export * from './property-detail/property-detail';

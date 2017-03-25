@@ -3,7 +3,7 @@ import { NavController, NavParams, ActionSheetController, Platform, AlertControl
 import { Observable } from 'rxjs/Rx';
 
 import { PropertyService } from '../../providers/services';
-import { AddLeaseholdPage, CreatePropertyPage, AddOwnerPage, LeaseholdDetailPage, AddContractPage } from '../../pages/pages';
+import { AddLeaseholdPage, ContractDetailPage, CreatePropertyPage, AddOwnerPage, LeaseholdDetailPage, AddContractPage } from '../../pages/pages';
 import { Property, Leasehold } from '../../models/models';
 
 @Component({
@@ -15,19 +15,24 @@ export class PropertyDetailPage {
   public property$: any;
   public leaseholds: Leasehold[];
   public propertyId: string;
+  public propertyTitle: string;
 
   constructor(public navController: NavController, public navParams: NavParams, public platform: Platform,
     public actionSheetController: ActionSheetController, public alertController: AlertController, public propetyService: PropertyService) {
     this.propertyId = this.navParams.get('propertyId');
+    this.property$ = this.propetyService.findProperty(this.propertyId);
+    this.property$.subscribe((prop) => {
+      this.propertyTitle = prop.title;
+    })
   }
 
   ionViewDidLoad() {
-    this.property$ = this.propetyService.findProperty(this.propertyId);
+    //this.property$ = this.propetyService.findProperty(this.propertyId);
     const leaseholds$ = this.propetyService.getLeaseholdsForProperty(this.propertyId);
     leaseholds$.subscribe(leaseholds => this.leaseholds = leaseholds);
   }
 
-  morePropertyOptions(propertyId) {
+  morePropertyOptions() {
     let actionSheet = this.actionSheetController.create({
       title: 'Property Options',
       buttons: [
@@ -36,8 +41,8 @@ export class PropertyDetailPage {
           role: 'destructive',
           icon: !this.platform.is('ios') ? 'trash' : null,
           handler: () => {
-            this.propetyService.removeProperty(propertyId);
-            this.navController.pop();
+            console.log('pId ', this.propertyId)
+            this.deleteConfirmation()
           }
         },
         {
@@ -71,15 +76,21 @@ export class PropertyDetailPage {
     actionSheet.present();
   }
 
-  moreLeaseholdOptions(leasehold) {
+  moreLeaseholdOptions(leasehold, itHas: boolean) {
     let actionSheet = this.actionSheetController.create({
       title: 'Leasehold Options',
       buttons: [
         {
-          text: 'Make a contract!',
+          text: !leasehold.isRented ? 'Make a contract!' : 'Show my contract',
           icon: !this.platform.is('ios') ? 'play' : null,
           handler: () => {
-            this.contractAlert(leasehold);
+            if (itHas) {
+              this.contractAlert(leasehold);
+            } else {
+              this.navController.push(ContractDetailPage, {
+                leaseholdId: leasehold.$key
+              })
+            }
           }
         },
         {
@@ -122,16 +133,16 @@ export class PropertyDetailPage {
     actionSheet.present();
   }
 
-  contractAlert(leasehold:Leasehold) {
+  contractAlert(leasehold: Leasehold) {
     if (leasehold.isRented) {
       let alert = this.alertController.create({
         title: 'Warning!',
         subTitle: 'This leasehold has already a contract!',
         buttons: [
           {
-            text:'OK'
+            text: 'OK'
           }
-          
+
         ]
       });
       alert.present();
@@ -145,4 +156,28 @@ export class PropertyDetailPage {
   releaseLeasehold(leaseholdId: string) {
 
   }
+
+  deleteConfirmation() {
+    let confirm = this.alertController.create({
+      title: 'Delete Property?',
+      message: 'You are about to delete ' + this.propertyTitle + ' ?',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            console.log('Disagree clicked');
+          }
+        },
+        {
+          text: 'ΟΚ',
+          handler: () => {
+            this.propetyService.removeProperty(this.propertyId);
+            this.navController.pop();
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
 }

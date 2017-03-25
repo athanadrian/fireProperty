@@ -1,0 +1,42 @@
+property-card {
+    ion-list .item .item-inner {
+        background: #fff;
+    }
+    .item {
+        background-color: #fff !important;
+    }
+
+    // ion-card {
+    //     background: white !important;
+    // }
+
+    // .leaseholds{
+    //     background-color: #3893f5;
+    //     color:#fff;
+    //     font-weight: bold;
+    //     padding: 5px 5px 5px 5px;
+    // }
+
+    .lsButton{
+        color:#fff;
+        font-weight: bold;
+        padding: 5px 5px 5px 5px;
+        margin: 3px 3px 3px 3px;
+        width:70px;
+    }
+
+    .left-border-primary {
+        border-left: 4px solid #0087be;
+    }
+
+    .left-border-danger {
+        border-left: 4px solid #f53d3d;
+    }
+
+    .lsRow{
+        margin-top:-12px !important;
+        margin-bottom: -2px !important;
+        background-color: whitesmoke !important;
+        // border-bottom: 1px solid !important;
+    }
+}

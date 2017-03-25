@@ -40,7 +40,7 @@ export class LeaseholdDetailPage {
       .subscribe(contract => this.contract$ = contract);
   }
 
-  moreContractOptions(contractId) {
+  moreContractOptions(contractId:string) {
     let actionSheet = this.actionSheetController.create({
       title: 'Contract Options',
       buttons: [
@@ -112,7 +112,7 @@ export class LeaseholdDetailPage {
     actionSheet.present();
   }
 
-  moreRenterOptions() {
+  moreRenterOptions(renterId: string) {
     let actionSheet = this.actionSheetController.create({
       title: 'Renter Options',
       buttons: [
@@ -130,7 +130,7 @@ export class LeaseholdDetailPage {
           icon: !this.platform.is('ios') ? 'play' : null,
           handler: () => {
             this.navController.push(RenterDetailPage, {
-              renterId: this.contract$.renterId
+              renterId: renterId
             });
           }
         },
@@ -159,6 +159,13 @@ export class LeaseholdDetailPage {
       title: 'Owner Options',
       //cssClass: 'action-sheets-basic-page',
       buttons: [
+        {
+          text: 'Add owner to leasehold',
+          icon: !this.platform.is('ios') ? 'play' : null,
+          handler: () => {
+            this.insertOwner();
+          }
+        },
         {
           text: 'Show this owner details',
           icon: !this.platform.is('ios') ? 'play' : null,
@@ -191,7 +198,7 @@ export class LeaseholdDetailPage {
         title: 'Add Renter',
         buttons: [
           {
-            text: 'Add an existing Renter?',
+            text: 'Add Renter from list?',
             handler: () => {
               this.navController.push(RenterListPage,
                 { leaseholdId: this.leaseholdId })
@@ -223,6 +230,54 @@ export class LeaseholdDetailPage {
       confirm.present();
     }
   }
+
+  insertOwner(){
+    this.showOwnerConfirmation();
+  }
+
+  showOwnerConfirmation() {
+    if (this.owners) {
+      let confirm = this.alertController.create({
+        title: 'Add Owner',
+        buttons: [
+          {
+            text: 'Add owner from list?',
+            handler: () => {
+              this.navController.push(RenterListPage,
+                { leaseholdId: this.leaseholdId })
+            }
+          },
+          {
+            text: 'Add a new owner?',
+            handler: () => {
+              this.navController.push(AddOwnerPage,
+                { leaseholdId: this.leaseholdId })
+            }
+          }
+        ]
+      });
+      confirm.present();
+    } else {
+      let confirm = this.alertController.create({
+        title: 'Add Owner',
+        buttons: [
+          {
+            text: 'Add a new owner?',
+            handler: () => {
+              this.navController.push(AddOwnerPage,
+                { leaseholdId: this.leaseholdId });
+            }
+          }
+        ]
+      });
+      confirm.present();
+    }
+  }
+
+  addRenter() {
+    this.insertRenter();
+  }
+
   addContract() {
     this.navController.push(AddContractPage, {
       leaseholdId: this.leaseholdId
@@ -230,9 +285,7 @@ export class LeaseholdDetailPage {
   }
 
   addOwner() {
-    this.navController.push(AddOwnerPage, {
-      leaseholdId: this.leaseholdId
-    });
+    this.insertOwner();
   }
 
 }

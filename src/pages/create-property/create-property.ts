@@ -55,6 +55,7 @@ export class CreatePropertyPage {
       value.title = this.newPropertyForm.value.title;
       value.type = this.newPropertyForm.value.type;
       value.address = this.newPropertyForm.value.address;
+      value.image='assets/images/property.png';
       value.lat = null;
       value.lng = null;
       value.icon = null;

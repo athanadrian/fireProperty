@@ -169,7 +169,7 @@ export class LeaseholdService {
   }
 
   addOwner(leaseholdId: string, owner: any): Observable<any> {
-    const ownerToSave = Object.assign({}, owner, { leaseholdId: leaseholdId });
+    const ownerToSave = Object.assign({}, owner);
     const newOwnerKey = this.sdkDb.child('owners/').push().key;
 
     let dataToSave = {};

@@ -1,8 +1,10 @@
 <ion-header>
-  <ion-navbar color="primary">
-    <ion-title>
-      Renters
-    </ion-title>
+  <ion-navbar color="listings">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-searchbar (ionInput)="onInput($event)"
+                       (ionCancel)="onCancel($event)"></ion-searchbar>
   </ion-navbar>
 </ion-header>
 

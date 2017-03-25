@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, LoadingController, AlertController } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../providers/services';
-import { ResetPasswordPage, ProfilePage } from '../pages';
+import { ResetPasswordPage, HomePage } from '../pages';
 import { EmailValidator } from '../../shared/validators/email';
 
 
@@ -44,7 +44,7 @@ export class LoginPage {
       this.authService.loginUser(this.loginForm.value.email,
         this.loginForm.value.password).then(() => {
           this.loading.dismiss().then(() => {
-            this.navController.setRoot(ProfilePage);
+            this.navController.setRoot(HomePage);
           });
         }, (error) => {
           this.loading.dismiss().then(() => {

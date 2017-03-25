@@ -1,11 +1,14 @@
 <ion-header>
-    <ion-navbar color="primary">
-        <ion-title>Profile</ion-title>
-        <ion-buttons end>
-            <button ion-button icon-only (click)="logout()">
+    <ion-navbar color="listings">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+    <ion-title>Profile</ion-title>
+    <ion-buttons end>
+        <button ion-button icon-only (click)="logout()">
         <ion-icon name="log-out"></ion-icon>
       </button>
-        </ion-buttons>
+    </ion-buttons>
     </ion-navbar>
 </ion-header>
 
@@ -64,7 +67,7 @@
         See all Renters
         <ion-badge color="secondary" item-right>{{renters?.length}}</ion-badge>
     </ion-item>
-     <ion-list-header text-right>
+    <ion-list-header text-right>
         Owners
     </ion-list-header>
     <ion-item (click)="showAllOwners()">
