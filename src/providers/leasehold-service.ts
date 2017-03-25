@@ -235,6 +235,10 @@ export class LeaseholdService {
     return this.leaseholds.update(renterId, { isActive: false });
   }
 
+  updateLeasehold(leaseholdId: string, leasehold) {
+    return this.leaseholds.update(leaseholdId, leasehold);
+  }
+
   firebaseUpdate(dataToSave) {
     const subject = new Subject();
 

@@ -11,31 +11,56 @@ import { Property, Leasehold } from '../../models/models';
 })
 export class AddLeaseholdPage {
 
-  property = Property;
+  property: Property;
+  leasehold: Leasehold;
   newLeaseholdForm: any;
   titleChanged: boolean = false;
-  extraSpace:boolean=false;
+  extraSpace: boolean = false;
   codeChanged: boolean = false;
   sizeChanged: boolean = false;
-  extraSizeChanged:boolean=false;
+  extraSizeChanged: boolean = false;
   rentAmountChanged: boolean = false;
   submitAttempt: boolean = false;
   propertyId: string;
+  leaseholdId: string;
 
   constructor(public navController: NavController, public navParams: NavParams,
     public formBuilder: FormBuilder, public leaseholdService: LeaseholdService) {
 
     this.propertyId = this.navParams.get('propertyId');
-    console.log('lspkey ',this.propertyId);
-    this.newLeaseholdForm = formBuilder.group({
-      title: ['', Validators.required],
-      type: ['', Validators.required],
-      code: [''],
-      size: ['', Validators.required],
-      rentAmount: ['', Validators.required],
-      extraSpace:[''],
-      extraSize:['']
-    });
+    this.leaseholdId = this.navParams.get('leaseholdId');
+    console.log('pkey ', this.propertyId);
+    console.log('lkey ', this.leaseholdId);
+
+    this.leaseholdService.getLeasehold(this.leaseholdId)
+      .do(console.log)
+      .subscribe(leasehold => this.leasehold = leasehold);
+    if (this.leaseholdId) {
+      this.newLeaseholdForm = formBuilder.group({
+        title: [this.leasehold.title, Validators.required],
+        type: [this.leasehold.type, Validators.required],
+        code: [this.leasehold.code],
+        size: [this.leasehold.size, Validators.required],
+        rentAmount: [this.leasehold.rentAmount, Validators.required],
+        offices: [this.leasehold.offices],
+        bathrooms: [this.leasehold.bathrooms],
+        extraSpace: [this.leasehold.extraSpace],
+        extraSize: [this.leasehold.extraSize]
+      });
+    } else {
+      this.newLeaseholdForm = formBuilder.group({
+        title: ['', Validators.required],
+        type: ['', Validators.required],
+        code: [''],
+        size: ['', Validators.required],
+        rentAmount: ['', Validators.required],
+        offices: [''],
+        bathrooms: [''],
+        extraSpace: [''],
+        extraSize: ['']
+      });
+    }
+
   }
 
   elementChanged(input) {
@@ -54,14 +79,23 @@ export class AddLeaseholdPage {
       value.size = this.newLeaseholdForm.value.size;
       value.extraSpace = this.newLeaseholdForm.value.extraSpace;
       value.extraSize = this.newLeaseholdForm.value.extraSize;
+      value.offices = this.newLeaseholdForm.value.offices;
+      value.bathrooms = this.newLeaseholdForm.value.bathrooms;
       value.rentAmount = this.newLeaseholdForm.value.rentAmount;
       value.isRented = false;
-      //value.propertyId = this.propertyId;
-      this.leaseholdService.addLeasehold(this.propertyId, value)
-        .subscribe(() => {
-          alert('leasehold created. Create another one ?');
-          this.navController.pop();
-        }, err => alert(`error creating leasehold, ${err}`));
+      if (!this.leaseholdId) {
+        this.leaseholdService.addLeasehold(this.propertyId, value)
+          .subscribe(() => {
+            alert('leasehold created. Create another one ?');
+            this.navController.pop();
+          }, err => alert(`error creating leasehold, ${err}`));
+      } else {
+        this.leaseholdService.updateLeasehold(this.leaseholdId, value)
+          .then(() => {
+            alert("leasehold saved");
+            this.navController.pop();
+          }, err => alert(`error saving leasehold ${err}`));
+      }
     }
   }
 }

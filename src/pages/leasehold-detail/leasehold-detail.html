@@ -16,7 +16,43 @@
         Leasehold Information
     </ion-card-header>
     <ion-card-content>
-        <leasehold-card [leasehold]="(leasehold$ | async)" ></leasehold-card>
+        <leasehold-card [leasehold]="(leasehold$ | async)"></leasehold-card>
+        <ion-list>
+
+  <ion-item>
+    <ion-icon item-left name="moon"></ion-icon>
+    <h3>Offices</h3>
+    <ion-note item-right>{{(leasehold$ | async)?.offices}}</ion-note>
+  </ion-item>
+  <ion-item>
+    <ion-icon item-left name="leaf"></ion-icon>
+    <h3>Bathrooms</h3>
+    <ion-note item-right>{{(leasehold$ | async)?.bathrooms}}</ion-note>
+  </ion-item>
+  <ion-item>
+    <ion-icon item-left name="pricetag"></ion-icon>
+    <h3>Asking Price</h3>
+    <ion-note item-right>{{(leasehold$ | async)?.rentAmount}}</ion-note>
+  </ion-item>
+  <button ion-item (click)="openBrokerDetail(leasehold?.broker)">
+                <ion-avatar item-left>
+                    <img [src]="'assets/images/ninja.png'"/>
+                </ion-avatar>
+                <h2>{{(leasehold$ | async)?.code}}</h2>
+                <p>{{(leasehold$ | async)?.code}}</p>
+            </button>
+</ion-list>
+
+<ion-item>
+  <button ion-button icon-left (click)="favorite(leasehold)" clear item-left>
+                <ion-icon name="star"></ion-icon>
+                Favorite
+            </button>
+  <button ion-button icon-left (click)="share(leasehold)" clear item-right>
+                <ion-icon name="share"></ion-icon>
+                Share
+            </button>
+</ion-item>
     </ion-card-content>
   </ion-card>
   <ion-list>

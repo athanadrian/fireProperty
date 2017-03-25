@@ -7,6 +7,8 @@ export class Leasehold {
         public type: string,
         public code: string,
         public size: number,
+        public offices: number,
+        public bathrooms: number,
         public extraSize:number,
         public rentAmount: number = 0,
         public isRented: boolean = false,
@@ -14,8 +16,8 @@ export class Leasehold {
         public ownerId: string) {
     }
 
-    static fromJson({$key, title, extraSpace, type, code, size, extraSize, rentAmount, isRented, propertyId, ownerId}) {
-        return new Leasehold($key, title, extraSpace, type, code, size, extraSize, rentAmount, isRented, propertyId, ownerId);
+    static fromJson({$key, title, extraSpace, type, code, size, offices, bathrooms, extraSize, rentAmount, isRented, propertyId, ownerId}) {
+        return new Leasehold($key, title, extraSpace, type, code, size, offices, bathrooms, extraSize, rentAmount, isRented, propertyId, ownerId);
     }
 
     static fromJsonArray(json: any[]): Leasehold[] {
