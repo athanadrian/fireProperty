@@ -19,10 +19,6 @@
             <ion-badge color="secondary" item-right>{{numberOfProperties}}</ion-badge>
         </ion-list-header>
         <property-card *ngFor="let property of (propertiesVM | async)" [property]="property"></property-card>
-        <!--<ion-item no-lines class="lsRow">
-        <ion-row wrap><button small class="lsButton" *ngFor="let leasehold of property?.leaseholds" (click)="viewLeasehold(leasehold.$key)"
-                [style.background-color]="!leasehold.isRented ? 'green' : 'red'">{{leasehold.rentAmount}}</button></ion-row>
-    </ion-item>-->
     </ion-list>
     <div *ngIf="viewMode==='map'" id="map"></div>
 </ion-content>

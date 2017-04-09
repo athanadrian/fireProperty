@@ -1,26 +1,19 @@
 <ion-header>
-  <ion-navbar color="listings">
+    <ion-navbar color="listings">
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-searchbar (ionInput)="onInput($event)"
-                       (ionCancel)="onCancel($event)"></ion-searchbar>
-  </ion-navbar>
+        <ion-searchbar (ionInput)="onInput($event)" (ionCancel)="onCancel($event)"></ion-searchbar>
+    </ion-navbar>
 </ion-header>
 
-
-<ion-content padding>
+<ion-content>
     <ion-list>
         <ion-list-header>
             Total Renters
             <ion-icon name="people" color="primary" item-left></ion-icon>
             <ion-badge color="secondary" item-right>{{renters$?.length}}</ion-badge>
         </ion-list-header>
-        <ion-item *ngFor="let renter of renters$" (click)="moreRenterOptions(renter.$key)">
-            <ion-icon name="person" [style.color]="renter.isActive ? 'green' : 'red'" item-left></ion-icon>
-            <h2>Title: {{renter?.title}}</h2>
-            <h3>Type: <strong> {{renter?.type}}</strong></h3>
-            <h4>POC: {{renter?.name}} - {{renter?.phone}} - {{renter?.email}}</h4>
-        </ion-item>
+        <renter-card *ngFor="let renter of renters$" [renter]="renter"></renter-card>
     </ion-list>
 </ion-content>

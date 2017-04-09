@@ -41,7 +41,9 @@ export class MyApp {
       {title: 'About', component: AboutPage, icon: 'information-circle'},
   ];
 
-  constructor(platform: Platform, af: AngularFire) {
+  constructor(
+    platform: Platform,
+    af: AngularFire) {
     af.auth.subscribe(user => {
       if (user) {
         this.rootPage = HomePage;
@@ -61,6 +63,6 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    this.nav.setRoot(page.component,{isListPage:true});
   }
 }

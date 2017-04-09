@@ -2,35 +2,54 @@
   <ion-navbar color="secondary">
     <ion-title>{{(owner$ | async)?.title}}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="moreOwnerOptions('(owner$.$key | async)'?.$key)">
+      <button ion-button icon-only (click)="moreOwnerOptions(owner$?.$key)">
         <ion-icon name="settings"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-
-<ion-content padding>
+<ion-content class="owner">
   <ion-card>
-    <ion-card-header>
-      <ion-item>
-        Owner Information
-        <!--<ion-icon name="navigate" color="primary" item-right></ion-icon>-->
-      </ion-item>
-    </ion-card-header>
+    <ion-card-content>
+      <img [src]="(owner$ | async)?.image" />
+    </ion-card-content>
+    <ion-item>
+      <ion-icon name="person" [style.color]="(owner$ | async)?.isActive ? 'green' : 'red'" item-left></ion-icon>
+      <h2 class="card-title">{{(owner$ | async)?.title}}</h2>
+      <p>{{(owner$ | async)?.name}}, {{(owner$ | async)?.type}}</p>
+      <h3>
+        <ion-icon color="menu" item-left name="logo-buffer"></ion-icon>
+        Leaseholds
+        <ion-note item-right>{{leaseholds?.length}}</ion-note>
+      </h3>
+    </ion-item>
     <ion-list>
-      <ion-item text-wrap>
-        <ion-icon color="primary" name="home" item-left></ion-icon>
-        Tiltle: {{(owner$ | async)?.title}}
+      <a href="tel:{{(owner$ | async)?.phone}}" ion-item>
+        <ion-icon name="call" item-left></ion-icon>
+        <p>Call Mobile</p>
+        <h2>{{(owner$ | async)?.phone}}</h2>
+      </a>
+      <a href="tel:{{(owner$ | async)?.phone}}" ion-item>
+        <ion-icon name="text" item-left></ion-icon>
+        <p>SMS</p>
+        <h2>{{(owner$ | async)?.phone}}</h2>
+      </a>
+      <ion-item>
+        <ion-icon name="call" item-left></ion-icon>
+        <p>Social Security Number</p>
+        <h2>{{(owner$ | async)?.afm}}</h2>
       </ion-item>
       <ion-item>
-        <ion-icon color="secondary" name="logo-buffer" item-left></ion-icon>
-        Type: {{(owner$ | async)?.afm}}
+        <ion-icon name="globe" item-left></ion-icon>
+        <p>Website</p>
+        <h2>{{(owner$ | async)?.website}}</h2>
       </ion-item>
-      <ion-item>
-        <ion-icon color="dark" name="key" item-left></ion-icon>
-        Address: {{(owner$ | async)?.phone}}
-      </ion-item>
+      <!--<a href="mailto:{{(owner$ | async)?.email}}" ion-item>
+        <ion-icon name="mail" item-left></ion-icon>
+        <p>Email</p>
+        <h2>{{(owner$ | async)?.email}}</h2>
+      </a>-->
     </ion-list>
   </ion-card>
   <ion-list>
@@ -39,10 +58,6 @@
       <ion-icon name="logo-buffer" color="primary" item-left></ion-icon>
       <ion-badge color="secondary" item-right>{{leaseholds?.length}}</ion-badge>
     </ion-list-header>
-    <ion-item *ngFor="let leasehold of leaseholds" (click)="moreLeaseholdOptions(leasehold.$key)">
-      <ion-icon name="logo-buffer" [style.color]="!leasehold.isRented ? 'green' : 'red'" item-left></ion-icon>
-      <h2>Title: {{leasehold?.title}}</h2>
-      <h3>Type: <strong> {{leasehold?.type}}</strong> Rent: <strong>{{leasehold?.rentAmount}}</strong></h3>
-    </ion-item>
+    <leasehold-card *ngFor="let leasehold of leaseholds" [leasehold]="leasehold" ></leasehold-card>
   </ion-list>
 </ion-content>

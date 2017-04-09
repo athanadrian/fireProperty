@@ -1,0 +1,7 @@
+<ion-item (click)="moreRenterOptions(renter?.$key)">
+            <ion-icon name="person" [style.color]="renter?.isActive ? 'green' : 'red'" item-left></ion-icon>
+            <h2 class="card-title">{{renter?.title}}</h2>
+            <p>{{renter?.type}}, {{renter?.type}}</p>
+    <h3><ion-icon color="menu" item-left name="logo-buffer"></ion-icon>
+        Leaseholds <ion-note item-right>{{renter?.totalLeaseholds}}</ion-note></h3>
+</ion-item>

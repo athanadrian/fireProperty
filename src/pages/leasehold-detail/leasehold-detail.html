@@ -2,68 +2,66 @@
   <ion-navbar color="secondary">
     <ion-title>{{(leasehold$ | async)?.title}} - {{(leasehold$ | async)?.type}}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="moreLeaseholdOptions('(leasehold$.$key | async)'?.$key)">
+      <button ion-button icon-only (click)="moreLeaseholdOptions('(leasehold$| async)'?.$key)">
         <ion-icon name="settings"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-
 <ion-content>
   <ion-card>
     <ion-card-header>
-        Leasehold Information
+      Leasehold Information
     </ion-card-header>
     <ion-card-content>
-        <leasehold-card [leasehold]="(leasehold$ | async)"></leasehold-card>
-        <ion-list>
-
-  <ion-item>
-    <ion-icon item-left name="moon"></ion-icon>
-    <h3>Offices</h3>
-    <ion-note item-right>{{(leasehold$ | async)?.offices}}</ion-note>
-  </ion-item>
-  <ion-item>
-    <ion-icon item-left name="leaf"></ion-icon>
-    <h3>Bathrooms</h3>
-    <ion-note item-right>{{(leasehold$ | async)?.bathrooms}}</ion-note>
-  </ion-item>
-  <ion-item>
-    <ion-icon item-left name="pricetag"></ion-icon>
-    <h3>Asking Price</h3>
-    <ion-note item-right>{{(leasehold$ | async)?.rentAmount}}</ion-note>
-  </ion-item>
-  <button ion-item (click)="openBrokerDetail(leasehold?.broker)">
+      <leasehold-card [leasehold]="(leasehold$ | async)"></leasehold-card>
+      <ion-list>
+        <ion-item>
+          <ion-icon item-left name="moon"></ion-icon>
+          <h3>Offices</h3>
+          <ion-note item-right>{{(leasehold$ | async)?.offices}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-icon item-left name="leaf"></ion-icon>
+          <h3>Bathrooms</h3>
+          <ion-note item-right>{{(leasehold$ | async)?.bathrooms}}</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-icon item-left name="pricetag"></ion-icon>
+          <h3>Asking Price</h3>
+          <ion-note item-right>{{(leasehold$ | async)?.rentAmount}}</ion-note>
+        </ion-item>
+        <button ion-item (click)="openBrokerDetail(leasehold?.broker)">
                 <ion-avatar item-left>
                     <img [src]="'assets/images/ninja.png'"/>
                 </ion-avatar>
                 <h2>{{(leasehold$ | async)?.code}}</h2>
                 <p>{{(leasehold$ | async)?.code}}</p>
             </button>
-</ion-list>
+      </ion-list>
 
-<ion-item>
-  <button ion-button icon-left (click)="favorite(leasehold)" clear item-left>
+      <ion-item>
+        <button ion-button icon-left (click)="favorite(leasehold)" clear item-left>
                 <ion-icon name="star"></ion-icon>
                 Favorite
             </button>
-  <button ion-button icon-left (click)="share(leasehold)" clear item-right>
+        <button ion-button icon-left (click)="share(leasehold)" clear item-right>
                 <ion-icon name="share"></ion-icon>
                 Share
             </button>
-</ion-item>
+      </ion-item>
     </ion-card-content>
   </ion-card>
   <ion-list>
     <ion-list-header>
       Contracts
       <ion-icon item-left name="albums" color="primary"></ion-icon>
-      <ion-badge item-right>{{contracts?.length}} </ion-badge>
+      <ion-badge item-right>{{!contracts?.length ? 0 : contracts?.length}} </ion-badge>
+      <button item-right ion-button small (click)="addContract()">Add</button>
     </ion-list-header>
-    <ion-item *ngIf="!contracts">
-      Contract's info not yet inserted!
-      <button ion-button item-right small (click)="addContract()">Add</button>
+    <ion-item  *ngIf="!contracts"> 
+      <p>Contract's info not yet inserted!</p>
     </ion-item>
     <ion-item *ngFor="let contract of contracts" (click)="moreContractOptions(contract.$key)">
       <ion-icon name="albums" [style.color]="contract.isActive ? 'green' : 'red'" item-left></ion-icon>
@@ -75,56 +73,24 @@
     <ion-list-header>
       Renters
       <ion-icon item-left name="people" color="primary"></ion-icon>
-      <ion-badge item-right>{{renters?.length}} </ion-badge>
+      <ion-badge item-right>{{!renters?.length ? 0 : renters?.length}} </ion-badge>
+      <button ion-button item-right small *ngIf="contract$" (click)="addRenter()">Add</button>
     </ion-list-header>
     <ion-item *ngIf="!renters">
-      Renter's info not yet inserted!
-      <button ion-button item-right small *ngIf="contract$" (click)="addRenter()">Add</button>
+      <p>You need to make a contract to add renter's info!</p>
     </ion-item>
-    <ion-item *ngFor="let renter of renters" (click)="moreRenterOptions(renter.$key)">
-      <ion-icon *ngIf="!renter.isActive" name="person" color="danger" item-left></ion-icon>
-      <ion-icon *ngIf="renter.isActive" name="person" color="secondary" item-left></ion-icon>
-      <ion-row>
-        <ion-col>
-          Title: <strong> {{renter?.title}} </strong>
-        </ion-col>
-        <ion-col>
-          Type: <strong> {{renter?.type}}</strong>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          Website: <strong> {{renter?.website}} m</strong>
-        </ion-col>
-      </ion-row>
-    </ion-item>
+    <renter-card *ngFor="let renter of renters" [renter]="renter"></renter-card>
   </ion-list>
   <ion-list>
     <ion-list-header>
       Owners
       <ion-icon item-left name="contacts" color="primary"></ion-icon>
-      <ion-badge item-right>{{owners?.length}} </ion-badge>
+      <ion-badge item-right>{{!owners?.length ? 0 : owners?.length}} </ion-badge>
+      <button item-right ion-button small (click)="addOwner()">Add</button>
     </ion-list-header>
     <ion-item *ngIf="!owners">
-      Owners's info not yet inserted!
-      <button item-right ion-button small (click)="addOwner()">Add</button>
+      <p>Owner's info not yet inserted!</p>
     </ion-item>
-    <ion-item *ngFor="let owner of owners" (click)="moreOwnerOptions(owner?.$key)">
-      <ion-icon *ngIf="!owner.isActive" name="person" color="danger" item-left></ion-icon>
-      <ion-icon *ngIf="owner.isActive" name="person" color="secondary" item-left></ion-icon>
-      <ion-row>
-        <ion-col>
-          Title: <strong> {{owner?.title}} </strong>
-        </ion-col>
-        <ion-col>
-          AFM: <strong> {{owner?.afm}}</strong>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          Quota: <strong> {{owner?.quota}} %</strong>
-        </ion-col>
-      </ion-row>
-    </ion-item>
+    <owner-card *ngFor="let owner of owners" [owner]="owner"></owner-card>
   </ion-list>
 </ion-content>

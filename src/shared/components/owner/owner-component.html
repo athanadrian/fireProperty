@@ -1,0 +1,7 @@
+<ion-item (click)="moreOwnerOptions(owner?.$key)">
+            <ion-icon name="person" [style.color]="owner?.isActive ? 'green' : 'red'" item-left></ion-icon>
+            <h2 class="card-title">{{owner?.title}}</h2>
+            <p>{{owner?.type}}</p>
+    <h3><ion-icon color="menu" item-left name="logo-buffer"></ion-icon>
+        Leaseholds <ion-note item-right>{{owner?.totalLeaseholds}}</ion-note></h3>
+</ion-item>

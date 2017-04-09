@@ -22,7 +22,7 @@ export class PropertyListPage {
     public actionSheetController: ActionSheetController, public platform: Platform) {
 
       this.properties$ = this.propertyService.getProperties();
-    this.propertiesVM = this.propertyService.getPropertiesVM()
+      this.propertiesVM = this.propertyService.getPropertiesVM()
       .map((propertiesVM) => {
         return propertiesVM.map(property => {
           property.leaseholds = this.propertyService.getLeaseholdsForProperty(property.$key);

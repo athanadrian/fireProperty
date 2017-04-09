@@ -15,7 +15,7 @@
         </ion-item>
         <ion-item>
             <ion-label stacked>Renter type</ion-label>
-            <ion-input #type formControlName="type" type="text" (change)="elementChanged(type)" placeholder="What type of leasehold?" [class.invalid]="!newRenterForm.controls.type.valid && (typeChanged||submitAttempt)"></ion-input>
+            <ion-input #type formControlName="type" type="text" (change)="elementChanged(type)" placeholder="What type of renter?" [class.invalid]="!newRenterForm.controls.type.valid && (typeChanged||submitAttempt)"></ion-input>
         </ion-item>
         <ion-item class="error-message" *ngIf="!newRenterForm.controls.type.valid && (typeChanged||submitAttempt)">
             <p>You need to enter a type for the renter.</p>
@@ -33,16 +33,22 @@
             </ion-card-header>
             <ion-item>
                 <ion-icon name="person" item-left color="primary"></ion-icon>
-                <ion-input #name formControlName="name" type="text" (change)="elementChanged(name)" placeholder="Does poc has a name?" [class.invalid]="!newRenterForm.controls.name.valid && (nameChanged||submitAttempt)"></ion-input>
+                <ion-input #name formControlName="name" type="text" (change)="elementChanged(name)" placeholder="What's the poc name?" [class.invalid]="!newRenterForm.controls.name.valid && (nameChanged||submitAttempt)"></ion-input>
                 <ion-item class="error-message" *ngIf="!newRenterForm.controls.name.valid && (nameChanged||submitAttempt)">
                     <p>You need to enter a name for the poc.</p>
                 </ion-item>
             </ion-item>
             <ion-item>
                 <ion-icon name="call" item-left color="primary"></ion-icon>
-                <ion-input #phone formControlName="phone" type="text" (change)="elementChanged(phone)" placeholder="Does poc has a phone?" [class.invalid]="!newRenterForm.controls.phone.valid && (phoneChanged||submitAttempt)"></ion-input>
-                <ion-item class="error-message" *ngIf="!newRenterForm.controls.phone.valid && (phoneChanged||submitAttempt)">
-                    <p>You need to enter a phone for the poc.</p>
+                <ion-input #phoneCell formControlName="phoneCell" type="text" (change)="elementChanged(phoneCell)" placeholder="Does poc has a cell phone?" [class.invalid]="!newRenterForm.controls.phoneCell.valid && (phoneCellChanged||submitAttempt)"></ion-input>
+                <ion-item class="error-message" *ngIf="!newRenterForm.controls.phoneCell.valid && (phoneCellChanged||submitAttempt)">
+                    <p>You need to enter a cell phone for the poc.</p>
+                </ion-item>
+            </ion-item><ion-item>
+                <ion-icon name="call" item-left color="primary"></ion-icon>
+                <ion-input #phoneOffice formControlName="phoneOffice" type="text" (change)="elementChanged(phoneOffice)" placeholder="Does poc has an office phone?" [class.invalid]="!newRenterForm.controls.phoneOffice.valid && (phoneOfficeChanged||submitAttempt)"></ion-input>
+                <ion-item class="error-message" *ngIf="!newRenterForm.controls.phoneOffice.valid && (phoneOfficeChanged||submitAttempt)">
+                    <p>You need to enter a office phone for the poc.</p>
                 </ion-item>
             </ion-item>
             <ion-item>

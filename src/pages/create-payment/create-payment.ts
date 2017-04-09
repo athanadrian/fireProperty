@@ -34,7 +34,7 @@ export class CreatePaymentPage {
     this.newPaymentForm = formBuilder.group({
       propertyOption: ['0', Validators.required],
       leaseholdOption: ['0', Validators.required],
-      title: ['', Validators.required],
+      title: [{value:'',disabled:true}, Validators.required],
       type: ['', Validators.required],
       paidAmount: ['', Validators.required],
       deptDate: ['', Validators.required],

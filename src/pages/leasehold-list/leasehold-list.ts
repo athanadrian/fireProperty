@@ -12,7 +12,7 @@ import { Leasehold } from '../../models/models';
 })
 export class LeaseholdListPage {
 
-  public leaseholds$:Leasehold[];
+public leaseholds$:Leasehold[];
 
 constructor(public navController: NavController, public platform:Platform, public leaseholdService: LeaseholdService,
               public actionSheetController:ActionSheetController) { }

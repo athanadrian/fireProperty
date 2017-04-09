@@ -5,16 +5,26 @@ export class Renter {
         public title: string,
         public type: string,
         public name: string,
-        public phone: string,
+        public phoneCell: string,
+        public phoneOffice: string,
         public email: string,
         public website: string,
+        public image: string,
         public isActive: boolean,
         public activeRent: number,
         public totalDeptAmount: number) {
     }
 
-    static fromJson({$key, title, type, name, phone, email, activeRent, isActive, website, totalDeptAmount}) {
-        return new Renter($key, title, type, name, phone, email, activeRent, isActive, website, totalDeptAmount);
+    static fromJson({$key, 
+        title,
+        type,
+        name,
+        phoneCell, phoneOffice, email, activeRent, isActive, website, image, totalDeptAmount}) {
+        return new Renter($key,
+        title,
+        type,
+        name,
+        phoneCell, phoneOffice, email, activeRent, isActive, website, image, totalDeptAmount);
     }
 
     static fromJsonArray(json: any[]): Renter[] {

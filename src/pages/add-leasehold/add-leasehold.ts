@@ -82,7 +82,8 @@ export class AddLeaseholdPage {
       value.offices = this.newLeaseholdForm.value.offices;
       value.bathrooms = this.newLeaseholdForm.value.bathrooms;
       value.rentAmount = this.newLeaseholdForm.value.rentAmount;
-      value.isRented = false;
+      value.isRented = this.leasehold.isRented
+      ;
       if (!this.leaseholdId) {
         this.leaseholdService.addLeasehold(this.propertyId, value)
           .subscribe(() => {

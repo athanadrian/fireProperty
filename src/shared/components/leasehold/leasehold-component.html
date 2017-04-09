@@ -1,5 +1,5 @@
 <ion-item (click)="moreLeaseholdOptions(leasehold?.$key)">
-  <ion-icon name="logo-buffer" [style.color]="!(leasehold)?.isRented ? 'green' : 'red'" item-left></ion-icon>
+  <ion-icon name="logo-buffer" [style.color]="!leasehold?.isRented ? 'green' : 'red'" item-left></ion-icon>
   <h2>{{leasehold?.title}}</h2>
   <p>{{leasehold?.type}} - ({{leasehold?.code}}) - {{leasehold?.rentAmount}}
     <ion-icon name="logo-euro"></ion-icon>

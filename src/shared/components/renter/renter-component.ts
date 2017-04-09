@@ -1,35 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NavController, NavParams, ActionSheetController, Platform } from 'ionic-angular';
 
-import { LeaseholdService } from '../../providers/services';
-import { AddRenterPage } from '../../pages/pages';
-import { Renter, Leasehold } from '../../models/models';
-
+import { Renter } from '../../../models/models';
+import { RenterDetailPage, AddRenterPage } from '../../../pages/pages';
 
 @Component({
-  selector: 'page-renter-detail',
-  templateUrl: 'renter-detail.html'
+  selector: 'renter-card',
+  templateUrl: 'renter-component.html'
 })
-export class RenterDetailPage {
+export class RenterComponent {
 
-  public renter$: any;
-  public leaseholds: Leasehold[];
-  public renterId: string;
+  public isListPage: boolean = false;
+  @Input() renter: Renter;
 
   constructor(
     public navController: NavController,
-    public platform: Platform,
-    public leaseholdService: LeaseholdService,
     public actionSheetController: ActionSheetController,
+    public platform: Platform,
     public navParams: NavParams) {
 
-    this.renterId = this.navParams.get('renterId');
-  }
-
-  ionViewDidLoad() {
-    this.renter$ = this.leaseholdService.findRenter(this.renterId);
-    const leaseholds$ = this.leaseholdService.getLeaseholdsForRenter(this.renterId);
-    leaseholds$.subscribe(leaseholds => this.leaseholds = leaseholds);
+    this.isListPage = this.navParams.get('isListPage');
   }
 
   moreRenterOptions(renterId: string) {
@@ -37,10 +27,15 @@ export class RenterDetailPage {
       title: 'Renter Options',
       buttons: [
         {
-          text: 'Delete Renter',
+          text: !this.isListPage ? 'Remove Renter' : 'Delete Renter',
           role: 'destructive',
           icon: !this.platform.is('ios') ? 'trash' : null,
           handler: () => {
+            if (!this.isListPage) {
+              //remove renter from leasehold
+            } else {
+              //delete renter
+            }
             //this.leaseholdService.removeContract(contractId);
             this.navController.pop();
           }
@@ -50,7 +45,16 @@ export class RenterDetailPage {
           icon: !this.platform.is('ios') ? 'play' : null,
           handler: () => {
             this.navController.push(AddRenterPage, {
-              renterId: this.renterId
+              renterId: renterId
+            });
+          }
+        },
+        {
+          text: 'Show this renter details',
+          icon: !this.platform.is('ios') ? 'play' : null,
+          handler: () => {
+            this.navController.push(RenterDetailPage, {
+              renterId: renterId
             });
           }
         },
