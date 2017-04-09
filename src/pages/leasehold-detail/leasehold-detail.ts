@@ -90,7 +90,7 @@ export class LeaseholdDetailPage {
           role: 'destructive',
           icon: !this.platform.is('ios') ? 'trash' : null,
           handler: () => {
-            //this.leaseholdService.removeContract(contractId);
+            //this.leaseholdService.removeLeasehold(leaseholdId);
             this.navController.pop();
           }
         },
@@ -125,7 +125,8 @@ export class LeaseholdDetailPage {
             text: 'Add Renter from list?',
             handler: () => {
               this.navController.push(RenterListPage,
-                { leaseholdId: this.leaseholdId })
+                { leaseholdId: this.leaseholdId,
+                  isListPage:true })
             }
           },
           {
@@ -164,7 +165,8 @@ export class LeaseholdDetailPage {
             text: 'Add owner from list?',
             handler: () => {
               this.navController.push(OwnerListPage,
-                { leaseholdId: this.leaseholdId })
+                { leaseholdId: this.leaseholdId,
+                  isListPage:true })
             }
           },
           {
