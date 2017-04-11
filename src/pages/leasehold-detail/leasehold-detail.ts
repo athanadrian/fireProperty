@@ -125,8 +125,10 @@ export class LeaseholdDetailPage {
             text: 'Add Renter from list?',
             handler: () => {
               this.navController.push(RenterListPage,
-                { leaseholdId: this.leaseholdId,
-                  isListPage:true })
+                {
+                  leaseholdId: this.leaseholdId,
+                  isListPage: true
+                })
             }
           },
           {
@@ -157,43 +159,30 @@ export class LeaseholdDetailPage {
   }
 
   showOwnerConfirmation() {
-    if (this.owners) {
-      let confirm = this.alertController.create({
-        title: 'Add Owner',
-        buttons: [
-          {
-            text: 'Add owner from list?',
-            handler: () => {
-              this.navController.push(OwnerListPage,
-                { leaseholdId: this.leaseholdId,
-                  isListPage:true })
-            }
-          },
-          {
-            text: 'Add a new owner?',
-            handler: () => {
-              this.navController.push(AddOwnerPage,
-                { leaseholdId: this.leaseholdId })
-            }
+    let confirm = this.alertController.create({
+      title: 'Add Owner',
+      buttons: [
+        {
+          text: 'Add owner from list?',
+          handler: () => {
+            this.navController.push(OwnerListPage,
+              {
+                leaseholdId: this.leaseholdId,
+                isListPage: true,
+                addOptions: true
+              })
           }
-        ]
-      });
-      confirm.present();
-    } else {
-      let confirm = this.alertController.create({
-        title: 'Add Owner',
-        buttons: [
-          {
-            text: 'Add owner?',
-            handler: () => {
-              this.navController.push(AddOwnerPage,
-                { leaseholdId: this.leaseholdId });
-            }
+        },
+        {
+          text: 'Add a new owner?',
+          handler: () => {
+            this.navController.push(AddOwnerPage,
+              { leaseholdId: this.leaseholdId })
           }
-        ]
-      });
-      confirm.present();
-    }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   addRenter() {

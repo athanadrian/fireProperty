@@ -1,7 +1,14 @@
-<ion-item (click)="moreOwnerOptions(owner?.$key)">
-            <ion-icon name="person" [style.color]="owner?.isActive ? 'green' : 'red'" item-left></ion-icon>
-            <h2 class="card-title">{{owner?.title}}</h2>
-            <p>{{owner?.type}}</p>
-    <h3><ion-icon color="menu" item-left name="logo-buffer"></ion-icon>
-        Leaseholds <ion-note item-right>{{owner?.totalLeaseholds}}</ion-note></h3>
-</ion-item>
+<ion-item-sliding>
+        <ion-item (click)="moreOwnerOptions(owner?.$key)">
+                <ion-icon name="contact" [style.color]="owner?.isActive ? 'green' : 'red'" item-left></ion-icon>
+                <h2 class="card-title">{{owner?.title}}</h2>
+                <p>{{owner?.type}}
+                        <ion-icon class="icon-item" color="menu" item-right name="logo-buffer">
+                                <ion-badge class="badge-item" color="danger">0 {{owner?.totalLeaseholds}}</ion-badge>
+                        </ion-icon>
+                </p>
+        </ion-item>
+        <ion-item-options *ngIf="addOptions">
+                <button ion-button icon-only color="light" (click)="addOwner(owner?.$key)"><ion-icon name="add-circle"></ion-icon><span style="margin-right:10px;">Add</span></button>
+        </ion-item-options>
+</ion-item-sliding>

@@ -5,11 +5,6 @@
         </button>
         <ion-searchbar (ionInput)="onInput($event)"
                        (ionCancel)="onCancel($event)"></ion-searchbar>
-        <!--<ion-buttons end>
-            <button ion-button icon-only (click)="createProperty()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-        </ion-buttons>-->
     </ion-navbar>
 </ion-header>
 
@@ -20,10 +15,6 @@
             <ion-icon name="albums" color="primary" item-left></ion-icon>
             <ion-badge color="secondary" item-right>{{contracts$?.length}}</ion-badge>
         </ion-list-header>
-        <ion-item *ngFor="let contract of contracts$" (click)="moreContractOptions(contract.$key)">
-            <ion-icon name="albums" [style.color]="contract.isActive ? 'green' : 'red'" item-left></ion-icon>
-            <h2>Duration: {{contract?.initialDuration}}</h2>
-            <h3>Active amount: <strong> {{contract?.contractAmount}}</strong> Start: <strong>{{contract?.startDate}}</strong></h3>
-        </ion-item>
+        <contract-card *ngFor="let contract of contracts$" [contract]="contract"></contract-card>
     </ion-list>
 </ion-content>

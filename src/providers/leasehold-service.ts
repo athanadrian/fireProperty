@@ -196,6 +196,14 @@ export class LeaseholdService {
     return this.firebaseUpdate(dataToSave);
   }
 
+  addOwnerFromList(ownerId:string, leaseholdId:string){
+    let dataToSave={};
+    dataToSave[`/userProfile/${this.userId}/ownersPerLeasehold/${leaseholdId}/${ownerId}`] = true;
+    dataToSave[`/userProfile/${this.userId}/leaseholdsPerOwner/${ownerId}/${leaseholdId}`] = true;
+    
+    return this.firebaseUpdate(dataToSave);
+  }
+
   addContract(leaseholdId: string, contract: any) {
     const contractToSave = Object.assign({}, contract, { leaseholdId: leaseholdId });
     const newContractKey = this.sdkDb.child('contracts/').push().key;

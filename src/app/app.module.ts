@@ -10,7 +10,7 @@ import { StartPage, HomePage, LoginPage, SignupPage, ResetPasswordPage, ProfileP
           OwnerListPage, AddRenterPage, RenterListPage, RenterDetailPage, AddContractPage, OwnerDetailPage } from '../pages/pages';
 import { AuthService, PropertyService, PaymentService, LeaseholdService} from '../providers/services';
 
-import { PropertyComponent, LeaseholdComponent, RenterComponent, OwnerComponent } from '../shared/components/components';
+import { PropertyComponent, LeaseholdComponent, RenterComponent, OwnerComponent, ContractComponent } from '../shared/components/components';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2'
 
 export const firebaseConfig = {
@@ -56,7 +56,8 @@ const myFirebaseAuthConfig = {
     PropertyComponent,
     LeaseholdComponent,
     RenterComponent,
-    OwnerComponent
+    OwnerComponent,
+    ContractComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),

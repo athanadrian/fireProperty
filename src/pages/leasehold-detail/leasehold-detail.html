@@ -58,16 +58,12 @@
       Contracts
       <ion-icon item-left name="albums" color="primary"></ion-icon>
       <ion-badge item-right>{{!contracts?.length ? 0 : contracts?.length}} </ion-badge>
-      <button item-right ion-button small (click)="addContract()">Add</button>
+      <button item-right ion-button small *ngIf="!contract$" (click)="addContract()">Add</button>
     </ion-list-header>
     <ion-item  *ngIf="!contracts"> 
       <p>Contract's info not yet inserted!</p>
     </ion-item>
-    <ion-item *ngFor="let contract of contracts" (click)="moreContractOptions(contract.$key)">
-      <ion-icon name="albums" [style.color]="contract.isActive ? 'green' : 'red'" item-left></ion-icon>
-      <h2>Duration: {{contract?.initialDuration}}</h2>
-      <h3>Active amount: <strong> {{contract?.contractAmount}}</strong> Start: <strong>{{contract?.startDate}}</strong></h3>
-    </ion-item>
+    <contract-card *ngFor="let contract of contracts" [contract]="contract"></contract-card>
   </ion-list>
   <ion-list>
     <ion-list-header>

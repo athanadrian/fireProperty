@@ -1,59 +1,55 @@
 import { Component, Input } from '@angular/core';
-import { NavController, NavParams, ActionSheetController, Platform } from 'ionic-angular';
+import { NavController, ActionSheetController, Platform } from 'ionic-angular';
 
-import { Renter } from '../../../models/models';
-import { RenterDetailPage, AddRenterPage } from '../../../pages/pages';
+import { Contract } from '../../../models/models';
+import { ContractDetailPage, AddContractPage } from '../../../pages/pages';
 
 @Component({
-  selector: 'renter-card',
-  templateUrl: 'renter-component.html'
+  selector: 'contract-card',
+  templateUrl: 'contract-component.html'
 })
-export class RenterComponent {
+export class ContractComponent {
 
   public isListPage: boolean = false;
-  @Input() renter: Renter;
+  @Input() contract: Contract;
 
   constructor(
     public navController: NavController,
     public actionSheetController: ActionSheetController,
-    public platform: Platform,
-    public navParams: NavParams) {
+    public platform: Platform) { }
 
-    this.isListPage = this.navParams.get('isListPage');
-  }
-
-  moreRenterOptions(renterId: string) {
+    moreContractOptions(contractId:string) {
     let actionSheet = this.actionSheetController.create({
-      title: 'Renter Options',
+      title: 'Contract Options',
       buttons: [
         {
-          text: !this.isListPage ? 'Remove Renter' : 'Delete Renter',
+          text: !this.isListPage ? 'Release Contract' : 'Delete Contract' ,
           role: 'destructive',
           icon: !this.platform.is('ios') ? 'trash' : null,
           handler: () => {
             if (!this.isListPage) {
-              //remove renter from leasehold
+              //release contract from leasehold
             } else {
-              //delete renter
+              //delete contract
             }
             this.navController.pop();
           }
         },
         {
-          text: 'Edit this renter',
+          text: 'Edit this contract',
           icon: !this.platform.is('ios') ? 'play' : null,
           handler: () => {
-            this.navController.push(AddRenterPage, {
-              renterId: renterId
+            this.navController.push(AddContractPage, {
+              contractId: contractId
             });
           }
         },
         {
-          text: 'Show this renter details',
+          text: 'Show this contract details',
           icon: !this.platform.is('ios') ? 'play' : null,
           handler: () => {
-            this.navController.push(RenterDetailPage, {
-              renterId: renterId
+            this.navController.push(ContractDetailPage, {
+              contractId: contractId
             });
           }
         },

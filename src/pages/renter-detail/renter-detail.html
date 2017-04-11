@@ -17,12 +17,11 @@
     <ion-item>
       <ion-icon name="person" [style.color]="(renter$ | async)?.isActive ? 'green' : 'red'" item-left></ion-icon>
       <h2 class="card-title">{{(renter$ | async)?.title}}</h2>
-      <p>{{(renter$ | async)?.name}}, {{(renter$ | async)?.type}}</p>
-      <h3>
-        <ion-icon color="menu" item-left name="logo-buffer"></ion-icon>
-        Leaseholds
-        <ion-note item-right>{{leaseholds?.length}}</ion-note>
-      </h3>
+      <p>{{(renter$ | async)?.name}}, {{(renter$ | async)?.type}}
+        <ion-icon class="icon-item" color="menu" item-right name="logo-buffer">
+          <ion-badge class="badge-item" color="danger">{{leaseholds?.length}}</ion-badge>
+        </ion-icon>
+      </p>
     </ion-item>
     <ion-list>
       <a href="tel:{{(renter$ | async)?.phoneCell}}" ion-item>
@@ -58,6 +57,6 @@
       <ion-icon name="logo-buffer" color="primary" item-left></ion-icon>
       <ion-badge color="secondary" item-right>{{leaseholds?.length}}</ion-badge>
     </ion-list-header>
-    <leasehold-card *ngFor="let leasehold of leaseholds" [leasehold]="leasehold" ></leasehold-card>
+    <leasehold-card *ngFor="let leasehold of leaseholds" [leasehold]="leasehold"></leasehold-card>
   </ion-list>
 </ion-content>

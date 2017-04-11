@@ -1,7 +1,9 @@
 <ion-item (click)="moreRenterOptions(renter?.$key)">
-            <ion-icon name="person" [style.color]="renter?.isActive ? 'green' : 'red'" item-left></ion-icon>
-            <h2 class="card-title">{{renter?.title}}</h2>
-            <p>{{renter?.type}}, {{renter?.type}}</p>
-    <h3><ion-icon color="menu" item-left name="logo-buffer"></ion-icon>
-        Leaseholds <ion-note item-right>{{renter?.totalLeaseholds}}</ion-note></h3>
+    <ion-icon name="person" [style.color]="renter?.isActive ? 'green' : 'red'" item-left></ion-icon>
+    <h2 class="card-title">{{renter?.title}}</h2>
+    <p>{{renter?.type}}, {{renter?.type}}
+        <ion-icon class="icon-item" color="menu" item-right name="logo-buffer">
+            <ion-badge class="badge-item" color="danger">0 {{renter?.totalLeaseholds}}</ion-badge>
+        </ion-icon>
+    </p>
 </ion-item>
