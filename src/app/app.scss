@@ -27,16 +27,17 @@ ion-list.menu {
         position:absolute;
         font-weight: bold;
         top:-9px;
-        left:20px;
+        left:30px;
         font-size:12px;
 }
 
 ion-icon.icon-item{
-        padding-left: 10px;
+        padding-left: 20px;
+        font-size:1.5e !important;
 }
 
 .icon-item{
         position:relative;
         font-weight: bold;
-        font-size:1.5e;
+        font-size:1.5e !important;
 }

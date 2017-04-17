@@ -3,3 +3,4 @@ export * from './leasehold/leasehold-component';
 export * from './owner/owner-component';
 export * from './renter/renter-component';
 export * from './contract/contract-component';
+export * from './broker/broker-component';

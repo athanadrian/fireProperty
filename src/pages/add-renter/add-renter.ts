@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Observable } from 'rxjs/Rx';
+//import { Observable } from 'rxjs/Rx';
 
 import { LeaseholdService } from '../../providers/services';
 import { AddContractPage } from '../../pages/pages';
@@ -15,7 +15,7 @@ export class AddRenterPage {
 
   //property = new Property;
   leasehold: Leasehold;
-  public contract$: any;
+  contract$: any;
   newRenterForm: any;
   titleChanged: boolean = false;
   typeChanged: boolean = false;
@@ -30,8 +30,11 @@ export class AddRenterPage {
   makeContract: boolean = false;
   renter: any;
 
-  constructor(public navController: NavController, public navParams: NavParams,
-    public formBuilder: FormBuilder, public leaseholdService: LeaseholdService) {
+  constructor(
+    public navController: NavController,
+    public navParams: NavParams,
+    public formBuilder: FormBuilder,
+    public leaseholdService: LeaseholdService) {
 
     this.leaseholdId = this.navParams.get('leaseholdId');
     this.renterId = this.navParams.get('renterId');

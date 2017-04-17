@@ -3,8 +3,7 @@ import { NavController, NavParams, ActionSheetController, Platform } from 'ionic
 import { LeaseholdService } from '../../providers/services';
 import { Observable } from 'rxjs/Rx';
 
-import { AddOwnerPage, OwnerDetailPage } from '../../pages/pages';
-import { Owner } from '../../models/models';
+import { Owner, OwnerVM } from '../../models/models';
 
 @Component({
   selector: 'page-owner-list',
@@ -13,6 +12,8 @@ import { Owner } from '../../models/models';
 export class OwnerListPage {
 
   public owners$: Owner[];
+  public ownersVM: any;
+  //public leaseholds:Leasehold[];
 
 
   constructor(
@@ -21,6 +22,15 @@ export class OwnerListPage {
     public leaseholdService: LeaseholdService,
     public actionSheetController: ActionSheetController,
     public navParams: NavParams) {
+
+    this.ownersVM = this.leaseholdService.getAllOwnersVM()
+      .map((ownersVM) => {
+        return ownersVM.map(owner => {
+          const leaseholds$=this.leaseholdService.getLeaseholdsForOwner(owner.$key)
+          leaseholds$.subscribe(leaseholds=>owner.leaseholds=leaseholds)
+          return owner;
+        });
+      });
   }
 
   ionViewDidLoad() {

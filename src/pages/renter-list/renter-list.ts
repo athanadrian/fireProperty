@@ -13,12 +13,23 @@ import { Renter } from '../../models/models';
 export class RenterListPage {
 
   public renters$:Renter[];
+  public rentersVM:any;
 
   constructor(
     public navController: NavController,
     public platform:Platform,
     public leaseholdService: LeaseholdService,
-    public actionSheetController:ActionSheetController) {}
+    public actionSheetController:ActionSheetController) {
+
+      this.rentersVM = this.leaseholdService.getAllRentersVM()
+      .map((renters) => {
+        return renters.map(renter => {
+          const leaseholds$ = this.leaseholdService.getLeaseholdsForRenter(renter.$key)
+          leaseholds$.subscribe(leaseholds => renter.leaseholds = leaseholds)
+          return renter;
+        });
+      });
+    }
 
   ionViewDidLoad() {
     this.leaseholdService.getAllRenters()

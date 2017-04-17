@@ -15,6 +15,6 @@
             <ion-icon name="logo-buffer" color="primary" item-left></ion-icon>
             <ion-badge color="secondary" item-right>{{leaseholds$?.length}}</ion-badge>
         </ion-list-header>
-        <leasehold-card *ngFor="let leasehold of leaseholds$" [leasehold]="leasehold" ></leasehold-card>
+        <leasehold-card *ngFor="let leasehold of (leaseholdsVM | async)" [leasehold]="leasehold" ></leasehold-card>
     </ion-list>
 </ion-content>

@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar color="listings">
+    <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+    <ion-searchbar (ionInput)="onInput($event)" (ionCancel)="onCancel($event)"></ion-searchbar>
+    <ion-buttons end *ngIf="leaseholdId">
+      <button ion-button icon-only (click)="addBrokerToLeasehold(leaseholdId)">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-list-header>
+      Total Brokers
+      <ion-icon name="contacts" color="primary" item-left></ion-icon>
+      <ion-badge color="secondary" item-right>{{brokers$?.length}}</ion-badge>
+    </ion-list-header>
+    <broker-card *ngFor="let broker of (brokersVM | async)" [broker]="broker"></broker-card>
+  </ion-list>
+</ion-content>

@@ -18,19 +18,21 @@ export class OwnerDetailPage {
   constructor(public navController: NavController, public platform: Platform, public leaseholdService: LeaseholdService,
     public navParams: NavParams, public actionSheetController: ActionSheetController) {
     this.ownerId = this.navParams.get('ownerId');
-  }
-
-  ionViewDidLoad() {
     this.owner$ = this.leaseholdService.findOwner(this.ownerId);
-    //.subscribe(owner => this.owner$ = owner);
     const leaseholds$ = this.leaseholdService.getLeaseholdsForOwner(this.ownerId);
     leaseholds$.subscribe(leaseholds => this.leaseholds = leaseholds);
   }
 
+  // ionViewDidLoad() {
+  //   this.owner$ = this.leaseholdService.findOwner(this.ownerId);
+  //   //.subscribe(owner => this.owner$ = owner);
+  //   const leaseholds$ = this.leaseholdService.getLeaseholdsForOwner(this.ownerId);
+  //   leaseholds$.subscribe(leaseholds => this.owner$.leaseholds = leaseholds);
+  // }
+
   moreOwnerOptions(ownerId) {
     let actionSheet = this.actionSheetController.create({
       title: 'Owner Options',
-      //cssClass: 'action-sheets-basic-page',
       buttons: [
         {
           text: 'Delete Owner',
@@ -43,7 +45,6 @@ export class OwnerDetailPage {
         },
         {
           text: 'Edit this owner',
-          //cssClass:'red-color',
           icon: !this.platform.is('ios') ? 'play' : null,
           handler: () => {
             this.navController.push(AddOwnerPage, {

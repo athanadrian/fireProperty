@@ -1,0 +1,59 @@
+<ion-header>
+    <ion-navbar color="header-add">
+        <ion-title>Assign it to broker...</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <form [formGroup]="newBrokerForm" (ngSubmit)="addBrokerToLeasehold(newBrokerForm)" novalidate>
+        <ion-item>
+            <ion-label stacked>Broker Title</ion-label>
+            <ion-input #title formControlName="title" type="text" (change)="elementChanged(title)" placeholder="What is the title?" [class.invalid]="!newBrokerForm.controls.title.valid && (titleChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newBrokerForm.controls.title.valid && (titleChanged||submitAttempt)">
+            <p>You need to enter a title for the broker.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Broker Firstname</ion-label>
+            <ion-input #firstName formControlName="firstName" type="text" (change)="elementChanged(firstName)" placeholder="What's broker's first name?" [class.invalid]="!newBrokerForm.controls.firstName.valid && (firstNameChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newBrokerForm.controls.firstName.valid && (typeChanged||submitAttempt)">
+            <p>You need to enter brokers's first name.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Broker last name</ion-label>
+            <ion-input #lastName formControlName="lastName" type="text" (change)="elementChanged(lastName)" placeholder="What's broker's last name?" [class.invalid]="!newBrokerForm.controls.lastName.valid && (lastNameChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newBrokerForm.controls.lastName.valid && (lastNameChanged||submitAttempt)">
+            <p>You need to enter brokers's last name.</p>
+        </ion-item>
+        <ion-item>
+            <ion-label stacked>Broker's website</ion-label>
+            <ion-input #website formControlName="website" type="text" (change)="elementChanged(website)" placeholder="Does broker has a website?" [class.invalid]="!newBrokerForm.controls.website.valid && (websiteChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newBrokerForm.controls.website.valid && (websiteChanged||submitAttempt)">
+            <p>You need to enter the website for the broker.</p>
+        </ion-item>
+            <ion-item>
+                <ion-icon name="call" item-left color="primary"></ion-icon>
+                <ion-input #phoneCell formControlName="phoneCell" type="text" (change)="elementChanged(phoneCell)" placeholder="Does poc has a cell phone?" [class.invalid]="!newBrokerForm.controls.phoneCell.valid && (phoneCellChanged||submitAttempt)"></ion-input>
+                <ion-item class="error-message" *ngIf="!newBrokerForm.controls.phoneCell.valid && (phoneCellChanged||submitAttempt)">
+                    <p>You need to enter a cell phone for the poc.</p>
+                </ion-item>
+            </ion-item><ion-item>
+                <ion-icon name="call" item-left color="primary"></ion-icon>
+                <ion-input #phoneOffice formControlName="phoneOffice" type="text" (change)="elementChanged(phoneOffice)" placeholder="Does poc has an office phone?" [class.invalid]="!newBrokerForm.controls.phoneOffice.valid && (phoneOfficeChanged||submitAttempt)"></ion-input>
+                <ion-item class="error-message" *ngIf="!newBrokerForm.controls.phoneOffice.valid && (phoneOfficeChanged||submitAttempt)">
+                    <p>You need to enter a office phone for the poc.</p>
+                </ion-item>
+            </ion-item>
+            <ion-item>
+                <ion-icon name="mail" item-left color="primary"></ion-icon>
+                <ion-input #email formControlName="email" type="text" (change)="elementChanged(email)" placeholder="Does poc has an email?" [class.invalid]="!newBrokerForm.controls.email.valid && (emailChanged||submitAttempt)"></ion-input>
+                <ion-item class="error-message" *ngIf="!newBrokerForm.controls.email.valid && (emailChanged||submitAttempt)">
+                    <p>You need to enter an email for the poc.</p>
+                </ion-item>
+            </ion-item>
+        <button ion-button color="header-add" block type="submit">Save Renter!</button>
+    </form>
+</ion-content>

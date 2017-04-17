@@ -6,7 +6,7 @@ import { AngularFire } from 'angularfire2';
 
 import { HomePage, StartPage, CreatePropertyPage, AddLeaseholdPage,
          PropertyListPage, LeaseholdListPage, OwnerListPage,
-         AboutPage, ProfilePage, RenterListPage } from '../pages/pages';
+         AboutPage, ProfilePage, RenterListPage, BrokerListPage } from '../pages/pages';
 import { PageItem } from '../models/models';
 
 @Component({
@@ -22,7 +22,8 @@ export class MyApp {
     { title: 'Properties', component: PropertyListPage, icon: 'home' },
     { title: 'Leaseholds', component: LeaseholdListPage, icon: 'logo-buffer' },
     { title: 'Renters', component: RenterListPage, icon: 'people' },
-    { title: 'Owners', component: OwnerListPage, icon: 'contacts' }
+    { title: 'Owners', component: OwnerListPage, icon: 'contacts' },
+    { title: 'Brokers', component: BrokerListPage, icon: 'contacts' }
   ];
 
   menuPages: PageItem[] = [

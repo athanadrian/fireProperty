@@ -14,6 +14,6 @@
             <ion-icon name="people" color="primary" item-left></ion-icon>
             <ion-badge color="secondary" item-right>{{renters$?.length}}</ion-badge>
         </ion-list-header>
-        <renter-card *ngFor="let renter of renters$" [renter]="renter"></renter-card>
+        <renter-card *ngFor="let renter of (rentersVM | async)" [renter]="renter"></renter-card>
     </ion-list>
 </ion-content>

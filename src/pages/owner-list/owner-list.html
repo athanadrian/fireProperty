@@ -4,11 +4,6 @@
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-searchbar (ionInput)="onInput($event)" (ionCancel)="onCancel($event)"></ion-searchbar>
-        <!--<ion-buttons end>
-            <button ion-button icon-only (click)="moreOwnerOptions('(property$.$key | async)'?.$key)">
-        <ion-icon name="settings"></ion-icon>
-      </button>
-        </ion-buttons>-->
     </ion-navbar>
 </ion-header>
 
@@ -19,11 +14,6 @@
             <ion-icon name="contacts" color="primary" item-left></ion-icon>
             <ion-badge color="secondary" item-right>{{owners$?.length}}</ion-badge>
         </ion-list-header>
-        <!--<ion-item-sliding>-->
-            <owner-card *ngFor="let owner of owners$" [owner]="owner"></owner-card>
-            <!--<ion-item-options>
-                <button ion-button icon-only color="light" (click)="rentIt(owner?.$key)"><ion-icon name="add-circle"></ion-icon><span style="margin-right:10px;">Add</span></button>
-            </ion-item-options>
-        </ion-item-sliding>-->
+            <owner-card *ngFor="let owner of (ownersVM | async)" [owner]="owner"></owner-card>
     </ion-list>
 </ion-content>

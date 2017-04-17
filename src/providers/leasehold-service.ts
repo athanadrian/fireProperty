@@ -2,20 +2,34 @@ import { Injectable, Inject } from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 import { AngularFire, AngularFireDatabase, FirebaseRef, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
-import { Leasehold, Contract, LeaseholdVM, Owner, Renter, Payment } from '../models/models';
+import { 
+  Leasehold, LeaseholdVM,
+  Broker, BrokerVM,
+  Contract,
+  Owner, OwnerVM,
+  Renter, RenterVM,
+  Payment } from '../models/models';
 
 @Injectable()
 export class LeaseholdService {
 
   leasehold: Observable<Leasehold>;
   leaseholds$: Observable<Leasehold[]>;
-  owners$: Observable<Owner[]>;
-  renters$: Observable<Renter[]>;
-  contracts$: Observable<Contract[]>;
   leaseholds: FirebaseListObservable<Leasehold[]>;
-  contracts: FirebaseListObservable<Contract[]>;
-  renters: FirebaseListObservable<Renter[]>;
+  leaseholdsVM: FirebaseListObservable<LeaseholdVM[]>;
+  owners$: Observable<Owner[]>;
   owners: FirebaseListObservable<Owner[]>;
+  ownersVM:FirebaseListObservable<OwnerVM[]>;
+  brokers$: Observable<Broker[]>;
+  brokers: FirebaseListObservable<Broker[]>;
+  brokersVM:FirebaseListObservable<BrokerVM[]>;
+  renters$: Observable<Renter[]>;
+  renters: FirebaseListObservable<Renter[]>;
+  rentersVM:FirebaseListObservable<RenterVM[]>;
+  contracts$: Observable<Contract[]>;
+  contracts: FirebaseListObservable<Contract[]>;
+  
+  
   //LeaseholdVM$: Observable<LeaseholdVM>;
   userId: string;
   sdkDb: any;
@@ -28,13 +42,22 @@ export class LeaseholdService {
     af.auth.subscribe((auth) => {
       if (auth) {
         this.leaseholds = af.database.list(`/userProfile/${auth.uid}/leaseholds/`);
+        this.leaseholds$ = af.database.list(`/userProfile/${auth.uid}/leaseholds/`);
+        this.leaseholdsVM = af.database.list(`/userProfile/${auth.uid}/leaseholds/`);
         this.renters = af.database.list(`/userProfile/${auth.uid}/renters/`);
+        this.renters$ = af.database.list(`/userProfile/${auth.uid}/renters/`);
+        this.rentersVM = af.database.list(`/userProfile/${auth.uid}/renters/`);
+        this.brokers = af.database.list(`/userProfile/${auth.uid}/brokers/`);
+        this.brokers$ = af.database.list(`/userProfile/${auth.uid}/brokers/`);
+        this.brokersVM = af.database.list(`/userProfile/${auth.uid}/brokers/`);
         this.owners = af.database.list(`/userProfile/${auth.uid}/owners/`);
+        this.owners$ = af.database.list(`/userProfile/${auth.uid}/owners/`);
+        this.ownersVM = af.database.list(`/userProfile/${auth.uid}/owners/`);
         this.contracts = af.database.list(`/userProfile/${auth.uid}/contracts/`);
         this.contracts$ = af.database.list(`/userProfile/${auth.uid}/contracts/`);
-        this.leaseholds$ = af.database.list(`/userProfile/${auth.uid}/leaseholds/`);
-        this.owners$ = af.database.list(`/userProfile/${auth.uid}/owners/`);
-        this.renters$ = af.database.list(`/userProfile/${auth.uid}/renters/`);
+        
+        
+        
         this.userId = auth.uid;
       }
     });
@@ -44,8 +67,28 @@ export class LeaseholdService {
     return this.leaseholds$.map(Leasehold.fromJsonArray);
   }
 
+  getAllLeaseholdsVM(): Observable<LeaseholdVM[]> {
+    return this.leaseholdsVM;
+  }
+
+  getAllBrokers(): Observable<Broker[]> {
+    return this.brokers$.map(Broker.fromJsonArray);
+  }
+
+  getAllBrokersVM(): Observable<BrokerVM[]> {
+    return this.brokersVM;
+  }
+
   getAllOwners(): Observable<Owner[]> {
     return this.owners$.map(Owner.fromJsonArray);
+  }
+
+  getAllOwnersVM(): Observable<OwnerVM[]> {
+    return this.ownersVM;
+  }
+
+  getTotalLeaseholsPerOwner(ownerId:string){
+    return this.sdkDb.child(`/userProfile/${this.userId}/leaseholdsPerOwner/${ownerId}`).once('value');
   }
 
   getAllContracts(): Observable<Contract[]> {
@@ -54,6 +97,10 @@ export class LeaseholdService {
 
   getAllRenters(): Observable<Renter[]> {
     return this.renters$.map(Renter.fromJsonArray);
+  }
+
+  getAllRentersVM(): Observable<RenterVM[]> {
+    return this.rentersVM;
   }
 
   getLeasehold(leaseholdId: string): Observable<Leasehold> {
@@ -69,6 +116,11 @@ export class LeaseholdService {
   getOwner(ownerId: string): Observable<Owner> {
     return this.af.database.object(`/userProfile/${this.userId}/owners/${ownerId}`)
       .map(Owner.fromJson);
+  }
+
+  getBroker(brokerId: string): Observable<Broker> {
+    return this.af.database.object(`/userProfile/${this.userId}/brokers/${brokerId}`)
+      .map(Broker.fromJson);
   }
 
   findContract(leaseholdId: string): Observable<Contract> {
@@ -103,7 +155,7 @@ export class LeaseholdService {
       .map(results => results[0]);
   }
 
-  findOwner(ownerId: string): Observable<Owner> {
+  findOwner(ownerId: string): Observable<OwnerVM> {
     return this.af.database.list(`/userProfile/${this.userId}/owners/`, {
       query: {
         orderByKey: true,
@@ -111,6 +163,40 @@ export class LeaseholdService {
       }
     })
       .map(results => results[0]);
+  }
+
+  findBroker(brokerId: string): Observable<BrokerVM> {
+    return this.af.database.list(`/userProfile/${this.userId}/brokers/`, {
+      query: {
+        orderByKey: true,
+        equalTo: brokerId
+      }
+    })
+      .map(results => results[0]);
+  }
+
+  getBrokersForLeasehold(leaseholdId: string) {
+    const leasehold$ = this.getLeasehold(leaseholdId);
+
+    const brokersPerLeasehold$ = leasehold$
+      .switchMap(leasehold => this.af.database.list(`/userProfile/${this.userId}/contractsPerLeasehold/` + leasehold.$key))
+
+    return brokersPerLeasehold$
+      .map(bspl => bspl.map(bpl => this.af.database.object(`/userProfile/${this.userId}/brokers/` + bpl.$key)))
+      .flatMap(fbojs => Observable.combineLatest(fbojs))
+      .do(console.log);
+  }
+
+  getLeaseholdsForBroker(brokerId: string) {
+    const broker$ = this.getBroker(brokerId);
+
+    const leaseholdsPerBroker$ = broker$
+      .switchMap(broker => this.af.database.list(`/userProfile/${this.userId}/leaseholdsPerBroker/` + broker.$key))
+
+    return leaseholdsPerBroker$
+      .map(lspb => lspb.map(lpb => this.af.database.object(`/userProfile/${this.userId}/leaseholds/` + lpb.$key)))
+      .flatMap(fbojs => Observable.combineLatest(fbojs))
+      .do(console.log);
   }
 
   getContractsForLeasehold(leaseholdId: string) {
@@ -200,7 +286,7 @@ export class LeaseholdService {
     let dataToSave={};
     dataToSave[`/userProfile/${this.userId}/ownersPerLeasehold/${leaseholdId}/${ownerId}`] = true;
     dataToSave[`/userProfile/${this.userId}/leaseholdsPerOwner/${ownerId}/${leaseholdId}`] = true;
-    
+
     return this.firebaseUpdate(dataToSave);
   }
 
@@ -228,6 +314,18 @@ export class LeaseholdService {
     dataToSave["/userProfile/" + this.userId + "/renters/" + newRenterKey] = renterToSave;
     dataToSave[`/userProfile/${this.userId}/rentersPerLeasehold/${leaseholdId}/${newRenterKey}`] = true;
     dataToSave[`/userProfile/${this.userId}/leaseholdsPerRenter/${newRenterKey}/${leaseholdId}`] = true;
+
+    return this.firebaseUpdate(dataToSave);
+  }
+
+  addBroker(leaseholdId: string, broker: any): Observable<any> {
+    const brokerToSave = Object.assign({}, broker);
+    const newBrokerKey = this.sdkDb.child('brokers/').push().key;
+
+    let dataToSave = {};
+    dataToSave["/userProfile/" + this.userId + "/brokers/" + newBrokerKey] = brokerToSave;
+    dataToSave[`/userProfile/${this.userId}/brokersPerLeasehold/${leaseholdId}/${newBrokerKey}`] = true;
+    dataToSave[`/userProfile/${this.userId}/leaseholdsPerBroker/${newBrokerKey}/${leaseholdId}`] = true;
 
     return this.firebaseUpdate(dataToSave);
   }
@@ -279,6 +377,10 @@ export class LeaseholdService {
 
   updateOwner(ownerId: string, owner: any) {
     return this.owners.update(ownerId, owner);
+  }
+
+  updateBroker(brokerId: string, broker: any) {
+    return this.brokers.update(brokerId, broker);
   }
 
   firebaseUpdate(dataToSave) {

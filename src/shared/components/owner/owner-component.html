@@ -1,10 +1,10 @@
 <ion-item-sliding>
         <ion-item (click)="moreOwnerOptions(owner?.$key)">
                 <ion-icon name="contact" [style.color]="owner?.isActive ? 'green' : 'red'" item-left></ion-icon>
-                <h2 class="card-title">{{owner?.title}}</h2>
+                <h2 class="card-title">{{owner.title}}</h2>
                 <p>{{owner?.type}}
                         <ion-icon class="icon-item" color="menu" item-right name="logo-buffer">
-                                <ion-badge class="badge-item" color="danger">0 {{owner?.totalLeaseholds}}</ion-badge>
+                                <ion-badge class="badge-item" color="danger">{{(owner.leaseholds)?.length}}</ion-badge>
                         </ion-icon>
                 </p>
         </ion-item>

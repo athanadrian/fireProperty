@@ -5,18 +5,23 @@ export class Broker {
         public firstName: string,
         public lastName: string,
         public title: string,
-        public mobile: string,
-        public phone: string,
+        public phoneCell: string,
+        public phoneOffice: string,
         public email: string,
+        public website: string,
         public image: string,
-        public isActive: boolean) {
+        public isActive: boolean,) {
     }
 
-    static fromJson({$key, firstName, lastName, title, mobile, phone, email, image, isActive}) {
-        return new Broker($key, firstName, lastName, title, mobile, phone, email, image, isActive);
+    static fromJson({$key, firstName, lastName, title, phoneCell, phoneOffice, email, website, image, isActive}) {
+        return new Broker($key, firstName, lastName, title, phoneCell, phoneOffice, email, website, image, isActive);
     }
 
     static fromJsonArray(json: any[]): Broker[] {
         return json.map(Broker.fromJson);
+    }
+
+    get fullName() {
+        return this.firstName + ' ' + this.lastName;
     }
 }

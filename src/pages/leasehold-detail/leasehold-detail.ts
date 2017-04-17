@@ -5,9 +5,9 @@ import { Observable } from 'rxjs/Rx';
 import { LeaseholdService } from '../../providers/services';
 import {
   AddLeaseholdPage, AddOwnerPage, RenterListPage, OwnerDetailPage, OwnerListPage,
-  AddContractPage, RenterDetailPage, ContractDetailPage, AddRenterPage
+  AddContractPage, RenterDetailPage, ContractDetailPage, AddRenterPage, BrokerListPage
 } from '../../pages/pages';
-import { Leasehold, Contract, Owner, Renter } from '../../models/models';
+import { Leasehold, Contract, Owner, OwnerVM, Renter } from '../../models/models';
 
 @Component({
   selector: 'page-leasehold-detail',
@@ -18,10 +18,13 @@ export class LeaseholdDetailPage {
   public leasehold$: any;
   public contract$: any;
   public contracts: Contract[];
-  public owners: Owner[];
-  public renters: Renter[];
+  public owners: any;
+  public owners$: Owner[];
+  public renters: any;
+  public renters$: Renter[];
   public leaseholdId: string;
   public isListPage: boolean;
+
 
   constructor(
     public navController: NavController,
@@ -32,13 +35,29 @@ export class LeaseholdDetailPage {
     public actionSheetController: ActionSheetController) {
 
     this.leaseholdId = this.navParams.get('leaseholdId');
+    this.owners = this.leaseholdService.getOwnersForLeasehold(this.leaseholdId)
+      .map((owners) => {
+        return owners.map(owner => {
+          const leaseholds$ = this.leaseholdService.getLeaseholdsForOwner(owner.$key)
+          leaseholds$.subscribe(leaseholds => owner.leaseholds = leaseholds)
+          return owner;
+        });
+      });
+    this.renters = this.leaseholdService.getRentersForLeasehold(this.leaseholdId)
+      .map((renters) => {
+        return renters.map(renter => {
+          const leaseholds$ = this.leaseholdService.getLeaseholdsForRenter(renter.$key)
+          leaseholds$.subscribe(leaseholds => renter.leaseholds = leaseholds)
+          return renter;
+        });
+      });
   }
 
   ionViewDidLoad() {
     const renters$ = this.leaseholdService.getRentersForLeasehold(this.leaseholdId)
-    renters$.subscribe(renters => this.renters = renters);
+    renters$.subscribe(renters => this.renters$ = renters);
     const owners$ = this.leaseholdService.getOwnersForLeasehold(this.leaseholdId)
-    owners$.subscribe(owners => this.owners = owners);
+    owners$.subscribe(owners => this.owners$ = owners);
     const contracts$ = this.leaseholdService.getContractsForLeasehold(this.leaseholdId)
     contracts$.subscribe(contracts => this.contracts = contracts);
     this.leasehold$ = this.leaseholdService.findLeasehold(this.leaseholdId);
@@ -197,6 +216,11 @@ export class LeaseholdDetailPage {
 
   addOwner() {
     this.showOwnerConfirmation();
+  }
+
+  findBrokers() {
+    this.navController.push(BrokerListPage,
+    { leaseholdId: this.leaseholdId});
   }
 
 }

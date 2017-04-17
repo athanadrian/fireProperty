@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { NavController, NavParams, ActionSheetController, Platform } from 'ionic-angular';
 
 import { LeaseholdService } from '../../../providers/services';
-import { Owner } from '../../../models/models';
+import { OwnerVM, Leasehold } from '../../../models/models';
 import { OwnerDetailPage, AddOwnerPage } from '../../../pages/pages';
 
 @Component({
@@ -12,9 +12,10 @@ import { OwnerDetailPage, AddOwnerPage } from '../../../pages/pages';
 export class OwnerComponent {
 
   public leaseholdId: string;
+  public leaseholds: Leasehold[];
   public isListPage: boolean = false;
   public addOptions:boolean=false;
-  @Input() owner: Owner;
+  @Input() owner: OwnerVM;
 
   constructor(
     public navController: NavController,
@@ -26,7 +27,6 @@ export class OwnerComponent {
     this.isListPage = this.navParams.get('isListPage');
     this.leaseholdId = this.navParams.get('leaseholdId');
     this.addOptions=this.navParams.get('addOptions');
-    console.log('add: ',this.addOptions);
     }
 
   addOwner(ownerId: string) {

@@ -15,7 +15,11 @@
       Leasehold Information
     </ion-card-header>
     <ion-card-content>
-      <leasehold-card [leasehold]="(leasehold$ | async)"></leasehold-card>
+      <ion-item>
+        <ion-icon name="logo-buffer" [style.color]="!(leasehold$ | async)?.isRented ? 'green' : 'red'" item-left></ion-icon>
+        <h2 class="card-title">{{(leasehold$ | async)?.code}}</h2>
+        <p>{{(leasehold$ | async)?.type}} - {{(leasehold$ | async)?.rentAmount}}
+      </ion-item>
       <ion-list>
         <ion-item>
           <ion-icon item-left name="moon"></ion-icon>
@@ -32,12 +36,12 @@
           <h3>Asking Price</h3>
           <ion-note item-right>{{(leasehold$ | async)?.rentAmount}}</ion-note>
         </ion-item>
-        <button ion-item (click)="openBrokerDetail(leasehold?.broker)">
+        <button ion-item (click)="findBrokers()">
                 <ion-avatar item-left>
-                    <img [src]="'assets/images/ninja.png'"/>
+                    <img [src]="'assets/images/brokers.png'"/>
                 </ion-avatar>
-                <h2>{{(leasehold$ | async)?.code}}</h2>
-                <p>{{(leasehold$ | async)?.code}}</p>
+                <h2>Brokers</h2>
+                <p>Assigned in this leasehold</p>
             </button>
       </ion-list>
 
@@ -60,7 +64,7 @@
       <ion-badge item-right>{{!contracts?.length ? 0 : contracts?.length}} </ion-badge>
       <button item-right ion-button small *ngIf="!contract$" (click)="addContract()">Add</button>
     </ion-list-header>
-    <ion-item  *ngIf="!contracts"> 
+    <ion-item *ngIf="!contracts">
       <p>Contract's info not yet inserted!</p>
     </ion-item>
     <contract-card *ngFor="let contract of contracts" [contract]="contract"></contract-card>
@@ -69,24 +73,24 @@
     <ion-list-header>
       Renters
       <ion-icon item-left name="people" color="primary"></ion-icon>
-      <ion-badge item-right>{{!renters?.length ? 0 : renters?.length}} </ion-badge>
+      <ion-badge item-right>{{!renters$?.length ? 0 : renters$?.length}} </ion-badge>
       <button ion-button item-right small *ngIf="contract$" (click)="addRenter()">Add</button>
     </ion-list-header>
     <ion-item *ngIf="!renters">
       <p>You need to make a contract to add renter's info!</p>
     </ion-item>
-    <renter-card *ngFor="let renter of renters" [renter]="renter"></renter-card>
+    <renter-card *ngFor="let renter of (renters | async)" [renter]="renter"></renter-card>
   </ion-list>
   <ion-list>
     <ion-list-header>
       Owners
       <ion-icon item-left name="contacts" color="primary"></ion-icon>
-      <ion-badge item-right>{{!owners?.length ? 0 : owners?.length}} </ion-badge>
+      <ion-badge item-right>{{!owners$?.length ? 0 : owners$?.length}} </ion-badge>
       <button item-right ion-button small (click)="addOwner()">Add</button>
     </ion-list-header>
     <ion-item *ngIf="!owners">
       <p>Owner's info not yet inserted!</p>
     </ion-item>
-    <owner-card *ngFor="let owner of owners" [owner]="owner"></owner-card>
+    <owner-card *ngFor="let owner of (owners | async)" [owner]="owner"></owner-card>
   </ion-list>
 </ion-content>
