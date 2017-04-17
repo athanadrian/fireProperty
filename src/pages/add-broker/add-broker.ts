@@ -92,5 +92,5 @@ export class AddBrokerPage {
           }, err => alert(`error saving broker ${err}`));
       }
     }
-
   }
+}
