@@ -21,8 +21,12 @@ export class AddOwnerPage {
   ownerId: string;
   owner: any;
 
-  constructor(public navController: NavController, public navParams: NavParams,
-    public formBuilder: FormBuilder, public leaseholdService: LeaseholdService) {
+  constructor(
+    public navController: NavController,
+    public navParams: NavParams,
+    public formBuilder: FormBuilder,
+    public leaseholdService: LeaseholdService) {
+      
     this.ownerId = this.navParams.get('ownerId');
     console.log('o', this.ownerId);
     this.leaseholdService.getOwner(this.ownerId)

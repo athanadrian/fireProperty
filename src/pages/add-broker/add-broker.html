@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content padding>
-    <form [formGroup]="newBrokerForm" (ngSubmit)="addBrokerToLeasehold(newBrokerForm)" novalidate>
+    <form [formGroup]="newBrokerForm" (ngSubmit)="addBroker(newBrokerForm)" novalidate>
         <ion-item>
             <ion-label stacked>Broker Title</ion-label>
             <ion-input #title formControlName="title" type="text" (change)="elementChanged(title)" placeholder="What is the title?" [class.invalid]="!newBrokerForm.controls.title.valid && (titleChanged||submitAttempt)"></ion-input>
@@ -54,6 +54,6 @@
                     <p>You need to enter an email for the poc.</p>
                 </ion-item>
             </ion-item>
-        <button ion-button color="header-add" block type="submit">Save Renter!</button>
+        <button ion-button color="header-add" block type="submit">Save Broker!</button>
     </form>
 </ion-content>

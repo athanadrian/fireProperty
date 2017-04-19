@@ -56,8 +56,6 @@ export class LeaseholdService {
         this.contracts = af.database.list(`/userProfile/${auth.uid}/contracts/`);
         this.contracts$ = af.database.list(`/userProfile/${auth.uid}/contracts/`);
         
-        
-        
         this.userId = auth.uid;
       }
     });
@@ -179,7 +177,7 @@ export class LeaseholdService {
     const leasehold$ = this.getLeasehold(leaseholdId);
 
     const brokersPerLeasehold$ = leasehold$
-      .switchMap(leasehold => this.af.database.list(`/userProfile/${this.userId}/contractsPerLeasehold/` + leasehold.$key))
+      .switchMap(leasehold => this.af.database.list(`/userProfile/${this.userId}/brokersPerLeasehold/` + leasehold.$key))
 
     return brokersPerLeasehold$
       .map(bspl => bspl.map(bpl => this.af.database.object(`/userProfile/${this.userId}/brokers/` + bpl.$key)))

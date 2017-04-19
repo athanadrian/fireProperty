@@ -75,7 +75,7 @@ export class AddRenterPage {
     this[field + "Changed"] = true;
   }
 
-  addRenterToLeasehold({ leaseholdId, value, valid }: { propertyId: string, leaseholdId: string, value: Renter, valid: boolean }) {
+  addRenterToLeasehold({ leaseholdId, value, valid }: { leaseholdId: string, value: Renter, valid: boolean }) {
     this.submitAttempt = true;
     if (!this.newRenterForm.valid) {
       console.log(this.newRenterForm.value);

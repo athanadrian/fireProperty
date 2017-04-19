@@ -22,7 +22,7 @@ export class BrokerComponent {
     this.isListPage = this.navParams.get('isListPage');
   }
 
-  moreRenterOptions(renterId: string) {
+  moreBrokerOptions(brokerId: string) {
     let actionSheet = this.actionSheetController.create({
       title: 'Broker Options',
       buttons: [
@@ -44,7 +44,7 @@ export class BrokerComponent {
           icon: !this.platform.is('ios') ? 'play' : null,
           handler: () => {
             this.navController.push(AddBrokerPage, {
-              renterId: renterId
+              brokerId: brokerId
             });
           }
         },
@@ -53,7 +53,7 @@ export class BrokerComponent {
           icon: !this.platform.is('ios') ? 'play' : null,
           handler: () => {
             this.navController.push(BrokerDetailPage, {
-              renterId: renterId
+              brokerId: brokerId
             });
           }
         },

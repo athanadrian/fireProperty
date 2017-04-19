@@ -12,22 +12,26 @@ import { Leasehold } from '../../models/models';
 })
 export class LeaseholdListPage {
 
-public leaseholds$:Leasehold[];
-public leaseholdsVM:any;
+  public leaseholds$: Leasehold[];
+  public leaseholdsVM: any;
 
-constructor(
-  public navController: NavController,
-  public platform:Platform,
-  public leaseholdService: LeaseholdService,
-  public actionSheetController:ActionSheetController) { 
+  constructor(
+    public navController: NavController,
+    public platform: Platform,
+    public leaseholdService: LeaseholdService,
+    public actionSheetController: ActionSheetController) {
 
-    this.leaseholdsVM=this.leaseholdService.getAllLeaseholdsVM()
-      .map((leaseholds)=>{
-        return leaseholds.map(leasehold=>{
-          const renters$=this.leaseholdService.getRentersForLeasehold(leasehold.$key)
-          renters$.subscribe(renters=>leasehold.renters=renters);
-          const owners$=this.leaseholdService.getOwnersForLeasehold(leasehold.$key)
-          owners$.subscribe(owners=>leasehold.owners=owners);
+    this.leaseholdsVM = this.leaseholdService.getAllLeaseholdsVM()
+      .map((leaseholds) => {
+        return leaseholds.map(leasehold => {
+          const renters$ = this.leaseholdService.getRentersForLeasehold(leasehold.$key)
+          renters$.subscribe(renters => leasehold.renters = renters);
+          const owners$ = this.leaseholdService.getOwnersForLeasehold(leasehold.$key)
+          owners$.subscribe(owners => leasehold.owners = owners);
+          const brokers$ = this.leaseholdService.getBrokersForLeasehold(leasehold.$key)
+          brokers$.subscribe(brokers => leasehold.brokers = brokers);
+          const contracts$ = this.leaseholdService.getContractsForLeasehold(leasehold.$key)
+          contracts$.subscribe(contracts => leasehold.contracts = contracts);
           return leasehold
         });
       });
@@ -35,7 +39,7 @@ constructor(
 
   ionViewDidLoad() {
     this.leaseholdService.getAllLeaseholds()
-      .subscribe(leaseholds=>this.leaseholds$=leaseholds);
+      .subscribe(leaseholds => this.leaseholds$ = leaseholds);
   }
 
 }

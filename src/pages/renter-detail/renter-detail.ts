@@ -15,6 +15,7 @@ export class RenterDetailPage {
   public renter$: any;
   public leaseholds: Leasehold[];
   public renterId: string;
+  public leaseholdsVM:any;
 
   constructor(
     public navController: NavController,
@@ -28,8 +29,20 @@ export class RenterDetailPage {
 
   ionViewDidLoad() {
     this.renter$ = this.leaseholdService.findRenter(this.renterId);
-    const leaseholds$ = this.leaseholdService.getLeaseholdsForRenter(this.renterId);
-    leaseholds$.subscribe(leaseholds => this.leaseholds = leaseholds);
+    this.leaseholdsVM = this.leaseholdService.getLeaseholdsForRenter(this.renterId)
+      .map((leaseholds) => {
+        return leaseholds.map(leasehold => {
+          const renters$ = this.leaseholdService.getRentersForLeasehold(leasehold.$key)
+          renters$.subscribe(renters => leasehold.renters = renters);
+          const owners$ = this.leaseholdService.getOwnersForLeasehold(leasehold.$key)
+          owners$.subscribe(owners => leasehold.owners = owners);
+          const brokers$ = this.leaseholdService.getBrokersForLeasehold(leasehold.$key)
+          brokers$.subscribe(brokers => leasehold.brokers = brokers);
+          const contracts$ = this.leaseholdService.getContractsForLeasehold(leasehold.$key)
+          contracts$.subscribe(contracts => leasehold.contracts = contracts);
+          return leasehold
+        });
+      });
   }
 
   moreRenterOptions(renterId: string) {

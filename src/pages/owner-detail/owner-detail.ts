@@ -14,21 +14,32 @@ export class OwnerDetailPage {
   public owner$: any;
   public leaseholds: Leasehold[];
   public ownerId: string;
+  public leaseholdsVM:any;
 
-  constructor(public navController: NavController, public platform: Platform, public leaseholdService: LeaseholdService,
-    public navParams: NavParams, public actionSheetController: ActionSheetController) {
+  constructor(
+    public navController: NavController,
+    public platform: Platform,
+    public leaseholdService: LeaseholdService,
+    public navParams: NavParams,
+    public actionSheetController: ActionSheetController) {
+
     this.ownerId = this.navParams.get('ownerId');
     this.owner$ = this.leaseholdService.findOwner(this.ownerId);
-    const leaseholds$ = this.leaseholdService.getLeaseholdsForOwner(this.ownerId);
-    leaseholds$.subscribe(leaseholds => this.leaseholds = leaseholds);
+    this.leaseholdsVM = this.leaseholdService.getLeaseholdsForOwner(this.ownerId)
+      .map((leaseholds) => {
+        return leaseholds.map(leasehold => {
+          const renters$ = this.leaseholdService.getRentersForLeasehold(leasehold.$key)
+          renters$.subscribe(renters => leasehold.renters = renters);
+          const owners$ = this.leaseholdService.getOwnersForLeasehold(leasehold.$key)
+          owners$.subscribe(owners => leasehold.owners = owners);
+          const brokers$ = this.leaseholdService.getBrokersForLeasehold(leasehold.$key)
+          brokers$.subscribe(brokers => leasehold.brokers = brokers);
+          const contracts$ = this.leaseholdService.getContractsForLeasehold(leasehold.$key)
+          contracts$.subscribe(contracts => leasehold.contracts = contracts);
+          return leasehold
+        });
+      });
   }
-
-  // ionViewDidLoad() {
-  //   this.owner$ = this.leaseholdService.findOwner(this.ownerId);
-  //   //.subscribe(owner => this.owner$ = owner);
-  //   const leaseholds$ = this.leaseholdService.getLeaseholdsForOwner(this.ownerId);
-  //   leaseholds$.subscribe(leaseholds => this.owner$.leaseholds = leaseholds);
-  // }
 
   moreOwnerOptions(ownerId) {
     let actionSheet = this.actionSheetController.create({

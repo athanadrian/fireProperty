@@ -3,8 +3,8 @@ import { NavController, AlertController } from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
 
 import { AuthService, PropertyService, LeaseholdService } from '../../providers/services';
-import { PropertyListPage, LeaseholdListPage, SignupPage, OwnerListPage, ContractListPage, RenterListPage, LoginPage } from '../pages';
-import { Property, Leasehold, Owner, Contract, Renter } from '../../models/models';
+import { PropertyListPage, LeaseholdListPage, SignupPage, OwnerListPage, ContractListPage, RenterListPage, BrokerListPage, LoginPage } from '../pages';
+import { Property, Leasehold, Owner, Contract, Renter, Broker } from '../../models/models';
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html'
@@ -16,6 +16,7 @@ export class ProfilePage {
   contracts: Contract[];
   owners: Owner[];
   renters: Renter[];
+  brokers: Broker[];
 
   constructor(public navController: NavController,
     public authService: AuthService, public alertController: AlertController,
@@ -34,6 +35,8 @@ export class ProfilePage {
       .subscribe(owners => this.owners = owners);
     this.leaseholdService.getAllRenters()
       .subscribe(renters => this.renters = renters);
+    this.leaseholdService.getAllBrokers()
+      .subscribe(brokers => this.brokers = brokers);
   }
 
   logout() {
@@ -79,6 +82,10 @@ export class ProfilePage {
 
   showAllOwners() {
     this.navController.push(OwnerListPage);
+  }
+
+  showAllBrokers() {
+    this.navController.push(BrokerListPage);
   }
 
 }

@@ -1,6 +1,6 @@
 <ion-item (click)="moreBrokerOptions(broker?.$key)">
-    <ion-icon name="person" [style.color]="broker?.isActive ? 'green' : 'red'" item-left></ion-icon>
-    <h2 class="card-title">{{broker?.fullname()}}</h2>
+    <ion-icon name="md-share" [style.color]="broker?.isActive ? 'green' : 'red'" item-left></ion-icon>
+    <h2 class="card-title">{{broker?.firstName}} {{broker?.lastName}}</h2>
     <p>{{broker?.title}}
         <ion-icon class="icon-item" color="menu" item-right name="logo-buffer">
             <ion-badge class="badge-item" color="danger">{{(broker.leaseholds)?.length}}</ion-badge>

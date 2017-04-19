@@ -23,7 +23,7 @@ export class MyApp {
     { title: 'Leaseholds', component: LeaseholdListPage, icon: 'logo-buffer' },
     { title: 'Renters', component: RenterListPage, icon: 'people' },
     { title: 'Owners', component: OwnerListPage, icon: 'contacts' },
-    { title: 'Brokers', component: BrokerListPage, icon: 'contacts' }
+    { title: 'Brokers', component: BrokerListPage, icon: 'md-share' }
   ];
 
   menuPages: PageItem[] = [

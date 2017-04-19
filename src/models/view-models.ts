@@ -29,6 +29,7 @@ export class LeaseholdVM {
         public contracts: any,
         public renters: any,
         public owners:any,
+        public brokers:any,
         public ownerId: string) {
     }
 }

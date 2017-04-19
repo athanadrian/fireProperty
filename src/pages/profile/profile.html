@@ -75,4 +75,12 @@
         See all Owners
         <ion-badge color="secondary" item-right>{{owners?.length}}</ion-badge>
     </ion-item>
+    <ion-list-header text-right>
+        Brokers
+    </ion-list-header>
+    <ion-item (click)="showAllBrokers()">
+        <ion-icon name="md-share" color="primary" item-left></ion-icon>
+        See all Brokers
+        <ion-badge color="secondary" item-right>{{brokers?.length}}</ion-badge>
+    </ion-item>
 </ion-content>

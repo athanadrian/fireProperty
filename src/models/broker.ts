@@ -2,9 +2,9 @@ export class Broker {
 
     constructor(
         public $key: string,
+        public title: string,
         public firstName: string,
         public lastName: string,
-        public title: string,
         public phoneCell: string,
         public phoneOffice: string,
         public email: string,
@@ -13,8 +13,8 @@ export class Broker {
         public isActive: boolean,) {
     }
 
-    static fromJson({$key, firstName, lastName, title, phoneCell, phoneOffice, email, website, image, isActive}) {
-        return new Broker($key, firstName, lastName, title, phoneCell, phoneOffice, email, website, image, isActive);
+    static fromJson({$key, title, firstName, lastName,  phoneCell, phoneOffice, email, website, image, isActive}) {
+        return new Broker($key, title, firstName, lastName, phoneCell, phoneOffice, email, website, image, isActive);
     }
 
     static fromJsonArray(json: any[]): Broker[] {

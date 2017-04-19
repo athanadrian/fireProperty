@@ -16,7 +16,7 @@
   <ion-list>
     <ion-list-header>
       Total Brokers
-      <ion-icon name="contacts" color="primary" item-left></ion-icon>
+      <ion-icon name="md-share" color="primary" item-left></ion-icon>
       <ion-badge color="secondary" item-right>{{brokers$?.length}}</ion-badge>
     </ion-list-header>
     <broker-card *ngFor="let broker of (brokersVM | async)" [broker]="broker"></broker-card>
