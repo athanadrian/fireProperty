@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, ActionSheetController, Platform } from 'ionic-angular';
 import { LeaseholdService } from '../../providers/services';
-import { Observable } from 'rxjs/Rx';
 
-import { Property, Leasehold, PropertyVM } from '../../models/models';
-import { CreatePropertyPage, PropertyDetailPage, AddLeaseholdPage } from '../pages';
+import { PropertyVM } from '../../models/models';
+import { CreatePropertyPage } from '../pages';
 
 @Component({
   selector: 'page-property-list',
@@ -18,18 +17,18 @@ export class PropertyListPage {
 
   constructor(
     public navController: NavController,
-    public propertyService: LeaseholdService,
+    public leaseholdService: LeaseholdService,
     public actionSheetController: ActionSheetController,
     public platform: Platform) {
 
-    this.propertiesVM = this.propertyService.getPropertiesVM()
+    this.propertiesVM = this.leaseholdService.getPropertiesVM()
       .map((propertiesVM) => {
         return propertiesVM.map(property => {
-          this.propertyService.getLeaseholdsForProperty(property.$key)
+          this.leaseholdService.getLeaseholdsForProperty(property.$key)
             .subscribe((leaseholds) => {
-              property.leaseholds = leaseholds
-              property.totalLeaseholds = property.leaseholds.length
-              this.numberOfProperties = propertiesVM.length
+              property.leaseholds = leaseholds;
+              property.totalLeaseholds = property.leaseholds.length;
+              this.numberOfProperties = propertiesVM.length;
             });
           return property;
         });
@@ -43,9 +42,4 @@ export class PropertyListPage {
   createProperty(): void {
     this.navController.push(CreatePropertyPage);
   }
-
-  goToPaidPayment(propertyId: string): void {
-    this.navController.push(PropertyDetailPage, { propertyId: propertyId })
-  }
-
 }

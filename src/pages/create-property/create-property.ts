@@ -20,10 +20,10 @@ export class CreatePropertyPage {
   submitAttempt: boolean = false;
 
   constructor(public navController: NavController, public formBuilder: FormBuilder,
-    public navParams: NavParams, public propertyService: LeaseholdService) {
+    public navParams: NavParams, public leaseholdService: LeaseholdService) {
 
     this.propId = this.navParams.get('propertyId');
-    this.propertyService.getProperty(this.propId)
+    this.leaseholdService.getProperty(this.propId)
       .do(console.log)
       .subscribe(property => this.property = property);
 
@@ -60,7 +60,7 @@ export class CreatePropertyPage {
       value.lng = null;
       value.icon = null;
       if (!this.propId) {
-        this.propertyService.createProperty(value)
+        this.leaseholdService.createProperty(value)
           .then(() => {
             this.navController.pop();
           }, (error) => {
@@ -68,7 +68,7 @@ export class CreatePropertyPage {
           });
         
       } else {
-        this.propertyService.updateProperty(this.propId, value)
+        this.leaseholdService.updateProperty(this.propId, value)
           .then(() => {
             alert("propety saved");
             this.navController.pop();

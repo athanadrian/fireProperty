@@ -12,12 +12,11 @@ export class Leasehold {
         public extraSize:number,
         public rentAmount: number = 0,
         public isRented: boolean = false,
-        public propertyId: string,
-        public ownerId: string) {
+        public propertyId: string) {
     }
 
-    static fromJson({$key, title, extraSpace, type, code, size, offices, bathrooms, extraSize, rentAmount, isRented, propertyId, ownerId}) {
-        return new Leasehold($key, title, extraSpace, type, code, size, offices, bathrooms, extraSize, rentAmount, isRented, propertyId, ownerId);
+    static fromJson({$key, title, extraSpace, type, code, size, offices, bathrooms, extraSize, rentAmount, isRented, propertyId }) {
+        return new Leasehold($key, title, extraSpace, type, code, size, offices, bathrooms, extraSize, rentAmount, isRented, propertyId );
     }
 
     static fromJsonArray(json: any[]): Leasehold[] {

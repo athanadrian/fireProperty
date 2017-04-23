@@ -4,14 +4,14 @@ import { Observable } from 'rxjs/Rx';
 
 import { AuthService, LeaseholdService } from '../../providers/services';
 import { PropertyListPage, LeaseholdListPage, SignupPage, OwnerListPage, ContractListPage, RenterListPage, BrokerListPage, LoginPage } from '../pages';
-import { Property, Leasehold, Owner, Contract, Renter, Broker } from '../../models/models';
+import { PropertyVM, Leasehold, Owner, Contract, Renter, Broker } from '../../models/models';
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html'
 })
 export class ProfilePage {
 
-  properties: Property[];
+  properties: PropertyVM[];
   leaseholds: Leasehold[];
   contracts: Contract[];
   owners: Owner[];
@@ -20,12 +20,11 @@ export class ProfilePage {
 
   constructor(public navController: NavController,
     public authService: AuthService, public alertController: AlertController,
-    public propertyService: LeaseholdService,
     public leaseholdService: LeaseholdService) {
   }
 
   ionViewDidLoad() {
-    this.propertyService.getProperties()
+    this.leaseholdService.getPropertiesVM()
       .subscribe(properties => this.properties = properties);
     this.leaseholdService.getAllLeaseholds()
       .subscribe(leaseholds => this.leaseholds = leaseholds);

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { AddContractPage } from '../../pages/pages';
 import { PaymentService, LeaseholdService } from '../../providers/services';
-import { Payment, Leasehold, Property, Contract, Renter } from '../../models/models';
+import { Payment, Leasehold, PropertyVM, Contract, Renter } from '../../models/models';
 
 @Component({
   selector: 'page-create-payment',
@@ -14,7 +14,7 @@ import { Payment, Leasehold, Property, Contract, Renter } from '../../models/mod
 export class CreatePaymentPage {
 
   leaseholds$: Leasehold[];
-  properties$: Property[];
+  properties$: PropertyVM[];
   payment: Payment;
   paymentId: string;
   contract$: Contract;
@@ -24,7 +24,7 @@ export class CreatePaymentPage {
   typeChanged: boolean = false;
   paidAmountChanged: boolean = false;
   submitAttempt: boolean = false;
-  selectedProperty: Property;
+  selectedProperty: PropertyVM;
 
   constructor(
     public navController: NavController,
@@ -32,10 +32,9 @@ export class CreatePaymentPage {
     public formBuilder: FormBuilder,
     public alertController: AlertController,
     public dataService: PaymentService,
-    public leaseholdService: LeaseholdService,
-    public propertyService: LeaseholdService) {
+    public leaseholdService: LeaseholdService) {
 
-    this.propertyService.getProperties()
+    this.leaseholdService.getPropertiesVM()
       .subscribe(properties => this.properties$ = properties);
 
     this.paymentId = this.navParams.get('paymentId');
@@ -58,7 +57,7 @@ export class CreatePaymentPage {
 
   onPropertySelect(propertyId: string) {
     console.log('hi ', propertyId);
-    const leaseholds$ = this.propertyService.getLeaseholdsForProperty(propertyId);
+    const leaseholds$ = this.leaseholdService.getLeaseholdsForProperty(propertyId);
     leaseholds$.subscribe(leaseholds => this.leaseholds$ = leaseholds);
   }
 
