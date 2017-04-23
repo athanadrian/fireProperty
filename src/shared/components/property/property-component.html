@@ -10,6 +10,6 @@
     </button>
 </ion-item>
 <ion-item no-lines class="lsRow">
-    <ion-row wrap><button small class="lsButton" *ngFor="let leasehold of property.leaseholds | async" (click)="viewLeasehold(leasehold.$key)"
+    <ion-row wrap><button small class="lsButton" *ngFor="let leasehold of property.leaseholds" (click)="viewLeasehold(leasehold.$key)"
             [style.background-color]="!leasehold.isRented ? 'green' : 'red'">{{leasehold.code}} / {{leasehold.rentAmount}}</button></ion-row>
 </ion-item>

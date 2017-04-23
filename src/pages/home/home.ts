@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, ActionSheetController, Platform } from 'ionic-angular';
-import { PaymentService } from '../../providers/services';
+import { LeaseholdService } from '../../providers/services';
 
 import { ProfilePage, CreatePaymentPage, PaymentDetailPage } from '../pages';
-import{ Payment } from '../../models/models';
+import { Payment } from '../../models/models';
 
 @Component({
   selector: 'page-home',
@@ -11,12 +11,37 @@ import{ Payment } from '../../models/models';
 })
 export class HomePage {
 
-  public paymentList: any;
+  public payments$: Payment[];
+  public paymentsVM: any;
+  public contract: any;
 
-  constructor(public navController: NavController, public paymentService: PaymentService,
-    public actionSheetController: ActionSheetController, public platform: Platform) {
+  constructor(
+    public navController: NavController,
+    public leaseholdService: LeaseholdService,
+    public actionSheetController: ActionSheetController,
+    public platform: Platform) {
 
-    this.paymentList = this.paymentService.getPaymentList();
+    this.leaseholdService.getAllPayments()
+      .subscribe(payments => this.payments$ = payments)
+
+    this.paymentsVM = this.leaseholdService.getAllPaymentsVM()
+      .map((paymentsVM) => {
+        return paymentsVM.map(payment => {
+          this.leaseholdService.findContract(payment.contractId)
+            .subscribe(contract => {
+              payment.contract = contract
+              this.leaseholdService.findRenter(contract.renterId)
+                .subscribe(renter => payment.renter = renter);
+              this.leaseholdService.findLeasehold(contract.leaseholdId)
+                .subscribe(leasehold => {
+                  payment.leasehold = leasehold
+                  this.leaseholdService.findProperty(leasehold.propertyId)
+                    .subscribe(property => payment.property = property)
+                });
+            });
+          return payment;
+        });
+      });
   }
 
   createPayment(): void {
@@ -40,7 +65,7 @@ export class HomePage {
           role: 'destructive',
           icon: !this.platform.is('ios') ? 'trash' : null,
           handler: () => {
-            this.paymentService.removePayment(paymentId);
+            //this.leaseholdService.removePayment(paymentId);
             this.navController.pop();
           }
         },
@@ -57,12 +82,12 @@ export class HomePage {
           text: 'Mark as Paid',
           icon: !this.platform.is('ios') ? 'checkmark' : null,
           handler: () => {
-            this.paymentService.payPayment(paymentId);
+            //this.paymentService.payPayment(paymentId);
           }
         },
         {
           text: 'Cancel',
-          role:'cancel',
+          role: 'cancel',
           icon: !this.platform.is('ios') ? 'close' : null,
           handler: () => {
             console.log('Cancel clicked');

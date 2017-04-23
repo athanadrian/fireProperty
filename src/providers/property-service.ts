@@ -5,7 +5,7 @@ import { AngularFire, FirebaseRef, FirebaseListObservable } from 'angularfire2';
 import { Property, PropertyVM } from '../models/models';
 
 @Injectable()
-export class PropertyService {
+export class XeaseholdService {
 
   propertiesVM$:FirebaseListObservable<PropertyVM[]>;
   properties$: Observable<Property[]>;
@@ -70,22 +70,6 @@ export class PropertyService {
   getAllLeaseholdsForProperty(propertyId:string): Observable<any[]> {
     const leaseholdsPerProperty=this.af.database.list(`/userProfile/${this.userId}/leaseholdsPerProperty/${propertyId}`);
     return leaseholdsPerProperty;
-  }
-
-  getLeaseholsForProperties(properties$: Observable<Property[]>) {
-    properties$ = this.getProperties();
-    return properties$.map(properties =>
-      properties.map(property => {
-        const property$ = this.getProperty(property.$key);
-
-        const leaseholdsPerProperty$ = property$
-          .switchMap(property => this.af.database.list(`/userProfile/${this.userId}/leaseholdsPerProperty/` + property.$key))
-
-        return leaseholdsPerProperty$
-          .map(lspp => lspp.map(lpp => this.af.database.object(`/userProfile/${this.userId}/leaseholds/` + lpp.$key)))
-          .flatMap(fbojs => Observable.combineLatest(fbojs))
-          .do(console.log);
-      }));
   }
 
   createProperty(property: Property) {

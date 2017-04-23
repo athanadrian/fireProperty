@@ -18,7 +18,7 @@
       <ion-item>
         <ion-icon name="logo-buffer" [style.color]="!(leasehold$ | async)?.isRented ? 'green' : 'red'" item-left></ion-icon>
         <h2 class="card-title">{{(leasehold$ | async)?.code}}</h2>
-        <p>{{(leasehold$ | async)?.type}} - {{(leasehold$ | async)?.rentAmount}}
+        <p>{{(leasehold$ | async)?.type}}
       </ion-item>
       <ion-list>
         <ion-item>
@@ -74,7 +74,7 @@
       Renters
       <ion-icon item-left name="people" color="primary"></ion-icon>
       <ion-badge item-right>{{!renters$?.length ? 0 : renters$?.length}} </ion-badge>
-      <button ion-button item-right small *ngIf="contract$" (click)="addRenter()">Add</button>
+      <button ion-button item-right small *ngIf="contract$ && renters$?.length<1" (click)="addRenter()">Add</button>
     </ion-list-header>
     <ion-item *ngIf="!renters">
       <p>You need to make a contract to add renter's info!</p>

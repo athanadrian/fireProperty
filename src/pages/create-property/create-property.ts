@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
-import { PropertyService } from '../../providers/services';
+import { LeaseholdService } from '../../providers/services';
 
 import { Property } from '../../models/models';
 
@@ -20,7 +20,7 @@ export class CreatePropertyPage {
   submitAttempt: boolean = false;
 
   constructor(public navController: NavController, public formBuilder: FormBuilder,
-    public navParams: NavParams, public propertyService: PropertyService) {
+    public navParams: NavParams, public propertyService: LeaseholdService) {
 
     this.propId = this.navParams.get('propertyId');
     this.propertyService.getProperty(this.propId)

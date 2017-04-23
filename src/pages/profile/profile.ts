@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
 
-import { AuthService, PropertyService, LeaseholdService } from '../../providers/services';
+import { AuthService, LeaseholdService } from '../../providers/services';
 import { PropertyListPage, LeaseholdListPage, SignupPage, OwnerListPage, ContractListPage, RenterListPage, BrokerListPage, LoginPage } from '../pages';
 import { Property, Leasehold, Owner, Contract, Renter, Broker } from '../../models/models';
 @Component({
@@ -20,7 +20,7 @@ export class ProfilePage {
 
   constructor(public navController: NavController,
     public authService: AuthService, public alertController: AlertController,
-    public propertyService: PropertyService,
+    public propertyService: LeaseholdService,
     public leaseholdService: LeaseholdService) {
   }
 

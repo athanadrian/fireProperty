@@ -1,9 +1,14 @@
-<ion-item (click)="moreRenterOptions(renter?.$key)">
-    <ion-icon name="person" [style.color]="renter?.isActive ? 'green' : 'red'" item-left></ion-icon>
-    <h2 class="card-title">{{renter?.title}}</h2>
-    <p>{{renter?.type}}, {{renter?.type}}
-        <ion-icon class="icon-item" color="menu" item-right name="logo-buffer">
-            <ion-badge class="badge-item" color="danger">{{(renter.leaseholds)?.length}}</ion-badge>
-        </ion-icon>
-    </p>
-</ion-item>
+<ion-item-sliding>
+    <ion-item (click)="moreRenterOptions(renter?.$key)">
+        <ion-icon name="person" [style.color]="renter?.isActive ? 'green' : 'red'" item-left></ion-icon>
+        <h2 class="card-title">{{renter?.title}}</h2>
+        <p>{{renter?.type}}
+            <ion-icon class="icon-item" color="menu" item-right name="logo-buffer">
+                <ion-badge class="badge-item" color="danger">{{(renter.leaseholds)?.length}}</ion-badge>
+            </ion-icon>
+        </p>
+    </ion-item>
+    <ion-item-options *ngIf="addOptions">
+        <button ion-button icon-only color="light" (click)="addRenter(renter?.$key)"><ion-icon name="add-circle"></ion-icon><span style="margin-right:10px;">Add</span></button>
+    </ion-item-options>
+</ion-item-sliding>

@@ -1,4 +1,5 @@
-import { Property, Owner } from './models'
+import { Property, Owner, Contract, Renter, Leasehold } from './models'
+import { Observable, Subject } from 'rxjs/Rx';
 
 export class PropertyVM {
     constructor(
@@ -28,8 +29,8 @@ export class LeaseholdVM {
         public property: Property,
         public contracts: any,
         public renters: any,
-        public owners:any,
-        public brokers:any,
+        public owners: any,
+        public brokers: any,
         public ownerId: string) {
     }
 }
@@ -44,8 +45,8 @@ export class OwnerVM {
         public quota: string,
         public image: string,
         public isActive: boolean,
-        public totalLeaseholds:number,
-        public totalContracts:number,
+        public totalLeaseholds: number,
+        public totalContracts: number,
         public leaseholds: any,
         public contracts: any) {
     }
@@ -66,8 +67,8 @@ export class RenterVM {
         public isActive: boolean,
         public activeRent: number,
         public totalDeptAmount: number,
-        public totalLeaseholds:number,
-        public totalContracts:number,
+        public totalLeaseholds: number,
+        public totalContracts: number,
         public leaseholds: any,
         public contracts: any) {
     }
@@ -85,6 +86,50 @@ export class BrokerVM {
         public email: string,
         public image: string,
         public isActive: boolean,
-        public leaseholds: any,) {
+        public leaseholds: any, ) {
+    }
+}
+
+export class PaymentVM {
+    constructor(
+        public $key: string,
+        public contractId: string,
+        public title: string,
+        public type: string,
+        public deptDate: string,
+        public dueDate: string = null,
+        public paidDate: string = null,
+        public isPaid: boolean = false,
+        public paidAmount: number = 0,
+        public totalAmount: number = 0,
+        public contract: Contract,
+        public leasehold: Leasehold,
+        public renter: Renter,
+        public property: Property ) {
+    }
+}
+
+export class ContractVM {
+    constructor(
+        public $key: string,
+        public leaseholdId: string,
+        public renterId: string,
+        public initialDuration: number,
+        public realDuration: number,
+        public contractAmount: number,
+        public isActive: boolean,
+        public startDate: string,
+        public endDate: string,
+        public leasehold: any,
+        public renter: any,
+        public payments: any) {
+    }
+
+     static fromJson({$key, leaseholdId, renterId, initialDuration, realDuration, contractAmount, isActive, startDate, endDate}) {
+        return new Contract($key, leaseholdId, renterId, initialDuration, realDuration, contractAmount, isActive, startDate, endDate);
+    }
+
+    static fromJsonArray(json: any[]): Contract[] {
+        return json.map(Contract.fromJson);
     }
 }

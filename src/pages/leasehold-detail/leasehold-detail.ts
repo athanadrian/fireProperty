@@ -61,7 +61,7 @@ export class LeaseholdDetailPage {
     const contracts$ = this.leaseholdService.getContractsForLeasehold(this.leaseholdId)
     contracts$.subscribe(contracts => this.contracts = contracts);
     this.leasehold$ = this.leaseholdService.findLeasehold(this.leaseholdId);
-    this.leaseholdService.findContract(this.leaseholdId)
+    this.leaseholdService.findContractForLeasehold(this.leaseholdId)
       .subscribe(contract => this.contract$ = contract);
   }
 
@@ -146,7 +146,8 @@ export class LeaseholdDetailPage {
               this.navController.push(RenterListPage,
                 {
                   leaseholdId: this.leaseholdId,
-                  isListPage: true
+                  isListPage: true,
+                  addOptions: true
                 })
             }
           },
@@ -220,7 +221,7 @@ export class LeaseholdDetailPage {
 
   findBrokers() {
     this.navController.push(BrokerListPage,
-    { leaseholdId: this.leaseholdId});
+      { leaseholdId: this.leaseholdId });
   }
 
 }

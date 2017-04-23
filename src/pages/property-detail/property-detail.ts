@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ActionSheetController, Platform, AlertController } from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
 
-import { PropertyService } from '../../providers/services';
+import { LeaseholdService } from '../../providers/services';
 import { AddLeaseholdPage, ContractDetailPage, CreatePropertyPage, AddOwnerPage, LeaseholdDetailPage, AddContractPage } from '../../pages/pages';
 import { Property, Leasehold } from '../../models/models';
 
@@ -18,7 +18,7 @@ export class PropertyDetailPage {
   public propertyTitle: string;
 
   constructor(public navController: NavController, public navParams: NavParams, public platform: Platform,
-    public actionSheetController: ActionSheetController, public alertController: AlertController, public propetyService: PropertyService) {
+    public actionSheetController: ActionSheetController, public alertController: AlertController, public propetyService: LeaseholdService) {
     this.propertyId = this.navParams.get('propertyId');
     this.property$ = this.propetyService.findProperty(this.propertyId);
     this.property$.subscribe((prop) => {

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Platform } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 
 import { LeaseholdService } from '../../providers/services';
-import { AddRenterPage } from '../../pages/pages';
+import { AddRenterPage, RenterListPage } from '../../pages/pages';
 import { Leasehold, Contract, Renter } from '../../models/models';
 
 
@@ -19,8 +19,13 @@ export class AddContractPage {
   submitAttempt: boolean = false;
   leaseholdId: string;
 
-  constructor(public navController: NavController, public navParams: NavParams,
-    public formBuilder: FormBuilder, public alertController:AlertController, public leaseholdService: LeaseholdService) {
+  constructor(
+    public navController: NavController,
+    public navParams: NavParams,
+    public platform: Platform,
+    public formBuilder: FormBuilder,
+    public alertController: AlertController,
+    public leaseholdService: LeaseholdService) {
 
     this.leaseholdId = this.navParams.get('leaseholdId');
     this.newContractForm = formBuilder.group({
@@ -28,10 +33,6 @@ export class AddContractPage {
       contractAmount: ['', Validators.required],
       startDate: ['', Validators.required]
     });
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AddOwnerPage');
   }
 
   elementChanged(input) {
@@ -69,8 +70,35 @@ export class AddContractPage {
         {
           text: 'Do it now!',
           handler: () => {
-            this.navController.push(AddRenterPage, 
-            {leaseholdId:this.leaseholdId})
+            this.showRentItConfirmation();
+            this.navController.pop();
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  showRentItConfirmation() {
+    let confirm = this.alertController.create({
+      title: 'Add Renter',
+      buttons: [
+        {
+          text: 'Add Renter from list?',
+          handler: () => {
+            this.navController.push(RenterListPage,
+              {
+                leaseholdId: this.leaseholdId,
+                isListPage: true,
+                addOptions: true
+              })
+          }
+        },
+        {
+          text: 'Add a new Renter?',
+          handler: () => {
+            this.navController.push(AddRenterPage,
+              { leaseholdId: this.leaseholdId })
           }
         }
       ]

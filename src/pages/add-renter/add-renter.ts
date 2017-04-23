@@ -42,7 +42,7 @@ export class AddRenterPage {
     this.leaseholdService.getRenter(this.renterId)
       .subscribe(renter => this.renter = renter);
     console.log('R ', this.renter);
-    this.leaseholdService.findContract(this.leaseholdId)
+    this.leaseholdService.findContractForLeasehold(this.leaseholdId)
       .subscribe(contract => this.contract$ = contract);
     console.log('contract ', this.contract$);
 

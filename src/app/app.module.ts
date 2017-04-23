@@ -9,9 +9,9 @@ import { StartPage, HomePage, LoginPage, SignupPage, ResetPasswordPage, ProfileP
           AddLeaseholdPage, AddOwnerPage,  LeaseholdDetailPage, LeaseholdListPage, ContractListPage,
           OwnerListPage, AddRenterPage, RenterListPage, RenterDetailPage, AddContractPage, OwnerDetailPage,
           BrokerListPage, BrokerDetailPage, AddBrokerPage } from '../pages/pages';
-import { AuthService, PropertyService, PaymentService, LeaseholdService} from '../providers/services';
+import { AuthService, PaymentService, LeaseholdService} from '../providers/services';
 
-import { PropertyComponent, LeaseholdComponent, RenterComponent, OwnerComponent, ContractComponent, BrokerComponent } from '../shared/components/components';
+import { PropertyComponent, LeaseholdComponent, RenterComponent, OwnerComponent, ContractComponent, BrokerComponent, PaymentComponent } from '../shared/components/components';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2'
 
 export const firebaseConfig = {
@@ -62,7 +62,8 @@ const myFirebaseAuthConfig = {
     RenterComponent,
     OwnerComponent,
     ContractComponent,
-    BrokerComponent
+    BrokerComponent,
+    PaymentComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -99,6 +100,6 @@ const myFirebaseAuthConfig = {
     BrokerDetailPage,
     AddBrokerPage,
   ],
-  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, LeaseholdService, PaymentService, PropertyService, AuthService]
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, PaymentService, LeaseholdService, AuthService]
 })
 export class AppModule { }
