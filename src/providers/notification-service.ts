@@ -8,6 +8,16 @@ export class NotificationService {
     public toastController: ToastController
   ) { }
 
+invalidFormToast(){//( errors: string[]) {
+    let toast = this.toastController.create({
+      message: 'We must fill form with valid values!', //`${errors} must be filled`,
+      duration: 4000,
+      position: 'middle',
+      cssClass: "inValidStyle"
+    });
+    toast.present();
+  }
+
   addUpdateToast(objId: string, object: string) {
     let toast = this.toastController.create({
       message: !objId ? `${object} was added successfully` : `${object} was saved successfully`,

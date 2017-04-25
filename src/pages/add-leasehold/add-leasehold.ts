@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
-import { LeaseholdService } from '../../providers/services';
+import { LeaseholdService, NotificationService } from '../../providers/services';
 
 import { Property, Leasehold } from '../../models/models';
 
@@ -11,29 +11,31 @@ import { Property, Leasehold } from '../../models/models';
 })
 export class AddLeaseholdPage {
 
-  property: Property;
-  leasehold: Leasehold;
-  newLeaseholdForm: any;
-  titleChanged: boolean = false;
-  extraSpace: boolean = false;
-  codeChanged: boolean = false;
-  sizeChanged: boolean = false;
-  extraSizeChanged: boolean = false;
-  rentAmountChanged: boolean = false;
-  submitAttempt: boolean = false;
-  propertyId: string;
-  leaseholdId: string;
+  public newLeaseholdForm: any;
+  public titleChanged: boolean = false;
+  public extraSpace: boolean = false;
+  public codeChanged: boolean = false;
+  public sizeChanged: boolean = false;
+  public extraSizeChanged: boolean = false;
+  public rentAmountChanged: boolean = false;
+  public submitAttempt: boolean = false;
+  public property: Property;
+  public leasehold: Leasehold;
+  public propertyId: string;
+  public leaseholdId: string;
+  public object: string = 'Leasehold';
 
-  constructor(public navController: NavController, public navParams: NavParams,
-    public formBuilder: FormBuilder, public leaseholdService: LeaseholdService) {
+  constructor(
+    public navController: NavController,
+    public navParams: NavParams,
+    public formBuilder: FormBuilder,
+    public leaseholdService: LeaseholdService,
+    public notificationService: NotificationService) {
 
     this.propertyId = this.navParams.get('propertyId');
     this.leaseholdId = this.navParams.get('leaseholdId');
-    console.log('pkey ', this.propertyId);
-    console.log('lkey ', this.leaseholdId);
 
     this.leaseholdService.getLeasehold(this.leaseholdId)
-      .do(console.log)
       .subscribe(leasehold => this.leasehold = leasehold);
     if (this.leaseholdId) {
       this.newLeaseholdForm = formBuilder.group({
@@ -71,6 +73,7 @@ export class AddLeaseholdPage {
   addLeasehold({value, valid }: { propertyId: string, value: Leasehold, valid: boolean }) {
     this.submitAttempt = true;
     if (!this.newLeaseholdForm.valid) {
+      this.notificationService.invalidFormToast();
       console.log(this.newLeaseholdForm.value);
     } else {
       value.title = this.newLeaseholdForm.value.title;
@@ -83,19 +86,23 @@ export class AddLeaseholdPage {
       value.bathrooms = this.newLeaseholdForm.value.bathrooms;
       value.rentAmount = this.newLeaseholdForm.value.rentAmount;
       value.isRented = this.leasehold.isRented
-      ;
+        ;
       if (!this.leaseholdId) {
         this.leaseholdService.addLeasehold(this.propertyId, value)
           .subscribe(() => {
-            alert('leasehold created. Create another one ?');
+            this.notificationService.addUpdateToast(this.leaseholdId, this.object);
             this.navController.pop();
-          }, err => alert(`error creating leasehold, ${err}`));
+          }, (error) => {
+            this.notificationService.errorToast(this.leaseholdId, this.object, error);
+          });
       } else {
         this.leaseholdService.updateLeasehold(this.leaseholdId, value)
           .then(() => {
-            alert("leasehold saved");
+            this.notificationService.addUpdateToast(this.leaseholdId, this.object);
             this.navController.pop();
-          }, err => alert(`error saving leasehold ${err}`));
+          }, (error) => {
+            this.notificationService.errorToast(this.leaseholdId, this.object, error);
+          });
       }
     }
   }

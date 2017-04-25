@@ -11,14 +11,14 @@ import { Property } from '../../models/models';
 })
 export class CreatePropertyPage {
 
+  public newPropertyForm: any;
+  public titleChanged: boolean = false;
+  public typeChanged: boolean = false;
+  public addressChanged: boolean = false;
+  public submitAttempt: boolean = false;
   public property: Property;
   public propertyId: string;
   public object: string = 'Property';
-  newPropertyForm: any;
-  titleChanged: boolean = false;
-  typeChanged: boolean = false;
-  addressChanged: boolean = false;
-  submitAttempt: boolean = false;
 
   constructor(
     public navController: NavController,

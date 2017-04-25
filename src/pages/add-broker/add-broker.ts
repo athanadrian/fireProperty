@@ -26,7 +26,7 @@ export class AddBrokerPage {
   public leaseholdId: string;
   public brokerId: string;
   public broker: Broker;
-  public object: string;
+  public object: string = 'Broker';
 
   constructor(
     public navController: NavController,
@@ -92,7 +92,7 @@ export class AddBrokerPage {
       } else {
         this.leaseholdService.updateBroker(this.brokerId, value)
           .then(() => {
-           this.notificationService.addUpdateToast(this.brokerId, this.object);
+            this.notificationService.addUpdateToast(this.brokerId, this.object);
             this.navController.pop();
           }, (error) => {
             this.notificationService.errorToast(this.brokerId, this.object, error);
