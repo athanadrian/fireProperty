@@ -528,6 +528,10 @@ export class LeaseholdService {
   updatePayment(paymentId: string, payment: any) {
     return this.brokers.update(paymentId, payment);
   }
+
+  payPayment(paymentId: string) {
+    return this.payments.update(paymentId, { isPaid: true, paidDate: Date() });
+  }
   //------------------------------------------------------------------------------------------------------
 
   getPaymentsForLeasehold(leaseholdId: string) {

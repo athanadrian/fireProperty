@@ -12,13 +12,16 @@ import { EmailValidator } from '../../shared/validators/email';
 export class SignupPage {
 
   public signupForm;
-  emailChanged: boolean = false;
-  passwordChanged: boolean = false;
-  submitAttempt: boolean = false;
-  public loading;
+  public emailChanged: boolean = false;
+  public passwordChanged: boolean = false;
+  public submitAttempt: boolean = false;
+  public loading:any;
 
-  constructor(public navCtrl: NavController, public authService: AuthService,
-    public formBuilder: FormBuilder, public loadingCtrl: LoadingController,
+  constructor(
+    public navController: NavController,
+    public authService: AuthService,
+    public formBuilder: FormBuilder,
+    public loadingCtrl: LoadingController,
     public alertCtrl: AlertController) {
 
     this.signupForm = formBuilder.group({
@@ -42,7 +45,7 @@ export class SignupPage {
         this.signupForm.value.password)
         .then(() => {
           this.loading.dismiss().then(() => {
-            this.navCtrl.pop();
+            this.navController.pop();
           });
         }, (error) => {
           this.loading.dismiss().then(() => {

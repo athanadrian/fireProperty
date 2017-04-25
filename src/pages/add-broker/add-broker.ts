@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { LeaseholdService } from '../../providers/services';
+import { LeaseholdService, NotificationService } from '../../providers/services';
 import { AddContractPage } from '../../pages/pages';
 import { Leasehold, Broker } from '../../models/models';
+import { EmailValidator } from '../../shared/validators/email';
 
 @Component({
   selector: 'page-add-broker',
@@ -12,30 +13,30 @@ import { Leasehold, Broker } from '../../models/models';
 })
 export class AddBrokerPage {
 
-  newBrokerForm: any;
-  titleChanged: boolean = false;
-  typeChanged: boolean = false;
-  phoneCellChanged: boolean = false;
-  phoneOfficeChanged: boolean = false;
-  websiteChanged: boolean = false;
-  firstNameChanged: boolean = false;
-  lastNameChanged: boolean = false;
-  emailChanged: boolean = false;
-  submitAttempt: boolean = false;
-  leaseholdId: string;
-  brokerId: string;
-  broker: any;
+  public newBrokerForm: any;
+  public titleChanged: boolean = false;
+  public typeChanged: boolean = false;
+  public phoneCellChanged: boolean = false;
+  public phoneOfficeChanged: boolean = false;
+  public websiteChanged: boolean = false;
+  public firstNameChanged: boolean = false;
+  public lastNameChanged: boolean = false;
+  public emailChanged: boolean = false;
+  public submitAttempt: boolean = false;
+  public leaseholdId: string;
+  public brokerId: string;
+  public broker: Broker;
+  public object: string;
 
   constructor(
     public navController: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
-    public leaseholdService: LeaseholdService) {
+    public leaseholdService: LeaseholdService,
+    public notificationService: NotificationService) {
 
     this.leaseholdId = this.navParams.get('leaseholdId');
     this.brokerId = this.navParams.get('brokerId');
-    console.log('bId', this.brokerId);
-    console.log('lId', this.leaseholdId);
     this.leaseholdService.getBroker(this.brokerId)
       .subscribe(broker => this.broker = broker);
 
@@ -46,7 +47,7 @@ export class AddBrokerPage {
         lastName: [this.broker.lastName, Validators.required],
         phoneCell: [this.broker.phoneCell, Validators.required],
         phoneOffice: [this.broker.phoneOffice, Validators.required],
-        email: [this.broker.email, Validators.required],
+        email: [this.broker.email, Validators.compose([Validators.required, EmailValidator.isValid])],
         website: [this.broker.website],
       });
     } else {
@@ -56,7 +57,7 @@ export class AddBrokerPage {
         lastName: ['', Validators.required],
         phoneCell: ['', Validators.required],
         phoneOffice: ['', Validators.required],
-        email: ['', Validators.required],
+        email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
         website: ['']
       });
     }
@@ -83,15 +84,19 @@ export class AddBrokerPage {
       if (!this.brokerId) {
         this.leaseholdService.addBroker(this.leaseholdId, value)
           .subscribe(() => {
-            alert('broker added !');
+            this.notificationService.addUpdateToast(this.brokerId, this.object);
             this.navController.pop();
-          }, err => alert(`error adding broker, ${err}`));
+          }, (error) => {
+            this.notificationService.errorToast(this.brokerId, this.object, error);
+          });
       } else {
         this.leaseholdService.updateBroker(this.brokerId, value)
           .then(() => {
-            alert("broker saved");
+           this.notificationService.addUpdateToast(this.brokerId, this.object);
             this.navController.pop();
-          }, err => alert(`error saving broker ${err}`));
+          }, (error) => {
+            this.notificationService.errorToast(this.brokerId, this.object, error);
+          });
       }
     }
   }

@@ -18,8 +18,8 @@
         <ion-list-header>
             Unpaid Payments
         </ion-list-header>
-        <ion-item *ngFor="let payment of (paymentsVM | async )" (click)="morePaymentOptions(payment.$key)" [class.hide]="payment?.isPaid==true">
-            <ion-icon name="timer" color="danger" item-left></ion-icon>
+        <ion-item *ngFor="let payment of (paymentsVM | async )" (click)="morePaymentOptions(payment?.$key)" [class.hide]="payment?.isPaid==true">
+            <ion-icon name="timer" [style.color]="!payment?.isPaid ? 'red' : 'green'" item-left></ion-icon>
             <h2>{{payment?.deptDate}}</h2>
             <h3>Total: <strong>€ {{payment?.paidAmount}}</strong></h3>
             <p>Company: <strong>{{(payment.property)?.title}}</strong> - Type: <strong>{{payment?.type}}</strong></p>
@@ -29,36 +29,11 @@
         <ion-list-header>
             Paid Payments
         </ion-list-header>
-        <ion-item *ngFor="let payment of (paymentsVM | async )" (click)="goToPaidPayment(payment.$key)" [class.hide]="payment?.isPaid==false">
-            <ion-icon name="timer" color="danger" item-left></ion-icon>
+        <ion-item *ngFor="let payment of (paymentsVM | async )" (click)="goToPaidPayment(payment?.$key)" [class.hide]="payment?.isPaid==false">
+            <ion-icon name="timer" [style.color]="payment?.isPaid ? 'green' : 'red'" item-left></ion-icon>
             <h2>{{payment?.deptDate}}</h2>
             <h3>Total: <strong>€ {{payment?.paidAmount}}</strong></h3>
             <p>Company: <strong>{{(payment.property)?.title}}</strong> - Type: <strong>{{payment?.type}}</strong></p>
         </ion-item>
     </ion-list>
 </ion-content>
-
-<!--<ion-content padding>
-    <ion-list>
-        <ion-list-header>
-            Unpaid Payments
-        </ion-list-header>
-        <ion-item *ngFor="let payment of payments$" (click)="morePaymentOptions(payment.$key)" [class.hide]="payment?.isPaid==true">
-            <ion-icon name="timer" color="danger" item-left></ion-icon>
-            <h2>{{payment?.deptDate}}</h2>
-            <h3>Total: <strong>€ {{payment?.paidAmount}}</strong></h3>
-            <p>Company: <strong>{{payment?.paidDate}}</strong> - Type: <strong>{{payment?.type}}</strong></p>
-        </ion-item>
-    </ion-list>
-    <ion-list>
-        <ion-list-header>
-            Paid Payments
-        </ion-list-header>
-        <ion-item *ngFor="let payment of payments$" (click)="goToPaidPayment(payment.$key)" [class.hide]="payment?.isPaid==false">
-            <ion-icon name="timer" color="danger" item-left></ion-icon>
-            <h2>{{payment?.deptDate}}</h2>
-            <h3>Total: <strong>€ {{payment?.paidAmount}}</strong></h3>
-            <p>Company: <strong>{{payment?.paidDate}}</strong> - Type: <strong>{{payment?.type}}</strong></p>
-        </ion-item>
-    </ion-list>
-</ion-content>-->

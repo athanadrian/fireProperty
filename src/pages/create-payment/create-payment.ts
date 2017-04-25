@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 
 import { AddContractPage } from '../../pages/pages';
-import { PaymentService, LeaseholdService } from '../../providers/services';
+import { NotificationService, LeaseholdService } from '../../providers/services';
 import { Payment, Leasehold, PropertyVM, Contract, Renter } from '../../models/models';
 
 @Component({
@@ -13,26 +13,26 @@ import { Payment, Leasehold, PropertyVM, Contract, Renter } from '../../models/m
 })
 export class CreatePaymentPage {
 
-  leaseholds$: Leasehold[];
-  properties$: PropertyVM[];
-  payment: Payment;
-  paymentId: string;
-  contract$: Contract;
-  renter$: any;
-  newPaymentForm: any;
+  public leaseholds$: Leasehold[];
+  public properties$: PropertyVM[];
+  public renter$: Renter;
+  public payment: Payment;
+  public contract$: Contract;
+  public paymentId: string;
+  public newPaymentForm: any;
+  public object: string = 'Property';
   //titleChanged: boolean = false;
-  typeChanged: boolean = false;
-  paidAmountChanged: boolean = false;
-  submitAttempt: boolean = false;
-  selectedProperty: PropertyVM;
+  public typeChanged: boolean = false;
+  public paidAmountChanged: boolean = false;
+  public submitAttempt: boolean = false;
 
   constructor(
     public navController: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
     public alertController: AlertController,
-    public dataService: PaymentService,
-    public leaseholdService: LeaseholdService) {
+    public leaseholdService: LeaseholdService,
+    public notificationService: NotificationService) {
 
     this.leaseholdService.getPropertiesVM()
       .subscribe(properties => this.properties$ = properties);
@@ -116,15 +116,19 @@ export class CreatePaymentPage {
       if (!this.paymentId) {
         this.leaseholdService.addPayment(this.contract$.$key, this.contract$.renterId, this.contract$.leaseholdId, value)
           .subscribe(() => {
-            alert('payment added !');
+            this.notificationService.addUpdateToast(this.paymentId, this.object);
             this.navController.pop();
-          }, err => alert(`error adding payment, ${err}`));
+          }, (error) => {
+            this.notificationService.errorToast(this.paymentId, this.object, error);
+          });
       } else {
         this.leaseholdService.updatePayment(this.paymentId, value)
           .then(() => {
-            alert('payment updated!');
+            this.notificationService.addUpdateToast(this.paymentId, this.object);
             this.navController.pop();
-          }, err => alert(`error updating payment, ${err}`));
+          }, (error) => {
+            this.notificationService.errorToast(this.paymentId, this.object, error);
+          });
       }
     }
   }

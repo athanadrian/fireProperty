@@ -56,7 +56,7 @@ export class HomePage {
     this.navController.push(ProfilePage);
   }
 
-  morePaymentOptions(paymentId) {
+  morePaymentOptions(paymentId:string) {
     let actionSheet = this.actionSheetController.create({
       title: '',
       buttons: [
@@ -82,7 +82,7 @@ export class HomePage {
           text: 'Mark as Paid',
           icon: !this.platform.is('ios') ? 'checkmark' : null,
           handler: () => {
-            //this.paymentService.payPayment(paymentId);
+            this.leaseholdService.payPayment(paymentId);
           }
         },
         {

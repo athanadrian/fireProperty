@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
-import { LeaseholdService } from '../../providers/services';
+import { LeaseholdService, NotificationService } from '../../providers/services';
 
 import { Property } from '../../models/models';
 
@@ -12,22 +12,27 @@ import { Property } from '../../models/models';
 export class CreatePropertyPage {
 
   public property: Property;
-  public propId: string;
+  public propertyId: string;
+  public object: string = 'Property';
   newPropertyForm: any;
   titleChanged: boolean = false;
   typeChanged: boolean = false;
   addressChanged: boolean = false;
   submitAttempt: boolean = false;
 
-  constructor(public navController: NavController, public formBuilder: FormBuilder,
-    public navParams: NavParams, public leaseholdService: LeaseholdService) {
+  constructor(
+    public navController: NavController,
+    public toastController: ToastController,
+    public formBuilder: FormBuilder,
+    public navParams: NavParams,
+    public leaseholdService: LeaseholdService,
+    public notificationService: NotificationService) {
 
-    this.propId = this.navParams.get('propertyId');
-    this.leaseholdService.getProperty(this.propId)
-      .do(console.log)
+    this.propertyId = this.navParams.get('propertyId');
+    this.leaseholdService.getProperty(this.propertyId)
       .subscribe(property => this.property = property);
 
-    if (this.propId) {
+    if (this.propertyId) {
       this.newPropertyForm = formBuilder.group({
         title: [this.property.title, Validators.required],
         type: [this.property.type, Validators.required],
@@ -55,26 +60,27 @@ export class CreatePropertyPage {
       value.title = this.newPropertyForm.value.title;
       value.type = this.newPropertyForm.value.type;
       value.address = this.newPropertyForm.value.address;
-      value.image='assets/images/property.png';
+      value.image = 'assets/images/property.png';
       value.lat = null;
       value.lng = null;
       value.icon = null;
-      if (!this.propId) {
+      if (!this.propertyId) {
         this.leaseholdService.createProperty(value)
           .then(() => {
+            this.notificationService.addUpdateToast(this.propertyId, this.object);
             this.navController.pop();
           }, (error) => {
-            console.log(error);
+            this.notificationService.errorToast(this.propertyId, this.object, error);
           });
-        
       } else {
-        this.leaseholdService.updateProperty(this.propId, value)
+        this.leaseholdService.updateProperty(this.propertyId, value)
           .then(() => {
-            alert("propety saved");
+            this.notificationService.addUpdateToast(this.propertyId, this.object);
             this.navController.pop();
-          }, err => alert(`error saving property ${err}`));
+          }, (error) => {
+            this.notificationService.errorToast(this.propertyId, this.object, error);
+          });
       }
     }
   }
-
 }

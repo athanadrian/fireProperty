@@ -12,7 +12,9 @@ export class PropertyComponent {
 
   @Input() property: Property;
 
-  constructor(public navController: NavController, public actionSheetController: ActionSheetController,
+  constructor(
+    public navController: NavController,
+    public actionSheetController: ActionSheetController,
     public platform: Platform) {
 
   }
@@ -56,5 +58,4 @@ export class PropertyComponent {
     });
     actionSheet.present();
   }
-
 }
