@@ -19,7 +19,7 @@
       <h2 class="card-title">{{(renter$ | async)?.title}}</h2>
       <p>{{(renter$ | async)?.name}}, {{(renter$ | async)?.type}}
         <ion-icon class="icon-item" color="menu" item-right name="logo-buffer">
-          <ion-badge class="badge-item" color="danger">{{leaseholds?.length}}</ion-badge>
+          <ion-badge class="badge-item" color="danger">{{totalLeaseholds}}</ion-badge>
         </ion-icon>
       </p>
     </ion-item>
@@ -55,7 +55,7 @@
     <ion-list-header>
       Leaseholds
       <ion-icon name="logo-buffer" color="primary" item-left></ion-icon>
-      <ion-badge color="secondary" item-right>{{leaseholds?.length}}</ion-badge>
+      <ion-badge color="secondary" item-right>{{totalLeaseholds}}</ion-badge>
     </ion-list-header>
     <leasehold-card *ngFor="let leasehold of (leaseholdsVM | async)" [leasehold]="leasehold" ></leasehold-card>
   </ion-list>

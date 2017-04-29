@@ -1,18 +1,63 @@
-<!--
-  Generated template for the BrokerDetail page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>broker-detail</ion-title>
+  <ion-navbar color="secondary">
+    <ion-title>{{(broker$ | async)?.title}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="moreBrokerOptions(broker$?.$key)">
+        <ion-icon name="settings"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content class="broker">
+  <ion-card>
+    <ion-card-content>
+      <img [src]="(broker$ | async)?.image" />
+    </ion-card-content>
+    <ion-item>
+      <ion-icon name="person" [style.color]="(broker$ | async)?.isActive ? 'green' : 'red'" item-left></ion-icon>
+      <h2 class="card-title">{{(broker$ | async)?.title}}</h2>
+      <p>{{(broker$ | async)?.firstName}}, {{(broker$ | async)?.lastName}}
+        <ion-icon class="icon-item" color="menu" item-right name="logo-buffer">
+          <ion-badge class="badge-item" color="danger">{{totalLeaseholds}}</ion-badge>
+        </ion-icon>
+      </p>
+    </ion-item>
+    <ion-list>
+      <a href="tel:{{(broker$ | async)?.phoneCell}}" ion-item>
+        <ion-icon name="call" item-left></ion-icon>
+        <p>Call Mobile</p>
+        <h2>{{(broker$ | async)?.phoneCell}}</h2>
+      </a>
+      <a href="tel:{{(broker$ | async)?.phoneCell}}" ion-item>
+        <ion-icon name="text" item-left></ion-icon>
+        <p>SMS</p>
+        <h2>{{(broker$ | async)?.phoneCell}}</h2>
+      </a>
+      <a href="tel:{{(broker$ | async)?.phoneOffice}}" ion-item>
+        <ion-icon name="call" item-left></ion-icon>
+        <p>Call Office</p>
+        <h2>{{(broker$ | async)?.phoneOffice}}</h2>
+      </a>
+      <a href="tel:{{(broker$ | async)?.website}}" ion-item>
+        <ion-icon name="globe" item-left></ion-icon>
+        <p>Website</p>
+        <h2>{{(broker$ | async)?.website}}</h2>
+      </a>
+      <a href="mailto:{{(broker$ | async)?.email}}" ion-item>
+        <ion-icon name="mail" item-left></ion-icon>
+        <p>Email</p>
+        <h2>{{(broker$ | async)?.email}}</h2>
+      </a>
+    </ion-list>
+  </ion-card>
+  <ion-list>
+    <ion-list-header>
+      Leaseholds
+      <ion-icon name="logo-buffer" color="primary" item-left></ion-icon>
+      <ion-badge color="secondary" item-right>{{totalLeaseholds}}</ion-badge>
+    </ion-list-header>
+    <leasehold-card *ngFor="let leasehold of (leaseholdsVM | async)" [leasehold]="leasehold" ></leasehold-card>
+  </ion-list>
 </ion-content>
