@@ -71,7 +71,7 @@ export class AddBrokerPage {
   addBroker({value, valid}: { value: Broker, valid: boolean }) {
     this.submitAttempt = true;
     if (!this.newBrokerForm.valid) {
-      console.log(this.newBrokerForm.value);
+      this.notificationService.invalidFormToast();
     } else {
       value.title = this.newBrokerForm.value.title;
       value.firstName = this.newBrokerForm.value.firstName;
@@ -81,6 +81,7 @@ export class AddBrokerPage {
       value.email = this.newBrokerForm.value.email;
       value.image = 'assets/images/broker_white.png';
       value.website = this.newBrokerForm.value.website;
+      value.isActive=true;
       if (!this.brokerId) {
         this.leaseholdService.addBroker(this.leaseholdId, value)
           .subscribe(() => {

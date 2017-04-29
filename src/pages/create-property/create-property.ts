@@ -55,7 +55,7 @@ export class CreatePropertyPage {
   createProperty({ value, valid }: { value: Property, valid: boolean }) {
     this.submitAttempt = true;
     if (!this.newPropertyForm.valid) {
-      console.log(this.newPropertyForm.value);
+      this.notificationService.invalidFormToast();
     } else {
       value.title = this.newPropertyForm.value.title;
       value.type = this.newPropertyForm.value.type;

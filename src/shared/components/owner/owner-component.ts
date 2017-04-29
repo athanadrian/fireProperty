@@ -1,7 +1,7 @@
 import { Component, Input, Output } from '@angular/core';
 import { NavController, NavParams, ActionSheetController, Platform } from 'ionic-angular';
 
-import { LeaseholdService } from '../../../providers/services';
+import { LeaseholdService, NotificationService } from '../../../providers/services';
 import { OwnerVM, Leasehold } from '../../../models/models';
 import { OwnerDetailPage, AddOwnerPage } from '../../../pages/pages';
 
@@ -14,27 +14,31 @@ export class OwnerComponent {
   public leaseholdId: string;
   public leaseholds: Leasehold[];
   public isListPage: boolean = false;
-  public addOptions:boolean=false;
+  public addOptions: boolean = false;
+  public object: string = 'Owner';
   @Input() owner: OwnerVM;
 
   constructor(
     public navController: NavController,
     public actionSheetController: ActionSheetController,
-    public leaseholdService:LeaseholdService,
+    public leaseholdService: LeaseholdService,
+    public notificationService: NotificationService,
     public platform: Platform,
-    public navParams: NavParams) { 
+    public navParams: NavParams) {
 
     this.isListPage = this.navParams.get('isListPage');
     this.leaseholdId = this.navParams.get('leaseholdId');
-    this.addOptions=this.navParams.get('addOptions');
-    }
+    this.addOptions = this.navParams.get('addOptions');
+  }
 
   addOwner(ownerId: string) {
     this.leaseholdService.addOwnerFromList(ownerId, this.leaseholdId)
       .subscribe(() => {
-            alert('owner added !');
-            this.navController.pop();
-          }, err => alert(`error adding owner, ${err}`));
+        this.notificationService.addUpdateToast(ownerId, this.object);
+        this.navController.pop();
+      }, error => {
+        this.notificationService.errorToast(ownerId, this.object, error)
+      });
   }
 
   moreOwnerOptions(ownerId: string) {

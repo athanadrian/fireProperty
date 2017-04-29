@@ -86,7 +86,12 @@ export class BrokerVM {
         public email: string,
         public image: string,
         public isActive: boolean,
+        public totalBrokers: number,
         public leaseholds: any, ) {
+    }
+
+    get fullName() {
+        return this.firstName + ' ' + this.lastName;
     }
 }
 
@@ -105,7 +110,7 @@ export class PaymentVM {
         public contract: Contract,
         public leasehold: Leasehold,
         public renter: Renter,
-        public property: Property ) {
+        public property: Property) {
     }
 }
 
@@ -117,6 +122,7 @@ export class ContractVM {
         public initialDuration: number,
         public realDuration: number,
         public contractAmount: number,
+        public guarantee: number,
         public isActive: boolean,
         public startDate: string,
         public endDate: string,
@@ -125,8 +131,8 @@ export class ContractVM {
         public payments: any) {
     }
 
-     static fromJson({$key, leaseholdId, renterId, initialDuration, realDuration, contractAmount, isActive, startDate, endDate}) {
-        return new Contract($key, leaseholdId, renterId, initialDuration, realDuration, contractAmount, isActive, startDate, endDate);
+    static fromJson({$key, leaseholdId, renterId, initialDuration, realDuration, contractAmount, quaranty, isActive, startDate, endDate}) {
+        return new Contract($key, leaseholdId, renterId, initialDuration, realDuration, contractAmount, quaranty, isActive, startDate, endDate);
     }
 
     static fromJsonArray(json: any[]): Contract[] {

@@ -13,10 +13,10 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
     <ion-list>
         <ion-list-header>
-            Unpaid Payments
+            Unpaid Payments {{totalPayments}}
         </ion-list-header>
         <ion-item *ngFor="let payment of (paymentsVM | async )" (click)="morePaymentOptions(payment?.$key)" [class.hide]="payment?.isPaid==true">
             <ion-icon name="timer" [style.color]="!payment?.isPaid ? 'red' : 'green'" item-left></ion-icon>

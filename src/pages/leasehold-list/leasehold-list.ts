@@ -14,6 +14,7 @@ export class LeaseholdListPage {
 
   public leaseholds$: Leasehold[];
   public leaseholdsVM: any;
+  public totalLeaseholds:number;
 
   constructor(
     public navController: NavController,
@@ -23,6 +24,7 @@ export class LeaseholdListPage {
 
     this.leaseholdsVM = this.leaseholdService.getAllLeaseholdsVM()
       .map((leaseholds) => {
+        this.totalLeaseholds=leaseholds.length;
         return leaseholds.map(leasehold => {
           const renters$ = this.leaseholdService.getRentersForLeasehold(leasehold.$key)
           renters$.subscribe(renters => leasehold.renters = renters);

@@ -285,6 +285,14 @@ export class LeaseholdService {
       .do(console.log);
   }
 
+  addBrokerFromList(brokerId: string, leaseholdId: string) {
+    let dataToSave = {};
+    dataToSave[`/userProfile/${this.userId}/brokersPerLeasehold/${leaseholdId}/${brokerId}`] = true;
+    dataToSave[`/userProfile/${this.userId}/leaseholdsPerBroker/${brokerId}/${leaseholdId}`] = true;
+
+    return this.firebaseUpdate(dataToSave);
+  }
+
   //--------------------------------------------**** OWNER ****--------------------------------------------
 
   getAllOwners(): Observable<Owner[]> {
@@ -393,6 +401,10 @@ export class LeaseholdService {
     dataToSave[`/userProfile/${this.userId}/contractsPerLeasehold/${leaseholdId}/${newContractKey}`] = true;
 
     return this.firebaseUpdate(dataToSave);
+  }
+
+  updateContract(contractId: string, contract: any) {
+    return this.contracts.update(contractId, contract);
   }
 
   endContract(contractId: string) {

@@ -11,7 +11,7 @@ import { Payment } from '../../models/models';
 })
 export class HomePage {
 
-  public payments$: Payment[];
+  public totalPayments: number;
   public paymentsVM: any;
   public contract: any;
 
@@ -21,11 +21,9 @@ export class HomePage {
     public actionSheetController: ActionSheetController,
     public platform: Platform) {
 
-    this.leaseholdService.getAllPayments()
-      .subscribe(payments => this.payments$ = payments)
-
     this.paymentsVM = this.leaseholdService.getAllPaymentsVM()
-      .map((paymentsVM) => {
+      .map((paymentsVM) => { 
+        this.totalPayments=paymentsVM.length;
         return paymentsVM.map(payment => {
           this.leaseholdService.findContract(payment.contractId)
             .subscribe(contract => {
@@ -42,6 +40,7 @@ export class HomePage {
           return payment;
         });
       });
+    this.paymentsVM
   }
 
   createPayment(): void {
@@ -56,7 +55,7 @@ export class HomePage {
     this.navController.push(ProfilePage);
   }
 
-  morePaymentOptions(paymentId:string) {
+  morePaymentOptions(paymentId: string) {
     let actionSheet = this.actionSheetController.create({
       title: '',
       buttons: [

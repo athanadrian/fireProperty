@@ -7,13 +7,14 @@ export class Contract {
         public initialDuration: number,
         public realDuration: number,
         public contractAmount: number,
+        public guarantee:number,
         public isActive: boolean,
         public startDate: string,
         public endDate: string) {
     }
 
-    static fromJson({$key, leaseholdId, renterId, initialDuration, realDuration, contractAmount, isActive, startDate, endDate}) {
-        return new Contract($key, leaseholdId, renterId, initialDuration, realDuration, contractAmount, isActive, startDate, endDate);
+    static fromJson({$key, leaseholdId, renterId, initialDuration, realDuration, contractAmount, guarantee, isActive, startDate, endDate}) {
+        return new Contract($key, leaseholdId, renterId, initialDuration, realDuration, contractAmount, guarantee, isActive, startDate, endDate);
     }
 
     static fromJsonArray(json: any[]): Contract[] {

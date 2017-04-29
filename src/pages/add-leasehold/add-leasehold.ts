@@ -74,7 +74,6 @@ export class AddLeaseholdPage {
     this.submitAttempt = true;
     if (!this.newLeaseholdForm.valid) {
       this.notificationService.invalidFormToast();
-      console.log(this.newLeaseholdForm.value);
     } else {
       value.title = this.newLeaseholdForm.value.title;
       value.type = this.newLeaseholdForm.value.type;
@@ -85,8 +84,7 @@ export class AddLeaseholdPage {
       value.offices = this.newLeaseholdForm.value.offices;
       value.bathrooms = this.newLeaseholdForm.value.bathrooms;
       value.rentAmount = this.newLeaseholdForm.value.rentAmount;
-      value.isRented = this.leasehold.isRented
-        ;
+      value.isRented = this.leasehold.isRented;
       if (!this.leaseholdId) {
         this.leaseholdService.addLeasehold(this.propertyId, value)
           .subscribe(() => {

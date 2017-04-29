@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
-import { LeaseholdService } from '../../providers/services';
 
+import { LeaseholdService, NotificationService } from '../../providers/services';
 import { Leasehold, Owner } from '../../models/models';
 
 @Component({
@@ -11,27 +11,29 @@ import { Leasehold, Owner } from '../../models/models';
 })
 export class AddOwnerPage {
 
-  newOwnerForm: any;
-  titleChanged: boolean = false;
-  afmChanged: boolean = false;
-  phoneChanged: boolean = false;
-  quotaChanged: boolean = false;
-  submitAttempt: boolean = false;
-  leaseholdId: string;
-  ownerId: string;
-  owner: any;
+  public newOwnerForm: any;
+  public titleChanged: boolean = false;
+  public afmChanged: boolean = false;
+  public phoneChanged: boolean = false;
+  public quotaChanged: boolean = false;
+  public submitAttempt: boolean = false;
+  public owner: Owner;
+  public leaseholdId: string;
+  public ownerId: string;
+  public object: string = 'Owner';
 
   constructor(
     public navController: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
-    public leaseholdService: LeaseholdService) {
-      
+    public leaseholdService: LeaseholdService,
+    public notificationService: NotificationService) {
+
     this.ownerId = this.navParams.get('ownerId');
-    console.log('o', this.ownerId);
+    this.leaseholdId = this.navParams.get('leaseholdId');
+
     this.leaseholdService.getOwner(this.ownerId)
       .subscribe(owner => this.owner = owner);
-    this.leaseholdId = this.navParams.get('leaseholdId');
 
     if (this.ownerId) {
       this.newOwnerForm = formBuilder.group({
@@ -60,7 +62,7 @@ export class AddOwnerPage {
   addOwner({value, valid }: { leaseholdId: string, value: Owner, valid: boolean }) {
     this.submitAttempt = true;
     if (!this.newOwnerForm.valid) {
-      console.log(this.newOwnerForm.value);
+      this.notificationService.invalidFormToast();
     } else {
       value.title = this.newOwnerForm.value.title;
       value.type = this.newOwnerForm.value.type;
@@ -72,15 +74,19 @@ export class AddOwnerPage {
       if (!this.ownerId) {
         this.leaseholdService.addOwner(this.leaseholdId, value)
           .subscribe(() => {
-            alert('owner added !');
+            this.notificationService.addUpdateToast(this.ownerId, this.object);
             this.navController.pop();
-          }, err => alert(`error adding owner, ${err}`));
+          }, (error) => {
+            this.notificationService.errorToast(this.ownerId, this.object, error);
+          });
       } else {
         this.leaseholdService.updateOwner(this.ownerId, value)
           .then(() => {
-            alert('owner updated!');
+            this.notificationService.addUpdateToast(this.ownerId, this.object);
             this.navController.pop();
-          }, err => alert(`error updating owner, ${err}`));
+          }, (error) => {
+            this.notificationService.errorToast(this.ownerId, this.object, error);
+          });
       }
     }
   }

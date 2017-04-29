@@ -221,7 +221,10 @@ export class LeaseholdDetailPage {
 
   findBrokers() {
     this.navController.push(BrokerListPage,
-      { leaseholdId: this.leaseholdId });
+      { 
+        leaseholdId: this.leaseholdId,
+        showAllBrokers:false
+      });
   }
 
 }

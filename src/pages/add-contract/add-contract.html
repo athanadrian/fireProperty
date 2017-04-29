@@ -20,6 +20,13 @@
         <ion-item class="error-message" *ngIf="!newContractForm.controls.contractAmount.valid && (contractAmountChanged||submitAttempt)">
             <p>You need to enter the contract amount for the owner.</p>
         </ion-item>
+         <ion-item>
+            <ion-label stacked>Guarantee Amount</ion-label>
+            <ion-input #guarantee formControlName="guarantee" type="number" (change)="elementChanged(guarantee)" placeholder="What's the guarantee agreed amount?" [class.invalid]="!newContractForm.controls.guarantee.valid && (guaranteeChanged||submitAttempt)"></ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!newContractForm.controls.guarantee.valid && (guaranteeChanged||submitAttempt)">
+            <p>You need to enter the guarantee amount for the owner.</p>
+        </ion-item>
         <ion-item>
             <ion-label stacked>Start Date</ion-label>
             <ion-datetime displayFormat="D MMM, YY" pickerFormat="DD MMM YYYY" max="2020-10-31" formControlName="startDate" [class.invalid]="!newContractForm.controls.startDate.valid && (startDateChanged||submitAttempt)"></ion-datetime>
