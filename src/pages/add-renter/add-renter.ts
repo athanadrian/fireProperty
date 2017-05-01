@@ -38,6 +38,7 @@ export class AddRenterPage {
 
     this.leaseholdId = this.navParams.get('leaseholdId');
     this.renterId = this.navParams.get('renterId');
+    
     this.leaseholdService.getRenter(this.renterId)
       .subscribe(renter => this.renter = renter);
     this.leaseholdService.findContractForLeasehold(this.leaseholdId)

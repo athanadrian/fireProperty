@@ -47,7 +47,7 @@ export class RenterDetailPage {
       });
   }
 
-  moreRenterOptions(renterId: string) {
+  moreRenterOptions() {
     let actionSheet = this.actionSheetController.create({
       title: 'Renter Options',
       buttons: [

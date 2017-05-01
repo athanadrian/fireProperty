@@ -14,7 +14,7 @@ export class LeaseholdListPage {
 
   public leaseholds$: Leasehold[];
   public leaseholdsVM: any;
-  public totalLeaseholds:number;
+  public totalLeaseholds: number;
 
   constructor(
     public navController: NavController,
@@ -24,7 +24,7 @@ export class LeaseholdListPage {
 
     this.leaseholdsVM = this.leaseholdService.getAllLeaseholdsVM()
       .map((leaseholds) => {
-        this.totalLeaseholds=leaseholds.length;
+        this.totalLeaseholds = leaseholds.length;
         return leaseholds.map(leasehold => {
           const renters$ = this.leaseholdService.getRentersForLeasehold(leasehold.$key)
           renters$.subscribe(renters => leasehold.renters = renters);
@@ -34,14 +34,10 @@ export class LeaseholdListPage {
           brokers$.subscribe(brokers => leasehold.brokers = brokers);
           const contracts$ = this.leaseholdService.getContractsForLeasehold(leasehold.$key)
           contracts$.subscribe(contracts => leasehold.contracts = contracts);
+          const payments$ = this.leaseholdService.getPaymentsForLeasehold(leasehold.$key)
+          payments$.subscribe(payments => leasehold.payments = payments);
           return leasehold
         });
       });
-  }
-
-  ionViewDidLoad() {
-    this.leaseholdService.getAllLeaseholds()
-      .subscribe(leaseholds => this.leaseholds$ = leaseholds);
-  }
-
+    }
 }

@@ -7,12 +7,12 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
     <ion-list>
         <ion-list-header>
             Total Owners
             <ion-icon name="contacts" color="primary" item-left></ion-icon>
-            <ion-badge color="secondary" item-right>{{owners$?.length}}</ion-badge>
+            <ion-badge color="secondary" item-right>{{!totalOwners ? 0 : totalOwners}}</ion-badge>
         </ion-list-header>
             <owner-card *ngFor="let owner of (ownersVM | async)" [owner]="owner"></owner-card>
     </ion-list>

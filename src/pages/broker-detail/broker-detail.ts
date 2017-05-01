@@ -3,7 +3,7 @@ import { NavController, NavParams, ActionSheetController, Platform } from 'ionic
 
 import { LeaseholdService } from '../../providers/services';
 import { Leasehold } from '../../models/models';
-import { LeaseholdDetailPage, AddBrokerPage, AddLeaseholdPage} from '../../pages/pages';
+import { LeaseholdDetailPage, AddBrokerPage, AddLeaseholdPage } from '../../pages/pages';
 
 @Component({
   selector: 'page-broker-detail',
@@ -11,10 +11,10 @@ import { LeaseholdDetailPage, AddBrokerPage, AddLeaseholdPage} from '../../pages
 })
 export class BrokerDetailPage {
 
-  public brokerId:string;
-  public broker$:any;
-  public leaseholdsVM:any;
-  public totalLeaseholds:number;
+  public brokerId: string;
+  public broker$: any;
+  public leaseholdsVM: any;
+  public totalLeaseholds: number;
 
   constructor(
     public navController: NavController,
@@ -27,7 +27,7 @@ export class BrokerDetailPage {
     this.broker$ = this.leaseholdService.findBroker(this.brokerId);
     this.leaseholdsVM = this.leaseholdService.getLeaseholdsForBroker(this.brokerId)
       .map((leaseholds) => {
-        this.totalLeaseholds=leaseholds.length;
+        this.totalLeaseholds = leaseholds.length;
         return leaseholds.map(leasehold => {
           const renters$ = this.leaseholdService.getRentersForLeasehold(leasehold.$key)
           renters$.subscribe(renters => leasehold.renters = renters);
@@ -42,16 +42,12 @@ export class BrokerDetailPage {
       });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad BrokerDetailPage');
-  }
-
-  moreOwnerOptions(ownerId) {
+  moreBrokerOptions() {
     let actionSheet = this.actionSheetController.create({
-      title: 'Owner Options',
+      title: 'Broker Options',
       buttons: [
         {
-          text: 'Delete Owner',
+          text: 'Delete broker',
           role: 'destructive',
           icon: !this.platform.is('ios') ? 'trash' : null,
           handler: () => {
@@ -60,11 +56,11 @@ export class BrokerDetailPage {
           }
         },
         {
-          text: 'Edit this owner',
+          text: 'Edit this broker',
           icon: !this.platform.is('ios') ? 'play' : null,
           handler: () => {
             this.navController.push(AddBrokerPage, {
-              ownerId: ownerId
+              brokerId: this.brokerId
             });
           }
         },
@@ -81,23 +77,12 @@ export class BrokerDetailPage {
     actionSheet.present();
   }
 
-  moreLeaseholdOptions(leaseholdId:string){
+  moreLeaseholdOptions(leaseholdId: string) {
     let actionSheet = this.actionSheetController.create({
       title: 'Leasehold Options',
-      //cssClass: 'action-sheets-basic-page',
       buttons: [
-        // {
-        //   text: 'Delete Leasehold',
-        //   role: 'destructive',
-        //   icon: !this.platform.is('ios') ? 'trash' : null,
-        //   handler: () => {
-        //     //this.leaseholdService.removeContract(contractId);
-        //     this.navController.pop();
-        //   }
-        // },
         {
           text: 'Edit this leasehold',
-          //cssClass:'red-color',
           icon: !this.platform.is('ios') ? 'play' : null,
           handler: () => {
             this.navController.push(AddLeaseholdPage, {

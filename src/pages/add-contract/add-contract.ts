@@ -6,7 +6,6 @@ import { LeaseholdService, NotificationService } from '../../providers/services'
 import { AddRenterPage, RenterListPage } from '../../pages/pages';
 import { Leasehold, ContractVM } from '../../models/models';
 
-
 @Component({
   selector: 'page-add-contract',
   templateUrl: 'add-contract.html'

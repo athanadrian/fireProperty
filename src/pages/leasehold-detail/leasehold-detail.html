@@ -41,10 +41,9 @@
                     <img [src]="'assets/images/brokers.png'"/>
                 </ion-avatar>
                 <h2>Brokers</h2>
-                <p>Assigned in this leasehold</p>
+                <p>Assigned to this leasehold</p>
             </button>
       </ion-list>
-
       <ion-item>
         <button ion-button icon-left (click)="favorite(leasehold)" clear item-left>
                 <ion-icon name="star"></ion-icon>
@@ -76,7 +75,7 @@
       <ion-badge item-right>{{!renters$?.length ? 0 : renters$?.length}} </ion-badge>
       <button ion-button item-right small *ngIf="contract$ && renters$?.length<1" (click)="addRenter()">Add</button>
     </ion-list-header>
-    <ion-item *ngIf="!renters">
+    <ion-item *ngIf="!renters$">
       <p>You need to make a contract to add renter's info!</p>
     </ion-item>
     <renter-card *ngFor="let renter of (renters | async)" [renter]="renter"></renter-card>

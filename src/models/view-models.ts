@@ -31,6 +31,7 @@ export class LeaseholdVM {
         public renters: any,
         public owners: any,
         public brokers: any,
+        public payments: any,
         public ownerId: string) {
     }
 }
@@ -126,9 +127,10 @@ export class ContractVM {
         public isActive: boolean,
         public startDate: string,
         public endDate: string,
-        public leasehold: any,
-        public renter: any,
-        public payments: any) {
+        public leasehold: Leasehold,
+        public renter: Renter,
+        public payments: any,
+        public totalPayments:number) {
     }
 
     static fromJson({$key, leaseholdId, renterId, initialDuration, realDuration, contractAmount, quaranty, isActive, startDate, endDate}) {

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ActionSheetController, Platform } from 'ionic-angular';
 import { LeaseholdService } from '../../providers/services';
-import { Observable } from 'rxjs/Rx';
 
 import { AddContractPage, ContractDetailPage } from '../../pages/pages';
 import { Contract } from '../../models/models';
@@ -12,58 +11,24 @@ import { Contract } from '../../models/models';
 })
 export class ContractListPage {
 
-  public contracts$: Contract[];
+  public contractsVM: any;
+  public totalContracts:number;
 
-  constructor(public navController: NavController, public platform:Platform, public leaseholdService: LeaseholdService,
-              public actionSheetController:ActionSheetController) { }
+  constructor(
+    public navController: NavController,
+    public platform:Platform,
+    public leaseholdService: LeaseholdService,
+    public actionSheetController:ActionSheetController) { 
 
-  ionViewDidLoad() {
-    this.leaseholdService.getAllContracts()
-      .subscribe(contracts => this.contracts$ = contracts);
-  }
-
-  moreContractOptions(contractId) {
-    let actionSheet = this.actionSheetController.create({
-      title: 'Contract Options',
-      buttons: [
-        {
-          text: 'Release Contract',
-          role: 'destructive',
-          icon: !this.platform.is('ios') ? 'trash' : null,
-          handler: () => {
-            //this.leaseholdService.removeContract(contractId);
-            this.navController.pop();
-          }
-        },
-        {
-          text: 'Edit this contract',
-          icon: !this.platform.is('ios') ? 'play' : null,
-          handler: () => {
-            this.navController.push(AddContractPage, {
-              contractId: contractId
-            });
-          }
-        },
-        {
-          text: 'Show this contract details',
-          icon: !this.platform.is('ios') ? 'play' : null,
-          handler: () => {
-            this.navController.push(ContractDetailPage, {
-              contractId: contractId
-            });
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          icon: !this.platform.is('ios') ? 'close' : null,
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-    });
-    actionSheet.present();
-  }
-
+    this.contractsVM=this.leaseholdService.getAllContractsVM()
+      .map((contractsVM)=>{
+        this.totalContracts=contractsVM.length;
+        return contractsVM.map(contract=>{
+          this.leaseholdService.findRenter(contract.renterId)
+            .subscribe(renter=>contract.renter=renter);
+          this.leaseholdService.findLeasehold(contract.leaseholdId)
+            .subscribe(leasehold=>contract.leasehold=leasehold);
+        });
+      });
+    }
 }

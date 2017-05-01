@@ -20,21 +20,10 @@
           <ion-icon class="icon-item" color="menu" item-right name="albums">
             <ion-badge class="badge-item" color="danger">{{(!leasehold?.contracts) ? 0 : (leasehold.contracts)?.length}}</ion-badge>
           </ion-icon>
+          <ion-icon class="icon-item" color="menu" item-right name="logo-euro">
+            <ion-badge class="badge-item" color="danger">{{(!leasehold?.payments) ? 0 : (leasehold.payments)?.length}}</ion-badge>
+          </ion-icon>
       </ion-col>
     </ion-row>
   </ion-grid>
-
-  <!--<ion-icon class="icon-item" color="menu" item-right name="person">
-            <ion-badge class="badge-item" color="danger">{{(!leasehold?.renters) ? 0 : (leasehold.renters)?.length}}</ion-badge>
-    </ion-icon>
-    <ion-icon class="icon-item" color="menu" item-right name="contact">
-            <ion-badge class="badge-item" color="danger">{{(!leasehold?.owners) ? 0 : (leasehold.owners)?.length}}</ion-badge>
-    </ion-icon>
-    <ion-icon class="icon-item" color="menu" item-right name="md-share">
-            <ion-badge class="badge-item" color="danger">{{(!leasehold?.brokers) ? 0 : (leasehold.brokers)?.length}}</ion-badge>
-    </ion-icon>
-    <ion-icon class="icon-item" color="menu" item-right name="albums">
-            <ion-badge class="badge-item" color="danger">{{(!leasehold?.contracts) ? 0 : (leasehold.contracts)?.length}}</ion-badge>
-    </ion-icon>
-  </p>-->
 </ion-item>

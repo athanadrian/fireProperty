@@ -17,7 +17,7 @@
     <ion-list-header>
       {{addOptions ? 'Total' : 'Assinged' }} Brokers
       <ion-icon name="md-share" color="primary" item-left></ion-icon>
-      <ion-badge color="secondary" item-right>{{totalBrokers}}</ion-badge>
+      <ion-badge color="secondary" item-right>{{!totalBrokers ? 0 : totalBrokers}}</ion-badge>
     </ion-list-header>
     <broker-card *ngFor="let broker of (brokersVM | async)" [broker]="broker"></broker-card>
   </ion-list>

@@ -22,8 +22,8 @@ export class HomePage {
     public platform: Platform) {
 
     this.paymentsVM = this.leaseholdService.getAllPaymentsVM()
-      .map((paymentsVM) => { 
-        this.totalPayments=paymentsVM.length;
+      .map((paymentsVM) => {
+        this.totalPayments = paymentsVM.length;
         return paymentsVM.map(payment => {
           this.leaseholdService.findContract(payment.contractId)
             .subscribe(contract => {
@@ -32,7 +32,7 @@ export class HomePage {
                 .subscribe(renter => payment.renter = renter);
               this.leaseholdService.findLeasehold(contract.leaseholdId)
                 .subscribe(leasehold => {
-                  payment.leasehold = leasehold
+                payment.leasehold = leasehold
                   this.leaseholdService.findProperty(leasehold.propertyId)
                     .subscribe(property => payment.property = property)
                 });
@@ -40,7 +40,7 @@ export class HomePage {
           return payment;
         });
       });
-    this.paymentsVM
+    //this.paymentsVM
   }
 
   createPayment(): void {

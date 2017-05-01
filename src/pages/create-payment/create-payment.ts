@@ -20,7 +20,7 @@ export class CreatePaymentPage {
   public contract$: Contract;
   public paymentId: string;
   public newPaymentForm: any;
-  public object: string = 'Property';
+  public object: string = 'Payment';
   //titleChanged: boolean = false;
   public typeChanged: boolean = false;
   public paidAmountChanged: boolean = false;
@@ -114,7 +114,7 @@ export class CreatePaymentPage {
       value.totalAmount = 0; //? 0 : += this.newPaymentForm.value.totalAmount;
       value.isPaid = false;
       if (!this.paymentId) {
-        this.leaseholdService.addPayment(this.contract$.$key, this.contract$.renterId, this.contract$.leaseholdId, value)
+        this.leaseholdService.addPayment(this.contract$.$key, this.contract$.leaseholdId, this.contract$.renterId, value)
           .subscribe(() => {
             this.notificationService.addUpdateToast(this.paymentId, this.object);
             this.navController.pop();

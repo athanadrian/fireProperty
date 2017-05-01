@@ -4,7 +4,7 @@ import { LeaseholdService } from '../../providers/services';
 import { Observable } from 'rxjs/Rx';
 
 import { AddBrokerPage } from '../../pages/pages';
-import { Broker, BrokerVM, Leasehold } from '../../models/models';
+import { BrokerVM } from '../../models/models';
 
 @Component({
   selector: 'page-broker-list',
@@ -12,7 +12,6 @@ import { Broker, BrokerVM, Leasehold } from '../../models/models';
 })
 export class BrokerListPage {
 
-  public brokers$: Broker[];
   public brokersVM: any;
   public totalBrokers: number;
   public leaseholdId: string;
@@ -20,11 +19,11 @@ export class BrokerListPage {
 
   constructor(
     public navController: NavController,
+    public navParams: NavParams,
     public platform: Platform,
     public modalController: ModalController,
     public alertController: AlertController,
-    public leaseholdService: LeaseholdService,
-    public navParams: NavParams) {
+    public leaseholdService: LeaseholdService) {
 
     this.leaseholdId = this.navParams.get('leaseholdId');
     this.addOptions =!this.leaseholdId ? true : this.navParams.get('addOptions');
@@ -34,20 +33,16 @@ export class BrokerListPage {
     } else {
       this.brokersVM = this.leaseholdService.getBrokersForLeasehold(this.leaseholdId)
         .map((brokersVM) => {
+          this.totalBrokers = brokersVM.length;
           return brokersVM.map(broker => {
-            this.brokers$ = brokersVM;
             const leaseholds$ = this.leaseholdService.getLeaseholdsForBroker(broker.$key)
-            leaseholds$.subscribe(leaseholds => {
-              broker.leaseholds = leaseholds;
-            });
+            leaseholds$.subscribe(leaseholds => broker.leaseholds = leaseholds);
             return broker;
           });
         });
     }
   }
-
-
-
+  
   addBroker() {
     this.showBrokerConfirmation();
   }
@@ -88,9 +83,7 @@ export class BrokerListPage {
         this.totalBrokers = brokersVM.length;
         return brokersVM.map(broker => {
           const leaseholds$ = this.leaseholdService.getLeaseholdsForBroker(broker.$key)
-          leaseholds$.subscribe(leaseholds => {
-            broker.leaseholds = leaseholds;
-          });
+          leaseholds$.subscribe(leaseholds => broker.leaseholds = leaseholds);
           return broker;
         });
       });

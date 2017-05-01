@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms';
-import { LeaseholdService, NotificationService } from '../../providers/services';
 
+import { LeaseholdService, NotificationService } from '../../providers/services';
 import { Property, Leasehold } from '../../models/models';
 
 @Component({

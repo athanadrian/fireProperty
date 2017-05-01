@@ -37,6 +37,7 @@ export class AddBrokerPage {
 
     this.leaseholdId = this.navParams.get('leaseholdId');
     this.brokerId = this.navParams.get('brokerId');
+    
     this.leaseholdService.getBroker(this.brokerId)
       .subscribe(broker => this.broker = broker);
 

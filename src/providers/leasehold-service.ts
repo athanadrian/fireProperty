@@ -232,6 +232,18 @@ export class LeaseholdService {
       .do(console.log);
   }
 
+  getPaymentsForLeasehold(leaseholdId: string) {
+    const leasehold$=this.getLeasehold(leaseholdId);
+
+    const paymentsPerLeasehold$=leasehold$
+      .switchMap(leasehold => this.af.database.list(`/userProfile/${this.userId}/paymentsPerLeasehold/` + leasehold.$key))
+    
+    return paymentsPerLeasehold$
+      .map(pspl=>pspl.map(ppl=>this.af.database.object(`/userProfile/${this.userId}/payments/` + ppl.$key)))
+      .flatMap(fbojs=>Observable.combineLatest(fbojs))
+      .do(console.log)
+  }
+
   //--------------------------------------------**** BROKER ****--------------------------------------------
 
   getAllBrokers(): Observable<Broker[]> {
@@ -499,6 +511,10 @@ export class LeaseholdService {
       .flatMap(fbojs => Observable.combineLatest(fbojs))
       .do(console.log);
   }
+
+  getPaymentsForRenter(renterId: string) {
+
+  }
   //--------------------------------------------**** PAYMENT ****--------------------------------------------
 
   getAllPayments(): Observable<Payment[]> {
@@ -545,14 +561,6 @@ export class LeaseholdService {
     return this.payments.update(paymentId, { isPaid: true, paidDate: Date() });
   }
   //------------------------------------------------------------------------------------------------------
-
-  getPaymentsForLeasehold(leaseholdId: string) {
-
-  }
-
-  getPaymentsForRenter(renterId: string) {
-
-  }
 
   firebaseUpdate(dataToSave) {
     const subject = new Subject();
