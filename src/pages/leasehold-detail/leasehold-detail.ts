@@ -16,7 +16,7 @@ import { Leasehold, Contract, Owner, OwnerVM, Renter } from '../../models/models
 export class LeaseholdDetailPage {
 
   public leasehold$: any;
-  public contract$: any;
+  public contract$: Contract;
   public contracts: Contract[];
   public owners: any;
   public owners$: Owner[];
@@ -35,6 +35,13 @@ export class LeaseholdDetailPage {
     public actionSheetController: ActionSheetController) {
 
     this.leaseholdId = this.navParams.get('leaseholdId');
+    this.leaseholdService.findContractForLeasehold(this.leaseholdId)
+      .subscribe(contract => {
+        this.contract$ = contract
+        //console.log('leaseCid ',this.contract$.$key);
+        console.log('leaseC ', contract);
+      });
+
     this.owners = this.leaseholdService.getOwnersForLeasehold(this.leaseholdId)
       .map((owners) => {
         return owners.map(owner => {
@@ -61,8 +68,6 @@ export class LeaseholdDetailPage {
     const contracts$ = this.leaseholdService.getContractsForLeasehold(this.leaseholdId)
     contracts$.subscribe(contracts => this.contracts = contracts);
     this.leasehold$ = this.leaseholdService.findLeasehold(this.leaseholdId);
-    this.leaseholdService.findContractForLeasehold(this.leaseholdId)
-      .subscribe(contract => this.contract$ = contract);
   }
 
   moreContractOptions(contractId: string) {
@@ -100,7 +105,7 @@ export class LeaseholdDetailPage {
     actionSheet.present();
   }
 
-  moreLeaseholdOptions(leaseholdId: string) {
+  moreLeaseholdOptions() {
     let actionSheet = this.actionSheetController.create({
       title: 'Leasehold Options',
       buttons: [
@@ -136,7 +141,7 @@ export class LeaseholdDetailPage {
   }
 
   showRentItConfirmation() {
-    if (this.renters) {
+    // if (this.renters) {
       let confirm = this.alertController.create({
         title: 'Add Renter',
         buttons: [
@@ -146,6 +151,7 @@ export class LeaseholdDetailPage {
               this.navController.push(RenterListPage,
                 {
                   leaseholdId: this.leaseholdId,
+                  contractId: this.contract$.$key,
                   isListPage: true,
                   addOptions: true
                 })
@@ -161,21 +167,21 @@ export class LeaseholdDetailPage {
         ]
       });
       confirm.present();
-    } else {
-      let confirm = this.alertController.create({
-        title: 'Add Renter',
-        buttons: [
-          {
-            text: 'Add renter?',
-            handler: () => {
-              this.navController.push(AddRenterPage,
-                { leaseholdId: this.leaseholdId });
-            }
-          }
-        ]
-      });
-      confirm.present();
-    }
+    //  } else {
+    //   let confirm = this.alertController.create({
+    //     title: 'Add Renter',
+    //     buttons: [
+    //       {
+    //         text: 'Add renter?',
+    //         handler: () => {
+    //           this.navController.push(AddRenterPage,
+    //             { leaseholdId: this.leaseholdId });
+    //         }
+    //       }
+    //     ]
+    //   });
+    //   confirm.present();
+    // }
   }
 
   showOwnerConfirmation() {
@@ -221,9 +227,9 @@ export class LeaseholdDetailPage {
 
   findBrokers() {
     this.navController.push(BrokerListPage,
-      { 
+      {
         leaseholdId: this.leaseholdId,
-        showAllBrokers:false
+        showAllBrokers: false
       });
   }
 

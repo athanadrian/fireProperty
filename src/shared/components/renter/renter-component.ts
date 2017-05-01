@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NavController, NavParams, ActionSheetController, Platform } from 'ionic-angular';
 
-import { LeaseholdService } from '../../../providers/services';
+import { LeaseholdService, NotificationService } from '../../../providers/services';
 import { Renter } from '../../../models/models';
 import { RenterDetailPage, AddRenterPage } from '../../../pages/pages';
 
@@ -12,28 +12,35 @@ import { RenterDetailPage, AddRenterPage } from '../../../pages/pages';
 export class RenterComponent {
 
   public leaseholdId: string;
+  public contractId: string;
   public isListPage: boolean = false;
-  public addOptions:boolean=false;
+  public addOptions: boolean = false;
+  public object: string = 'Renter';
   @Input() renter: Renter;
 
   constructor(
     public navController: NavController,
     public actionSheetController: ActionSheetController,
-    public leaseholdService:LeaseholdService,
+    public leaseholdService: LeaseholdService,
+    public notificationService: NotificationService,
     public platform: Platform,
     public navParams: NavParams) {
 
     this.isListPage = this.navParams.get('isListPage');
     this.leaseholdId = this.navParams.get('leaseholdId');
-    this.addOptions=this.navParams.get('addOptions');
+    this.contractId = this.navParams.get('contractId');
+    console.log('rentComcId ', this.contractId);
+    this.addOptions = this.navParams.get('addOptions');
   }
 
   addRenter(renterId: string) {
-    this.leaseholdService.addRenterFromList(renterId, this.leaseholdId)
+    this.leaseholdService.addRenterFromList(renterId, this.contractId, this.leaseholdId)
       .subscribe(() => {
-            alert('renter added !');
-            this.navController.pop();
-          }, err => alert(`error adding renter, ${err}`));
+        this.notificationService.addUpdateToast(renterId, this.object);
+        this.navController.pop();
+      }, (error) => {
+        this.notificationService.errorToast(renterId, this.object, error);
+      });
   }
 
   moreRenterOptions(renterId: string) {

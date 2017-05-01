@@ -1,20 +1,27 @@
 <ion-item-sliding>
     <ion-item (click)="moreRenterOptions(renter?.$key)">
         <ion-grid>
-                <ion-row>
-                    <ion-col width-30>
-                        <h2 class="card-title"><ion-icon name="person" [style.color]="renter?.isActive ? 'green' : 'red'" item-left></ion-icon>{{renter?.title}}</h2>
-                        <p>{{renter?.type}}</p>
-                    </ion-col>
-                    <ion-col>
-                        <ion-icon class="icon-item" color="menu" item-right name="logo-buffer">
-                            <ion-badge class="badge-item" color="danger">{{(renter.leaseholds)?.length}}</ion-badge>
-                        </ion-icon>
-                    </ion-col>
-                </ion-row>
+            <ion-row>
+                <ion-col width-30>
+                    <h2 class="card-title">
+                        <ion-icon name="person" [style.color]="renter?.isActive ? 'green' : 'red'" item-left></ion-icon>{{renter?.title}}</h2>
+                    <p>{{renter?.type}}</p>
+                </ion-col>
+                <ion-col>
+                    <ion-icon class="icon-item" color="menu" item-right name="logo-buffer">
+                        <ion-badge class="badge-item" color="danger">{{(!renter?.leaseholds) ? 0 : (renter.leaseholds)?.length}}</ion-badge>
+                    </ion-icon>
+                    <ion-icon class="icon-item" color="menu" item-right name="albums">
+                        <ion-badge class="badge-item" color="danger">{{(!renter?.contracts) ? 0 : (renter.contracts)?.length}}</ion-badge>
+                    </ion-icon>
+                    <ion-icon class="icon-item" color="menu" item-right name="logo-euro">
+                        <ion-badge class="badge-item" color="danger">{{(!renter?.payments) ? 0 : (renter.payments)?.length}}</ion-badge>
+                    </ion-icon>
+                </ion-col>
+            </ion-row>
         </ion-grid>
     </ion-item>
     <ion-item-options *ngIf="addOptions">
-        <button ion-button icon-only color="light" (click)="addRenter(renter?.$key)"><ion-icon name="add-circle"></ion-icon><span class="slidingAdd">Add</span></button>
+        <button ion-button icon-only color="light" (click)="addRenter(renter?.$key, contactId)"><ion-icon name="add-circle"></ion-icon><span class="slidingAdd">Add</span></button>
     </ion-item-options>
 </ion-item-sliding>

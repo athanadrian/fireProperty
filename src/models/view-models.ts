@@ -71,7 +71,8 @@ export class RenterVM {
         public totalLeaseholds: number,
         public totalContracts: number,
         public leaseholds: any,
-        public contracts: any) {
+        public contracts: any,
+        public payments:any) {
     }
 }
 

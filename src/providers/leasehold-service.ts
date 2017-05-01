@@ -471,14 +471,20 @@ export class LeaseholdService {
     dataToSave["/userProfile/" + this.userId + "/renters/" + newRenterKey] = renterToSave;
     dataToSave[`/userProfile/${this.userId}/rentersPerLeasehold/${leaseholdId}/${newRenterKey}`] = true;
     dataToSave[`/userProfile/${this.userId}/leaseholdsPerRenter/${newRenterKey}/${leaseholdId}`] = true;
+    dataToSave[`/userProfile/${this.userId}/contractsPerRenter/${newRenterKey}/${contractId}`] = true;
 
     return this.firebaseUpdate(dataToSave);
   }
 
-  addRenterFromList(renterId: string, leaseholdId: string) {
+  addRenterFromList(renterId: string, contractId:string, leaseholdId: string) {
+
+    this.addRenterToContract(contractId, renterId);
+
     let dataToSave = {};
     dataToSave[`/userProfile/${this.userId}/rentersPerLeasehold/${leaseholdId}/${renterId}`] = true;
     dataToSave[`/userProfile/${this.userId}/leaseholdsPerRenter/${renterId}/${leaseholdId}`] = true;
+    dataToSave[`/userProfile/${this.userId}/contractsPerRenter/${renterId}/${contractId}`] = true;
+
 
     return this.firebaseUpdate(dataToSave);
   }
@@ -513,7 +519,15 @@ export class LeaseholdService {
   }
 
   getPaymentsForRenter(renterId: string) {
+    const renter$ = this.getRenter(renterId);
 
+    const paymentsPerRenter$ = renter$
+      .switchMap(renter => this.af.database.list(`/userProfile/${this.userId}/paymentsPerRenter/` + renter.$key))
+
+    return paymentsPerRenter$
+      .map(pspr => pspr.map(ppr => this.af.database.object(`/userProfile/${this.userId}/payments/` + ppr.$key)))
+      .flatMap(fbojs => Observable.combineLatest(fbojs))
+      .do(console.log);
   }
   //--------------------------------------------**** PAYMENT ****--------------------------------------------
 

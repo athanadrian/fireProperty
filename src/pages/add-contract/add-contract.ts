@@ -73,7 +73,7 @@ export class AddContractPage {
       if (!this.contractId) {
       this.leaseholdService.addContract(this.leaseholdId, value)
           .subscribe(() => {
-            this.showConfirm();
+            //this.showConfirm();
             this.notificationService.addUpdateToast(this.contractId, this.object);
             this.navController.pop();
           }, (error) => {
@@ -105,7 +105,7 @@ export class AddContractPage {
         {
           text: 'Do it now!',
           handler: () => {
-            this.showRentItConfirmation();
+            //this.showRentItConfirmation();
             this.navController.pop();
           }
         }
@@ -114,30 +114,30 @@ export class AddContractPage {
     confirm.present();
   }
 
-  showRentItConfirmation() {
-    let confirm = this.alertController.create({
-      title: 'Add Renter',
-      buttons: [
-        {
-          text: 'Add Renter from list?',
-          handler: () => {
-            this.navController.push(RenterListPage,
-              {
-                leaseholdId: this.leaseholdId,
-                isListPage: true,
-                addOptions: true
-              })
-          }
-        },
-        {
-          text: 'Add a new Renter?',
-          handler: () => {
-            this.navController.push(AddRenterPage,
-              { leaseholdId: this.leaseholdId })
-          }
-        }
-      ]
-    });
-    confirm.present();
-  }
+  // showRentItConfirmation() {
+  //   let confirm = this.alertController.create({
+  //     title: 'Add Renter',
+  //     buttons: [
+  //       {
+  //         text: 'Add Renter from list?',
+  //         handler: () => {
+  //           this.navController.push(RenterListPage,
+  //             {
+  //               leaseholdId: this.leaseholdId,
+  //               isListPage: true,
+  //               addOptions: true
+  //             })
+  //         }
+  //       },
+  //       {
+  //         text: 'Add a new Renter?',
+  //         handler: () => {
+  //           this.navController.push(AddRenterPage,
+  //             { leaseholdId: this.leaseholdId })
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   confirm.present();
+  // }
 }
