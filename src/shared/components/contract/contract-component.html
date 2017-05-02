@@ -1,5 +1,5 @@
 <ion-item (click)="moreContractOptions(contract?.$key)">
   <ion-icon name="albums" [style.color]="contract?.isActive ? 'green' : 'red'" item-left></ion-icon>
-  <h2 class="card-title">{{contract?.isActive ? "Active Contract":"Inactive Contract"}}</h2>
+  <h2 class="card-title">{{contract?.isActive ? "Active Contract" : "Inactive Contract"}}</h2>
   <p>Started: <strong>{{contract?.startDate}}</strong> duration <strong>{{contract?.initialDuration}}</strong> months. Rent: <strong color="danger">{{contract?.contractAmount}}</strong> </p>
 </ion-item>

@@ -10,10 +10,13 @@
 <ion-content>
     <ion-list>
         <ion-list-header>
-            Total Renters
+            {{addOptions ? 'Total' : 'Assinged' }} Renters
             <ion-icon name="people" color="primary" item-left></ion-icon>
-            <ion-badge color="secondary" item-right>{{renters$?.length}}</ion-badge>
+            <ion-badge color="secondary" item-right>{{!totalRenters ? 0 : totalRenters}}</ion-badge>
         </ion-list-header>
-        <renter-card *ngFor="let renter of (rentersVM | async)" [renter]="renter"></renter-card>
+        <renter-card *ngFor="let renter of (rentersVM | async)" [renter]="renter"
+                (onViewContracts)="viewContracts(event$)"
+                (onViewPayments)="viewPayments(event$)"
+                (onViewLeaseholds)="viewLeaseholds(event$)"></renter-card>
     </ion-list>
 </ion-content>

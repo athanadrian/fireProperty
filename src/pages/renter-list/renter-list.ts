@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ActionSheetController, Platform } from 'ionic-angular';
 import { LeaseholdService } from '../../providers/services';
-//import { Observable } from 'rxjs/Rx';
 
 import { AddRenterPage, RenterDetailPage } from '../../pages/pages';
 import { Renter } from '../../models/models';
@@ -12,34 +11,61 @@ import { Renter } from '../../models/models';
 })
 export class RenterListPage {
 
-  public renters$:Renter[];
-  public rentersVM:any;
-  public contractId:string;
+  public renters$: Renter[];
+  public rentersVM: any;
+  public totalRenters:number;
+  public contractId: string;
+  public renterId: string;
+  public leaseholdId: string;
+  public addOptions: boolean = false;
 
   constructor(
     public navController: NavController,
     public navParams: NavParams,
-    public platform:Platform,
+    public platform: Platform,
     public leaseholdService: LeaseholdService,
-    public actionSheetController:ActionSheetController) {
+    public actionSheetController: ActionSheetController) {
 
-      this.contractId = this.navParams.get('contractId');
-      console.log('plcId ', this.contractId);
-      this.rentersVM = this.leaseholdService.getAllRentersVM()
-      .map((renters) => {
-        return renters.map(renter => {
+    this.leaseholdId = this.navParams.get('leaseholdId');
+    this.contractId = this.navParams.get('contractId');
+    this.renterId=this.navParams.get('renterId');
+    this.addOptions = !this.leaseholdId ? true : this.navParams.get('addOptions');
+
+    if (this.addOptions) {
+      this.getAllRentersVM();
+    } else  {
+      this.getRentersForLeasehold();
+    }
+  }
+  getAllRentersVM() {
+    this.rentersVM = this.leaseholdService.getAllRentersVM()
+      .map((rentersVM) => {
+        this.totalRenters=rentersVM.length
+        return rentersVM.map(renter => {
           const leaseholds$ = this.leaseholdService.getLeaseholdsForRenter(renter.$key)
           leaseholds$.subscribe(leaseholds => renter.leaseholds = leaseholds);
-          const payments$=this.leaseholdService.getPaymentsForRenter(renter.$key)
-          payments$.subscribe(payments=>{renter.payments=payments});
+          const contracts$ = this.leaseholdService.getContractsForRenter(renter.$key)
+          contracts$.subscribe(contracts => renter.contracts = contracts);
+          const payments$ = this.leaseholdService.getPaymentsForRenter(renter.$key)
+          payments$.subscribe(payments => { renter.payments = payments });
           return renter;
         });
       });
-    }
-
-  ionViewDidLoad() {
-    this.leaseholdService.getAllRenters()
-      .subscribe(renters=>this.renters$=renters);
   }
 
+  getRentersForLeasehold() {
+    this.rentersVM = this.leaseholdService.getRentersForLeasehold(this.leaseholdId)
+      .map((rentersVM) => {
+        this.totalRenters=rentersVM.length
+        return rentersVM.map(renter => {
+          const leaseholds$ = this.leaseholdService.getLeaseholdsForRenter(renter.$key)
+          leaseholds$.subscribe(leaseholds => renter.leaseholds = leaseholds);
+          const contracts$ = this.leaseholdService.getContractsForRenter(renter.$key)
+          contracts$.subscribe(contracts => renter.contracts = contracts);
+          const payments$ = this.leaseholdService.getPaymentsForRenter(renter.$key)
+          payments$.subscribe(payments => { renter.payments = payments });
+          return renter;
+        });
+      });
+  }
 }

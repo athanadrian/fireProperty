@@ -233,14 +233,14 @@ export class LeaseholdService {
   }
 
   getPaymentsForLeasehold(leaseholdId: string) {
-    const leasehold$=this.getLeasehold(leaseholdId);
+    const leasehold$ = this.getLeasehold(leaseholdId);
 
-    const paymentsPerLeasehold$=leasehold$
+    const paymentsPerLeasehold$ = leasehold$
       .switchMap(leasehold => this.af.database.list(`/userProfile/${this.userId}/paymentsPerLeasehold/` + leasehold.$key))
-    
+
     return paymentsPerLeasehold$
-      .map(pspl=>pspl.map(ppl=>this.af.database.object(`/userProfile/${this.userId}/payments/` + ppl.$key)))
-      .flatMap(fbojs=>Observable.combineLatest(fbojs))
+      .map(pspl => pspl.map(ppl => this.af.database.object(`/userProfile/${this.userId}/payments/` + ppl.$key)))
+      .flatMap(fbojs => Observable.combineLatest(fbojs))
       .do(console.log)
   }
 
@@ -476,7 +476,7 @@ export class LeaseholdService {
     return this.firebaseUpdate(dataToSave);
   }
 
-  addRenterFromList(renterId: string, contractId:string, leaseholdId: string) {
+  addRenterFromList(renterId: string, contractId: string, leaseholdId: string) {
 
     this.addRenterToContract(contractId, renterId);
 
@@ -526,6 +526,18 @@ export class LeaseholdService {
 
     return paymentsPerRenter$
       .map(pspr => pspr.map(ppr => this.af.database.object(`/userProfile/${this.userId}/payments/` + ppr.$key)))
+      .flatMap(fbojs => Observable.combineLatest(fbojs))
+      .do(console.log);
+  }
+
+  getContractsForRenter(renterId: string) {
+    const renter$ = this.getRenter(renterId);
+
+    const contractsPerRenter$ = renter$
+      .switchMap(renter => this.af.database.list(`/userProfile/${this.userId}/contractsPerRenter/` + renter.$key))
+
+    return contractsPerRenter$
+      .map(cspr => cspr.map(cpr => this.af.database.object(`/userProfile/${this.userId}/contracts/` + cpr.$key)))
       .flatMap(fbojs => Observable.combineLatest(fbojs))
       .do(console.log);
   }

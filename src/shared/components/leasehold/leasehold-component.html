@@ -1,29 +1,47 @@
-<ion-item (click)="moreLeaseholdOptions(leasehold?.$key)">
-  <ion-grid>
-    <ion-row>
-      <ion-col width-25> 
-        <h2 class="card-title"> <ion-icon name="logo-buffer" [style.color]="!leasehold?.isRented ? 'green' : 'red'" item-left></ion-icon>{{leasehold?.code}}</h2>
-        <p>{{leasehold?.type}} - {{leasehold?.rentAmount}}
+<ion-grid>
+  <button no-lines ion-item (click)="moreLeaseholdOptions(leasehold?.$key)">
+    <ion-row class="left-border-primary">
+      <ion-col width-25>
+        <h2 class="card-title">
+          <ion-icon name="logo-buffer" [style.color]="!leasehold?.isRented ? 'green' : 'red'" item-left></ion-icon>{{leasehold?.code}}
+          <span class="info">{{leasehold?.type}} - {{leasehold?.rentAmount}}
           <ion-icon name="logo-euro"></ion-icon>
-        </p>
-      </ion-col>
-      <ion-col>
-          <ion-icon class="icon-item" color="menu" item-right name="people">
-            <ion-badge class="badge-item" color="danger">{{(!leasehold?.renters) ? 0 : (leasehold.renters)?.length}}</ion-badge>
-          </ion-icon>
-          <ion-icon class="icon-item" color="menu" item-right name="contacts">
-            <ion-badge class="badge-item" color="danger">{{(!leasehold?.owners) ? 0 : (leasehold.owners)?.length}}</ion-badge>
-          </ion-icon>
-          <ion-icon class="icon-item" color="menu" item-right name="md-share">
-            <ion-badge class="badge-item" color="danger">{{(!leasehold?.brokers) ? 0 : (leasehold.brokers)?.length}}</ion-badge>
-          </ion-icon>
-          <ion-icon class="icon-item" color="menu" item-right name="albums">
-            <ion-badge class="badge-item" color="danger">{{(!leasehold?.contracts) ? 0 : (leasehold.contracts)?.length}}</ion-badge>
-          </ion-icon>
-          <ion-icon class="icon-item" color="menu" item-right name="logo-euro">
-            <ion-badge class="badge-item" color="danger">{{(!leasehold?.payments) ? 0 : (leasehold.payments)?.length}}</ion-badge>
-          </ion-icon>
+        </span></h2>
       </ion-col>
     </ion-row>
-  </ion-grid>
-</ion-item>
+    </button>
+    <ion-item>
+    <ion-row text-center>
+      <ion-col text-center>
+        <ion-icon class="icon-item" (click)="viewRenters()" color="menu" item-right name="people">
+          <ion-badge class="badge-item" color="danger">{{(!leasehold?.renters) ? 0 : (leasehold.renters)?.length}}</ion-badge>
+        </ion-icon>
+        <p>Renters</p>
+      </ion-col>
+      <ion-col text-center>
+      <ion-icon class="icon-item" (click)="viewOwners()" color="menu" item-right name="contacts">
+        <ion-badge class="badge-item" color="danger">{{(!leasehold?.owners) ? 0 : (leasehold.owners)?.length}}</ion-badge>
+      </ion-icon>
+      <p>Owners</p>
+      </ion-col>
+      <ion-col>
+        <ion-icon class="icon-item" (click)="viewBrokers()" color="menu" item-right name="md-share">
+          <ion-badge class="badge-item" color="danger">{{(!leasehold?.brokers) ? 0 : (leasehold.brokers)?.length}}</ion-badge>
+        </ion-icon>
+        <p>Brokers</p>
+      </ion-col>
+      <ion-col>
+      <a><ion-icon class="icon-item" (click)="viewContracts()" color="menu" item-right name="albums">
+        <ion-badge class="badge-item" color="danger">{{(!leasehold?.contracts) ? 0 : (leasehold.contracts)?.length}}</ion-badge>
+      </ion-icon>
+      <p>Contracts</p></a>
+      </ion-col>
+      <ion-col text-center>
+        <ion-icon class="icon-item" (click)="viewPayments()" color="menu" item-right name="logo-euro">
+          <ion-badge class="badge-item" color="danger">{{(!leasehold?.payments) ? 0 : (leasehold.payments)?.length}}</ion-badge>
+        </ion-icon>
+        <p>Payments</p>
+      </ion-col>
+    </ion-row>
+  </ion-item>
+</ion-grid>

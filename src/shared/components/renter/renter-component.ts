@@ -3,7 +3,10 @@ import { NavController, NavParams, ActionSheetController, Platform } from 'ionic
 
 import { LeaseholdService, NotificationService } from '../../../providers/services';
 import { Renter } from '../../../models/models';
-import { RenterDetailPage, AddRenterPage } from '../../../pages/pages';
+import {
+  RenterDetailPage, AddRenterPage, HomePage,
+  ContractListPage, LeaseholdListPage
+} from '../../../pages/pages';
 
 @Component({
   selector: 'renter-card',
@@ -29,7 +32,7 @@ export class RenterComponent {
     this.isListPage = this.navParams.get('isListPage');
     this.leaseholdId = this.navParams.get('leaseholdId');
     this.contractId = this.navParams.get('contractId');
-    console.log('rentComcId ', this.contractId);
+    console.log('rentComcId ', this.leaseholdId);
     this.addOptions = this.navParams.get('addOptions');
   }
 
@@ -89,6 +92,35 @@ export class RenterComponent {
       ]
     });
     actionSheet.present();
+  }
+
+  viewContracts() {
+    this.navController.push(ContractListPage,
+      {
+        renterId: this.renter.$key,
+        isListPage: true,
+        addOptions: false
+      });
+  }
+
+  viewLeaseholds() {
+    this.navController.push(LeaseholdListPage,
+      {
+        renterId: this.renter.$key,
+        //leaseholdId:this.leaseholdId,
+        isListPage: true,
+        addOptions: false
+      });
+  }
+
+  viewPayments() {
+    this.navController.push(HomePage,
+      {
+        renterId: this.renter.$key,
+        //leaseholdId:this.leaseholdId,
+        isListPage: true,
+        addOptions: false
+      });
   }
 
 }

@@ -1,6 +1,22 @@
 leasehold-card {
     ion-icon.icon-item{
         font-size: 1.5em;
-        
+    }
+    .info{
+    overflow: inherit;
+    margin: 0 0 2px;
+    padding-left:20px;
+    font-size: 1.4rem;
+    line-height: normal;
+    text-overflow: inherit;
+    color: #8e9093;
+    }
+
+    .left-border-primary {
+        border-left: 4px solid #00A3DB;
+    }
+
+    .col{
+        padding-bottom:0;
     }
 }

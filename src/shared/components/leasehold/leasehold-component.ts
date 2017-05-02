@@ -1,9 +1,13 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NavController, ActionSheetController, Platform } from 'ionic-angular';
 
 import { LeaseholdService } from '../../../providers/services';
 import { Leasehold } from '../../../models/models';
-import { LeaseholdDetailPage, CreatePropertyPage, PropertyDetailPage, AddLeaseholdPage } from '../../../pages/pages';
+import {
+  LeaseholdDetailPage, CreatePropertyPage, PropertyDetailPage,
+  AddLeaseholdPage, BrokerListPage, ContractListPage, HomePage,
+  RenterListPage, OwnerListPage
+} from '../../../pages/pages';
 
 @Component({
   selector: 'leasehold-card',
@@ -11,29 +15,13 @@ import { LeaseholdDetailPage, CreatePropertyPage, PropertyDetailPage, AddLeaseho
 })
 export class LeaseholdComponent {
 
-  //public leaseholdsVM:any;
   @Input() leasehold: Leasehold;
+  //@Output() onViewBrokers = new EventEmitter<string>();
 
   constructor(
     public navController: NavController,
-    //public leaseholdService: LeaseholdService,
     public actionSheetController: ActionSheetController,
     public platform: Platform) {
-
-    // this.leaseholdsVM = this.leaseholdService.getLeaseholdsForRenter(this.renterId)
-    //   .map((leaseholds) => {
-    //     return leaseholds.map(leasehold => {
-    //       const renters$ = this.leaseholdService.getRentersForLeasehold(leasehold.$key)
-    //       renters$.subscribe(renters => leasehold.renters = renters);
-    //       const owners$ = this.leaseholdService.getOwnersForLeasehold(leasehold.$key)
-    //       owners$.subscribe(owners => leasehold.owners = owners);
-    //       const brokers$ = this.leaseholdService.getBrokersForLeasehold(leasehold.$key)
-    //       brokers$.subscribe(brokers => leasehold.brokers = brokers);
-    //       const contracts$ = this.leaseholdService.getContractsForLeasehold(leasehold.$key)
-    //       contracts$.subscribe(contracts => leasehold.contracts = contracts);
-    //       return leasehold
-    //     });
-    //   });
   }
 
   viewLeasehold(leaseholdId: string) {
@@ -41,7 +29,7 @@ export class LeaseholdComponent {
       { leaseholdId: leaseholdId });
   }
 
-  moreLeaseholdOptions(leaseholdId:string){
+  moreLeaseholdOptions(leaseholdId: string) {
     let actionSheet = this.actionSheetController.create({
       title: 'Leasehold Options',
       buttons: [
@@ -76,4 +64,48 @@ export class LeaseholdComponent {
     actionSheet.present();
   }
 
+  viewBrokers() {
+    this.navController.push(BrokerListPage,
+      {
+        leaseholdId: this.leasehold.$key,
+        isListPage: true,
+        addOptions: false
+      });
+  }
+
+  viewContracts() {
+    this.navController.push(ContractListPage,
+      {
+        leaseholdId: this.leasehold.$key,
+        isListPage: true,
+        addOptions: false
+      });
+  }
+
+  viewOwners() {
+    this.navController.push(OwnerListPage,
+      {
+        leaseholdId: this.leasehold.$key,
+        isListPage: true,
+        addOptions: false
+      });
+  }
+
+  viewRenters() {
+    this.navController.push(RenterListPage,
+      {
+        leaseholdId: this.leasehold.$key,
+        isListPage: true,
+        addOptions: false
+      });
+  }
+
+  viewPayments() {
+    this.navController.push(HomePage,
+      {
+        leaseholdId: this.leasehold.$key,
+        isListPage: true,
+        addOptions: false
+      });
+  }
 }

@@ -8,13 +8,13 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
     <ion-list>
         <ion-list-header>
             Total Contracts
             <ion-icon name="albums" color="primary" item-left></ion-icon>
             <ion-badge color="secondary" item-right>{{!totalContracts ? 0 : totalContracts}}</ion-badge>
         </ion-list-header>
-        <contract-card *ngFor="let contract of contracts$" [contract]="contract"></contract-card>
+        <contract-card *ngFor="let contract of (contractsVM | async)" [contract]="contract"></contract-card>
     </ion-list>
 </ion-content>

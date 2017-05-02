@@ -10,7 +10,7 @@
 <ion-content>
     <ion-list>
         <ion-list-header>
-            Total Owners
+            {{addOptions ? 'Total' : 'Assinged' }} Owners
             <ion-icon name="contacts" color="primary" item-left></ion-icon>
             <ion-badge color="secondary" item-right>{{!totalOwners ? 0 : totalOwners}}</ion-badge>
         </ion-list-header>

@@ -14,6 +14,11 @@
 </ion-header>
 
 <ion-content>
+    <ion-list-header>
+      Total Payments
+      <ion-icon name="logo-euro" color="primary" item-left></ion-icon>
+      <ion-badge color="secondary" item-right>{{!totalPayments ? 0 : totalPayments}}</ion-badge>
+    </ion-list-header>
     <ion-list>
         <ion-list-header>
             Unpaid Payments {{totalPayments}}

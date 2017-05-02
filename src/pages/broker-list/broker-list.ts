@@ -26,23 +26,17 @@ export class BrokerListPage {
     public leaseholdService: LeaseholdService) {
 
     this.leaseholdId = this.navParams.get('leaseholdId');
-    this.addOptions =!this.leaseholdId ? true : this.navParams.get('addOptions');
-
+    console.log('brk ', this.leaseholdId, this.addOptions);
+    this.addOptions = !this.leaseholdId ? true : this.navParams.get('addOptions');
+    console.log('aop ', this.addOptions);
+    
     if (this.addOptions) {
       this.getAllBrokersVM();
     } else {
-      this.brokersVM = this.leaseholdService.getBrokersForLeasehold(this.leaseholdId)
-        .map((brokersVM) => {
-          this.totalBrokers = brokersVM.length;
-          return brokersVM.map(broker => {
-            const leaseholds$ = this.leaseholdService.getLeaseholdsForBroker(broker.$key)
-            leaseholds$.subscribe(leaseholds => broker.leaseholds = leaseholds);
-            return broker;
-          });
-        });
+      this.getBrokersForLeasehold()
     }
   }
-  
+
   addBroker() {
     this.showBrokerConfirmation();
   }
@@ -79,6 +73,18 @@ export class BrokerListPage {
 
   getAllBrokersVM() {
     this.brokersVM = this.leaseholdService.getAllBrokersVM()
+      .map((brokersVM) => {
+        this.totalBrokers = brokersVM.length;
+        return brokersVM.map(broker => {
+          const leaseholds$ = this.leaseholdService.getLeaseholdsForBroker(broker.$key)
+          leaseholds$.subscribe(leaseholds => broker.leaseholds = leaseholds);
+          return broker;
+        });
+      });
+  }
+
+  getBrokersForLeasehold() {
+    this.brokersVM = this.leaseholdService.getBrokersForLeasehold(this.leaseholdId)
       .map((brokersVM) => {
         this.totalBrokers = brokersVM.length;
         return brokersVM.map(broker => {

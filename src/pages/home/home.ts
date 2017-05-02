@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ActionSheetController, Platform } from 'ionic-angular';
+import { NavController, NavParams, ActionSheetController, Platform } from 'ionic-angular';
 import { LeaseholdService } from '../../providers/services';
 
 import { ProfilePage, CreatePaymentPage, PaymentDetailPage } from '../pages';
@@ -14,13 +14,32 @@ export class HomePage {
   public totalPayments: number;
   public paymentsVM: any;
   public contract: any;
+  public renterId: string;
+  public leaseholdId: string;
+  public addOptions: boolean = false;
 
   constructor(
     public navController: NavController,
+    public navParams: NavParams,
     public leaseholdService: LeaseholdService,
     public actionSheetController: ActionSheetController,
     public platform: Platform) {
 
+    this.leaseholdId = this.navParams.get('leaseholdId');
+    this.renterId = this.navParams.get('renterId');
+    this.addOptions = !this.leaseholdId ? true : this.navParams.get('addOptions');
+
+    if (this.addOptions) {
+      this.getAllPaymentsVM();
+    }
+    if (this.renterId) {
+      this.getPaymentsForRenter();
+    } else if (this.leaseholdId) {
+      this.getPaymentsForLeasehold();
+    }
+  }
+
+  getAllPaymentsVM() {
     this.paymentsVM = this.leaseholdService.getAllPaymentsVM()
       .map((paymentsVM) => {
         this.totalPayments = paymentsVM.length;
@@ -32,7 +51,7 @@ export class HomePage {
                 .subscribe(renter => payment.renter = renter);
               this.leaseholdService.findLeasehold(contract.leaseholdId)
                 .subscribe(leasehold => {
-                payment.leasehold = leasehold
+                  payment.leasehold = leasehold
                   this.leaseholdService.findProperty(leasehold.propertyId)
                     .subscribe(property => payment.property = property)
                 });
@@ -40,7 +59,50 @@ export class HomePage {
           return payment;
         });
       });
-    //this.paymentsVM
+  }
+
+  getPaymentsForLeasehold() {
+    this.paymentsVM = this.leaseholdService.getPaymentsForLeasehold(this.leaseholdId)
+      .map((paymentsVM) => {
+        this.totalPayments = paymentsVM.length;
+        return paymentsVM.map(payment => {
+          this.leaseholdService.findContract(payment.contractId)
+            .subscribe(contract => {
+              payment.contract = contract
+              this.leaseholdService.findRenter(contract.renterId)
+                .subscribe(renter => payment.renter = renter);
+              this.leaseholdService.findLeasehold(contract.leaseholdId)
+                .subscribe(leasehold => {
+                  payment.leasehold = leasehold
+                  this.leaseholdService.findProperty(leasehold.propertyId)
+                    .subscribe(property => payment.property = property)
+                });
+            });
+          return payment;
+        });
+      });
+  }
+
+  getPaymentsForRenter() {
+    this.paymentsVM = this.leaseholdService.getPaymentsForRenter(this.renterId)
+      .map((paymentsVM) => {
+        this.totalPayments = paymentsVM.length;
+        return paymentsVM.map(payment => {
+          this.leaseholdService.findContract(payment.contractId)
+            .subscribe(contract => {
+              payment.contract = contract
+              this.leaseholdService.findRenter(contract.renterId)
+                .subscribe(renter => payment.renter = renter);
+              this.leaseholdService.findLeasehold(contract.leaseholdId)
+                .subscribe(leasehold => {
+                  payment.leasehold = leasehold
+                  this.leaseholdService.findProperty(leasehold.propertyId)
+                    .subscribe(property => payment.property = property)
+                });
+            });
+          return payment;
+        });
+      });
   }
 
   createPayment(): void {
