@@ -3,7 +3,7 @@ import { NavController, NavParams, ActionSheetController, Platform } from 'ionic
 import { LeaseholdService } from '../../providers/services';
 
 import { ProfilePage, CreatePaymentPage, PaymentDetailPage } from '../pages';
-import { Payment } from '../../models/models';
+import { Payment, PaymentVM } from '../../models/models';
 
 @Component({
   selector: 'page-home',
@@ -17,6 +17,7 @@ export class HomePage {
   public renterId: string;
   public leaseholdId: string;
   public addOptions: boolean = false;
+  public groupedPayments:any;
 
   constructor(
     public navController: NavController,
@@ -39,9 +40,40 @@ export class HomePage {
     }
   }
 
+  groupPayments(payments:any){
+      let propertyTitle="";
+      let totalPayments=[];
+
+      payments.forEach((payment,index)=>{
+        if(payment.propertyTitle=propertyTitle){
+          propertyTitle=payment.properTitle;
+
+          let newGroup={
+            groupPropertyTitle:propertyTitle,
+            payments:[]
+          };
+
+          totalPayments=newGroup.payments;
+          this.groupedPayments.push(newGroup);
+        }
+        totalPayments.push(payment);
+      });
+    }
+
+    // loadClimbs(){
+    //   console.log('loading climbs....');
+    //   this.dataService.getClimbs()
+    //     .subscribe(data=>{
+    //       this.climbs=data;
+    //       this.groupClimbs(this.climbs);
+    //     })
+    //     console.log('climbs: '+this.climbs);
+    // }
+
   getAllPaymentsVM() {
     this.paymentsVM = this.leaseholdService.getAllPaymentsVM()
       .map((paymentsVM) => {
+        this.groupPayments(paymentsVM);
         this.totalPayments = paymentsVM.length;
         return paymentsVM.map(payment => {
           this.leaseholdService.findContract(payment.contractId)

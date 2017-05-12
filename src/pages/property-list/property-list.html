@@ -16,7 +16,7 @@
         <ion-list-header>
             Total Properties
             <ion-icon name="home" color="primary" item-left></ion-icon>
-            <ion-badge color="secondary" item-right>{{numberOfProperties}}</ion-badge>
+            <ion-badge color="secondary" item-right>{{totalProperties}}</ion-badge>
         </ion-list-header>
         <property-card *ngFor="let property of (propertiesVM | async)" [property]="property"></property-card>
     </ion-list>

@@ -1,6 +1,6 @@
 <ion-grid>
     <ion-item-sliding>
-        <button no-lines ion-item (click)="moreRenterOptions(renter?.$key)">
+        <ion-item no-lines (click)="moreRenterOptions(renter?.$key)">
             <ion-row class="left-border-primary">
                 <ion-col width-30>
                     <h2 class="card-title">
@@ -8,7 +8,7 @@
                         <span class="info">{{renter?.type}}</span></h2>
                 </ion-col>
             </ion-row>
-        </button>
+        </ion-item>
         <ion-item>
             <ion-row text-center>
                 <ion-col>

@@ -112,7 +112,8 @@ export class PaymentVM {
         public contract: Contract,
         public leasehold: Leasehold,
         public renter: Renter,
-        public property: Property) {
+        public property: Property,
+        public propertyTitle) {
     }
 }
 

@@ -5,5 +5,5 @@ export * from './owner';
 export * from './broker';
 export * from './payment';
 export * from './renter';
-export * from './PageItem';
+export * from './pageItem';
 export * from './view-models';

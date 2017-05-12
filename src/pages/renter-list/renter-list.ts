@@ -11,9 +11,8 @@ import { Renter } from '../../models/models';
 })
 export class RenterListPage {
 
-  public renters$: Renter[];
   public rentersVM: any;
-  public totalRenters:number;
+  public totalRenters: number;
   public contractId: string;
   public renterId: string;
   public leaseholdId: string;
@@ -28,26 +27,26 @@ export class RenterListPage {
 
     this.leaseholdId = this.navParams.get('leaseholdId');
     this.contractId = this.navParams.get('contractId');
-    this.renterId=this.navParams.get('renterId');
+    this.renterId = this.navParams.get('renterId');
     this.addOptions = !this.leaseholdId ? true : this.navParams.get('addOptions');
 
     if (this.addOptions) {
       this.getAllRentersVM();
-    } else  {
+    } else {
       this.getRentersForLeasehold();
     }
   }
   getAllRentersVM() {
     this.rentersVM = this.leaseholdService.getAllRentersVM()
       .map((rentersVM) => {
-        this.totalRenters=rentersVM.length
+        this.totalRenters = rentersVM.length
         return rentersVM.map(renter => {
           const leaseholds$ = this.leaseholdService.getLeaseholdsForRenter(renter.$key)
           leaseholds$.subscribe(leaseholds => renter.leaseholds = leaseholds);
           const contracts$ = this.leaseholdService.getContractsForRenter(renter.$key)
           contracts$.subscribe(contracts => renter.contracts = contracts);
           const payments$ = this.leaseholdService.getPaymentsForRenter(renter.$key)
-          payments$.subscribe(payments => { renter.payments = payments });
+          payments$.subscribe(payments => renter.payments = payments);
           return renter;
         });
       });
@@ -56,7 +55,7 @@ export class RenterListPage {
   getRentersForLeasehold() {
     this.rentersVM = this.leaseholdService.getRentersForLeasehold(this.leaseholdId)
       .map((rentersVM) => {
-        this.totalRenters=rentersVM.length
+        this.totalRenters = rentersVM.length
         return rentersVM.map(renter => {
           const leaseholds$ = this.leaseholdService.getLeaseholdsForRenter(renter.$key)
           leaseholds$.subscribe(leaseholds => renter.leaseholds = leaseholds);

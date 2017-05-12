@@ -76,62 +76,62 @@ export class PropertyDetailPage {
     actionSheet.present();
   }
 
-  moreLeaseholdOptions(leasehold, itHas: boolean) {
-    let actionSheet = this.actionSheetController.create({
-      title: 'Leasehold Options',
-      buttons: [
-        {
-          text: !leasehold.isRented ? 'Make a contract!' : 'Show my contract',
-          icon: !this.platform.is('ios') ? 'play' : null,
-          handler: () => {
-            if (itHas) {
-              this.contractAlert(leasehold);
-            } else {
-              this.navController.push(ContractDetailPage, {
-                leaseholdId: leasehold.$key
-              })
-            }
-          }
-        },
-        {
-          text: 'Who is the owner?',
-          icon: !this.platform.is('ios') ? 'play' : null,
-          handler: () => {
-            this.navController.push(AddOwnerPage, {
-              leaseholdId: leasehold.$key
-            });
-          }
-        },
-        {
-          text: 'More details for this leasehold',
-          icon: !this.platform.is('ios') ? 'play' : null,
-          handler: () => {
-            this.navController.push(LeaseholdDetailPage, {
-              leaseholdId: leasehold.$key
-            });
-          }
-        },
-        {
-          text: 'Remove this leasehold.',
-          role: 'destructive',
-          icon: !this.platform.is('ios') ? 'trash' : null,
-          handler: () => {
-            //this.dataService.removeLeasehold(this.propertyId, leasehold.$key);
-            this.navController.pop();
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          icon: !this.platform.is('ios') ? 'close' : null,
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-    });
-    actionSheet.present();
-  }
+  // moreLeaseholdOptions(leasehold, itHas: boolean) {
+  //   let actionSheet = this.actionSheetController.create({
+  //     title: 'Leasehold Options',
+  //     buttons: [
+  //       {
+  //         text: !leasehold.isRented ? 'Make a contract!' : 'Show my contract',
+  //         icon: !this.platform.is('ios') ? 'play' : null,
+  //         handler: () => {
+  //           if (itHas) {
+  //             this.contractAlert(leasehold);
+  //           } else {
+  //             this.navController.push(ContractDetailPage, {
+  //               leaseholdId: leasehold.$key
+  //             })
+  //           }
+  //         }
+  //       },
+  //       {
+  //         text: 'Who is the owner?',
+  //         icon: !this.platform.is('ios') ? 'play' : null,
+  //         handler: () => {
+  //           this.navController.push(AddOwnerPage, {
+  //             leaseholdId: leasehold.$key
+  //           });
+  //         }
+  //       },
+  //       {
+  //         text: 'More details for this leasehold',
+  //         icon: !this.platform.is('ios') ? 'play' : null,
+  //         handler: () => {
+  //           this.navController.push(LeaseholdDetailPage, {
+  //             leaseholdId: leasehold.$key
+  //           });
+  //         }
+  //       },
+  //       {
+  //         text: 'Remove this leasehold.',
+  //         role: 'destructive',
+  //         icon: !this.platform.is('ios') ? 'trash' : null,
+  //         handler: () => {
+  //           //this.dataService.removeLeasehold(this.propertyId, leasehold.$key);
+  //           this.navController.pop();
+  //         }
+  //       },
+  //       {
+  //         text: 'Cancel',
+  //         role: 'cancel',
+  //         icon: !this.platform.is('ios') ? 'close' : null,
+  //         handler: () => {
+  //           console.log('Cancel clicked');
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   actionSheet.present();
+  // }
 
   contractAlert(leasehold: Leasehold) {
     if (leasehold.isRented) {
