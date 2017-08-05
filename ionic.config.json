@@ -1,6 +1,5 @@
 {
   "name": "myProperty",
   "app_id": "f0c1174b",
-  "v2": true,
-  "typescript": true
+  "type": "ionic-angular"
 }

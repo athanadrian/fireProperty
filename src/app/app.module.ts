@@ -1,5 +1,8 @@
 import { NgModule, ErrorHandler } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
@@ -66,6 +69,7 @@ const myFirebaseAuthConfig = {
     PaymentComponent
   ],
   imports: [
+    BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig, myFirebaseAuthConfig)
   ],
@@ -100,6 +104,10 @@ const myFirebaseAuthConfig = {
     BrokerDetailPage,
     AddBrokerPage,
   ],
-  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, PaymentService, LeaseholdService, AuthService, NotificationService]
+  providers: [
+    StatusBar,
+    SplashScreen,
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+     PaymentService, LeaseholdService, AuthService, NotificationService]
 })
 export class AppModule { }
