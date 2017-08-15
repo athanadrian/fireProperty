@@ -1,5 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from "@angular/http";
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -16,6 +17,7 @@ import { AuthService, PaymentService, LeaseholdService, NotificationService} fro
 
 import { PropertyComponent, LeaseholdComponent, RenterComponent, OwnerComponent, ContractComponent, BrokerComponent, PaymentComponent } from '../shared/components/components';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2'
+
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDx8muahAeqyiZqdej1RjuFSCrv-9Q5w3A",
@@ -70,6 +72,7 @@ const myFirebaseAuthConfig = {
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig, myFirebaseAuthConfig)
   ],
